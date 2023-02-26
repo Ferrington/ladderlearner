@@ -1,0 +1,28 @@
+html,
+body,
+.root {
+  margin:0;
+  padding:0;
+}
+
+.App {
+  display:grid;
+  width:100vw;
+  height:100vh;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr 4fr;
+  padding:40px;
+  box-sizing: border-box;
+  column-gap:40px;
+  row-gap:40px;
+}
+
+.App > div {
+  outline: 1px solid black;
+  height:100%;
+  width:100%;
+}
+
+.simulation {
+  grid-row: 1 / 3;
+}

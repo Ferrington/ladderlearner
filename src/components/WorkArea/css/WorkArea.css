@@ -1,0 +1,163 @@
+.rung {
+  padding-inline: 10px;
+  display:grid;
+  grid-template-columns: 50px auto;
+  grid-template-rows: auto auto;
+  min-height:50px;
+}
+
+.rung + .rung {
+  margin-top:20px;
+}
+
+.rung > div {
+  outline: 1px solid black;
+  display:inline-block;
+}
+
+.rung-number {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+  justify-self: center;
+  padding-block-start:30px;
+}
+
+.rung-comment {
+  grid-column: 2 / 3;
+  place-self:center;
+}
+
+.rung-code {
+  grid-column: 2 / 3;
+  align-self:center;
+  overflow-x: auto;
+  position: relative;
+  white-space: nowrap;
+  padding-bottom:20px;
+  user-select: none;  
+}
+
+.rung-code:before {
+  display: inline-block;
+  height: 50px;
+  width: 25px;
+  border-right: 2px solid black;
+  vertical-align: top;
+  margin-top: 16px;
+  content: '';
+}
+
+.rung-code::after {
+  display: inline-block;
+  height: 50px;
+  width: 25px;
+  border-left: 2px solid black;
+  vertical-align: top;
+  margin-top: 16px;
+  content: '';
+}
+
+.rung-main-rung {
+  position: relative;
+  display: inline-block;
+  min-width: 95%;
+}
+
+.rung-line {
+  height: 2px;
+  background: black;
+  position: absolute;
+  width: 100%;
+  top: 40px;
+  left: 0;
+  right: 0;
+}
+
+.rung-instruction-wrapper {
+  position: relative;
+  white-space: nowrap;
+  min-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 30px;
+  display: flex;
+  gap: 25px;
+}
+
+.rung-or {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.rung-or:before, .rung-or:after {
+  content: '';
+  width: 2px;
+  background: black;
+  display: block;
+  position: absolute;
+  top: 40px;
+  min-height: 50px;
+  height: var(--line-height);
+}
+
+.rung-or::after {
+  right: 0;
+}
+
+.rung-branch {
+  position: relative;
+}
+
+.rung-instruction {
+  display: inline-block;
+  margin-top: 33px;
+  text-align: center;
+  vertical-align: top;
+}
+
+.rung-img {
+  position: relative;
+  height: 16px;
+  display: inline-block;
+  z-index: 10;
+}
+
+:is(.rung-instruction, .rung-instruction-box) h5 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.rung-instruction-box {
+  display: inline-block;
+  margin-top: 30px;
+  text-align: center;
+  vertical-align: top;
+  border: 1px solid black;
+  background: white;
+  padding: 2px 5px 5px 5px;
+  align-self: flex-start;
+}
+
+.rung-instruction-box > p {
+  text-align: left;
+}
+
+.rung-instruction-box .tag-holder {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 20px;
+}
+
+.tag-holder .instruct-key {
+  text-align: left;
+}
+
+.tag-holder .instruct-value {
+  text-align: right;
+}
+
+.rung-instruction-box p {
+  margin: 0;
+  font-size: 12px;
+}
