@@ -1,11 +1,13 @@
 import './App.css';
+import './instruction.css';
 import { WorkArea } from './components/WorkArea/WorkArea';
+import { InstructionPalette } from './components/InstructionPalette/InstructionPalette';
 
 function App() {
   return (
     <div className="App">
       <div className="simulation"></div>
-      <div className="instruction-palette"></div>
+      <InstructionPalette />
       <WorkArea />
     </div>
   );

@@ -1,0 +1,10 @@
+.instruction-palette {
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  gap:50px;
+}
+
+.instruction-palette .rung-instruction {
+  margin-top:0;
+}

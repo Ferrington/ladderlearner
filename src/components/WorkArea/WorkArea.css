@@ -60,7 +60,7 @@
 .rung-main-rung {
   position: relative;
   display: inline-block;
-  min-width: 95%;
+  min-width: 94%;
 }
 
 .rung-line {
@@ -82,7 +82,9 @@
   padding: 0 30px;
   display: flex;
   gap: 25px;
+  min-height:1em;
 }
+
 
 .rung-or {
   position: relative;
@@ -109,55 +111,50 @@
   position: relative;
 }
 
-.rung-instruction {
-  display: inline-block;
-  margin-top: 33px;
-  text-align: center;
-  vertical-align: top;
+.landing-pad {
+  position:absolute;
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  width:25px;
+  height:25px;
 }
 
-.rung-img {
-  position: relative;
-  height: 16px;
-  display: inline-block;
-  z-index: 10;
+.landing-pad * {
+  pointer-events: none;
 }
 
-:is(.rung-instruction, .rung-instruction-box) h5 {
-  margin-top: 0;
-  margin-bottom: 0;
+.rung-or > .landing-pad {
+  left:-25px;
+  top:29px;
 }
 
-.rung-instruction-box {
-  display: inline-block;
-  margin-top: 30px;
-  text-align: center;
-  vertical-align: top;
-  border: 1px solid black;
-  background: white;
-  padding: 2px 5px 5px 5px;
-  align-self: flex-start;
+.rung-instruction > .landing-pad {
+  left:-22px;
+  top:-4px;
 }
 
-.rung-instruction-box > p {
-  text-align: left;
+.rung-instruction-wrapper > .landing-pad {
+  top:29px;
+  right: 8px;
 }
 
-.rung-instruction-box .tag-holder {
-  display: grid;
-  grid-template-columns: auto auto;
-  column-gap: 20px;
+.landing-beacon {
+  outline: 1px solid red;
+  background:yellow;
+  width:8px;
+  height:8px;
 }
 
-.tag-holder .instruct-key {
-  text-align: left;
+.go-for-landing .landing-beacon {
+  background:lime;
 }
 
-.tag-holder .instruct-value {
-  text-align: right;
+.hidden {
+  display:none;
 }
 
-.rung-instruction-box p {
-  margin: 0;
-  font-size: 12px;
+.dragging {
+  opacity: 0.5;
 }
+

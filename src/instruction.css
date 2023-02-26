@@ -1,0 +1,53 @@
+.rung-instruction {
+  position:relative;
+  display: inline-block;
+  margin-top: 33px;
+  text-align: center;
+  vertical-align: top;
+}
+
+.rung-img {
+  position: relative;
+  height: 16px;
+  display: inline-block;
+  z-index: 10;
+}
+
+:is(.rung-instruction, .rung-instruction-box) h5 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.rung-instruction-box {
+  display: inline-block;
+  margin-top: 30px;
+  text-align: center;
+  vertical-align: top;
+  border: 1px solid black;
+  background: white;
+  padding: 2px 5px 5px 5px;
+  align-self: flex-start;
+}
+
+.rung-instruction-box > p {
+  text-align: left;
+}
+
+.rung-instruction-box .tag-holder {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 20px;
+}
+
+.tag-holder .instruct-key {
+  text-align: left;
+}
+
+.tag-holder .instruct-value {
+  text-align: right;
+}
+
+.rung-instruction-box p {
+  margin: 0;
+  font-size: 12px;
+}
