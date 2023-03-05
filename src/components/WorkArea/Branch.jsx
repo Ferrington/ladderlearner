@@ -14,6 +14,14 @@ export default function Branch({data, path}) {
     const children = orRef.current.querySelectorAll(":scope > .rung-branch:not(:last-child)");
     const height = [...children].reduce((sum, child) => sum + child.offsetHeight, 0);
     setOrHeight(height);
+
+
+    [...document.querySelectorAll('.or-destructive')].forEach(ele => ele.classList.remove('or-destructive'));
+    const destructive = [].filter.call(document.querySelectorAll('.rung-or'), ele => {
+      return ele.querySelector('.destructive');
+    });
+
+    destructive.forEach(ele => ele.classList.add('or-destructive'));
   }, [rungs]);
 
   if (data.type === "AND")

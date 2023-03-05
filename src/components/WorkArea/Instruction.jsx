@@ -58,6 +58,7 @@ export default function Instruction({data, path}) {
 
   let instructionClass = "rung-instruction";
   instructionClass += instructionSelected ? " selected" : "";
+  instructionClass += isDestructive(data.name) ? " destructive" : "";
 
   let h5Class = "";
   h5Class += tagSelected ? " selected" : "";
@@ -92,4 +93,14 @@ export default function Instruction({data, path}) {
       </h5>
     </div>
   );
+}
+
+function isDestructive(name) {
+  const destructiveList = [
+    "OTE",
+    "OTL",
+    "OTU",
+  ]
+
+  return destructiveList.includes(name);
 }

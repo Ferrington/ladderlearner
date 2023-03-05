@@ -34,6 +34,10 @@ export default function InstructionPalette() {
         <h5>Normally Closed</h5>
       </div>
 
+      <div className="rung-instruction draggable" draggable="true" onDragStart={(e) => drag(e, "OTE")} onDragEnd={dragEnd}>
+        <img className="rung-img" src={'/static/imgs/OTE.png'} alt='' draggable="false" />
+        <h5>Energize Coil</h5>
+      </div>
 
     </div>
   );

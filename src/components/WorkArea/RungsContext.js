@@ -40,7 +40,6 @@ function moveInstruction(rungs, path, data) {
 
   // need to modify the path array if deleted item changes the path to the added item
   if (data.path[0] === path[0] && path.length >= data.path.length) {
-    console.log(data.path.slice(-1)[0], path[data.path.length - 1])
     modPath[data.path.length - 1] = data.path.slice(-1)[0] < path[data.path.length - 1] ? path[data.path.length - 1] - 1 : path[data.path.length - 1];
   }
 
@@ -91,7 +90,6 @@ function deleteInstruction(rungs, path, elementType) {
 }
 
 function addInstruction(rungs, path, data) {
-  console.log("add", path);
   const createNewRung = (oldRung, path, data) => {
     if (path.length === 1) {
       if (path[0] === "last")

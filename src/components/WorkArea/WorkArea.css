@@ -162,3 +162,10 @@
   opacity: 0.5;
 }
 
+.destructive:not(.destructive + .destructive) {
+  margin-left:auto;
+}
+.or-destructive {
+  margin-left:auto !important;
+}
+
