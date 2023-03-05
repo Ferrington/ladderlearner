@@ -6,6 +6,11 @@
   vertical-align: top;
 }
 
+.rung-instruction h5.selected {
+  background:yellow;
+  outline: 1px dashed black;
+}
+
 .rung-img {
   position: relative;
   height: 16px;
@@ -51,3 +56,4 @@
   margin: 0;
   font-size: 12px;
 }
+

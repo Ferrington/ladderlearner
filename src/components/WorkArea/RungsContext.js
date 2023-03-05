@@ -30,7 +30,6 @@ function rungsReducer(rungs, action) {
 }
 
 function handleAddInstruction(rungs, path, instructionType) {
-  console.log(instructionType, path);
   const createNewRung = (oldRung, path, instructionType) => {
     if (path.length === 1) {
       if (path[0] === "last")

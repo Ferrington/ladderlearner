@@ -7,4 +7,5 @@
 
 .instruction-palette .rung-instruction {
   margin-top:0;
+  cursor:pointer;
 }
