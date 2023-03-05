@@ -3,12 +3,21 @@
   display: inline-block;
   margin-top: 33px;
   text-align: center;
-  vertical-align: top;
+  /* vertical-align: top; */
+}
+
+.rung-instruction.selected {
+  background:yellow;
+  outline: 1px dashed black;
 }
 
 .rung-instruction h5.selected {
   background:yellow;
   outline: 1px dashed black;
+}
+
+.rung-instruction h5.unassigned {
+  color:red;
 }
 
 .rung-img {

@@ -11,7 +11,7 @@ body,
   width:100vw;
   height:100vh;
   grid-template-columns: 1fr 4fr;
-  grid-template-rows: 1fr 4fr;
+  grid-template-rows: auto 1fr;
   padding:40px;
   box-sizing: border-box;
   column-gap:40px;

@@ -21,7 +21,10 @@ export function RungsProvider({children}) {
 function rungsReducer(rungs, action) {
   switch (action.type) {
     case 'added': {
-      return handleAddInstruction(rungs, action.path, action.instructionType);
+      return addInstruction(rungs, action.path, action.instructionType);
+    }
+    case 'deleted': {
+      return deleteInstruction(rungs, action.path, action.elementType);
     }
     default: {
       throw Error(`Unknown action: ${action.type}`);
@@ -29,7 +32,38 @@ function rungsReducer(rungs, action) {
   }
 }
 
-function handleAddInstruction(rungs, path, instructionType) {
+function deleteInstruction(rungs, path, elementType) {
+  const createNewRung = (oldRung, path, elementType) => {
+    if (path.length === 1 && elementType === "Instruction") {
+      return {
+        ...oldRung,
+        contents: [
+          ...oldRung.contents.filter((ele, i) => path[0] !== i)
+        ]
+      }
+    }
+
+    return {
+      ...oldRung,
+      contents: oldRung.contents.map((ele, i) =>
+        path[0] === i
+          ? createNewRung(ele, path.slice(1), elementType)
+          : ele
+      )
+    };
+  }
+
+  const oldRung = rungs[path[0]];
+  const newRung = createNewRung(oldRung, path.slice(1), elementType);
+
+  return [
+    ...rungs.slice(0, path[0]),
+    newRung,
+    ...rungs.slice(path[0] + 1)
+  ];
+}
+
+function addInstruction(rungs, path, instructionType) {
   const createNewRung = (oldRung, path, instructionType) => {
     if (path.length === 1) {
       if (path[0] === "last")
