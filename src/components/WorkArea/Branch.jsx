@@ -1,7 +1,20 @@
 import Instruction from "./Instruction";
 import DragLandingPad from "./DragLandingPad";
+import { useRef, useLayoutEffect, useContext, useState } from "react";
+import { RungsContext } from "./RungsContext";
 
 export default function Branch({data, path}) {
+  const [orHeight, setOrHeight] = useState(0);
+  const orRef = useRef(null);
+  const rungs = useContext(RungsContext);
+
+  useLayoutEffect(() => {
+    if (!orRef.current) return;
+
+    const children = orRef.current.querySelectorAll(":scope > .rung-branch:not(:last-child)");
+    const height = [...children].reduce((sum, child) => sum + child.offsetHeight, 0);
+    setOrHeight(height);
+  }, [rungs]);
 
   if (data.type === "AND")
     return (
@@ -28,7 +41,11 @@ export default function Branch({data, path}) {
     );
   else if (data.type === "OR")
     return (
-      <div className="rung-or">
+      <div 
+        className="rung-or"
+        ref={orRef}
+        style={{"--line-height": `${orHeight}px`}}
+      >
         <DragLandingPad 
           path={path}
         />
