@@ -6,7 +6,7 @@ export const RungsDispatchContext = createContext(null);
 export function RungsProvider({children}) {
   const [rungs, dispatch] = useReducer(
     rungsReducer,
-    [testRung]
+    testRungs
   )
   
   return (
@@ -53,14 +53,24 @@ function deleteInstruction(rungs, path, elementType) {
     };
   }
 
-  const oldRung = rungs[path[0]];
-  const newRung = createNewRung(oldRung, path.slice(1), elementType);
+  if (elementType === "Rung") {
+    if (rungs.length === 1)
+      return [{
+        type: "AND",
+        contents: []
+      }];
 
-  return [
-    ...rungs.slice(0, path[0]),
-    newRung,
-    ...rungs.slice(path[0] + 1)
-  ];
+    return rungs.filter((rung, i) => path[0] !== i);
+  } else {
+    const oldRung = rungs[path[0]];
+    const newRung = createNewRung(oldRung, path.slice(1), elementType);
+
+    return [
+      ...rungs.slice(0, path[0]),
+      newRung,
+      ...rungs.slice(path[0] + 1)
+    ];
+  }
 }
 
 function addInstruction(rungs, path, instructionType) {
@@ -111,42 +121,113 @@ function addInstruction(rungs, path, instructionType) {
   ];
 };
 
-const testRung = {
-  type: "AND",
-  contents: [
-    {
-      type: "OR",
-      contents: [
-        {
-          type: "AND",
-          contents: [
-            {
-              type: "Instruction",
-              name: "XIC",
-              tag: "Tag 1"
-            }
-          ]
-        },
-        {
-          type: "AND",
-          contents: [
-            {
-              type: "Instruction",
-              name: "XIO",
-              tag: "Tag 2"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      type: "Instruction",
-      name: "OTE",
-      tag: "Tag 3"
-    }
-  ]
-}
-
+const testRungs = [
+  {
+    type: "AND",
+    contents: [
+      {
+        type: "OR",
+        contents: [
+          {
+            type: "AND",
+            contents: [
+              {
+                type: "Instruction",
+                name: "XIC",
+                tag: "Tag 1"
+              }
+            ]
+          },
+          {
+            type: "AND",
+            contents: [
+              {
+                type: "Instruction",
+                name: "XIO",
+                tag: "Tag 2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        type: "Instruction",
+        name: "OTE",
+        tag: "Tag 3"
+      }
+    ]
+  },
+  {
+    type: "AND",
+    contents: [
+      {
+        type: "OR",
+        contents: [
+          {
+            type: "AND",
+            contents: [
+              {
+                type: "Instruction",
+                name: "XIC",
+                tag: "Tag 1"
+              }
+            ]
+          },
+          {
+            type: "AND",
+            contents: [
+              {
+                type: "Instruction",
+                name: "XIO",
+                tag: "Tag 2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        type: "Instruction",
+        name: "OTE",
+        tag: "Tag 3"
+      }
+    ]
+  },
+  {
+    type: "AND",
+    contents: [
+      {
+        type: "OR",
+        contents: [
+          {
+            type: "AND",
+            contents: [
+              {
+                type: "Instruction",
+                name: "XIC",
+                tag: "Tag 1"
+              }
+            ]
+          },
+          {
+            type: "AND",
+            contents: [
+              {
+                type: "Instruction",
+                name: "XIO",
+                tag: "Tag 2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        type: "Instruction",
+        name: "OTE",
+        tag: "Tag 3"
+      }
+    ]
+  },
+]
 // const emptyRung = {
 //   type: "AND",
 //   contents: []

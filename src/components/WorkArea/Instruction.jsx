@@ -8,24 +8,24 @@ export default function Instruction({data, path}) {
   const dispatch = useContext(RungsDispatchContext);
 
   const tagRef = useRef(null);
-  const [tagClicked, setTagClicked] = useState(false);
+  const [tagSelected, setTagSelected] = useState(false);
   const instructionRef = useRef(null);
-  const [instructionClicked, setInstructionClicked] = useState(false);
+  const [instructionSelected, setInstructionSelected] = useState(false);
 
   useOnClickOutside(tagRef, () => {
-    setTagClicked(false);
+    setTagSelected(false);
   });
   
   useOnClickOutside(instructionRef, () => {
-    setInstructionClicked(false);
+    setInstructionSelected(false);
   });
 
   const handleClick = (e) => {
     if (e.target.tagName === "H5") {
-      setTagClicked(true);
-      setInstructionClicked(false);
+      setTagSelected(true);
+      setInstructionSelected(false);
     } else {
-      setInstructionClicked(true);
+      setInstructionSelected(true);
     }
   }
 
@@ -39,10 +39,10 @@ export default function Instruction({data, path}) {
   }
 
   let instructionClass = "rung-instruction";
-  instructionClass += instructionClicked ? " selected" : "";
+  instructionClass += instructionSelected ? " selected" : "";
 
   let h5Class = "";
-  h5Class += tagClicked ? " selected" : "";
+  h5Class += tagSelected ? " selected" : "";
   h5Class += data.tag == null ? " unassigned" : "";
 
   return (
