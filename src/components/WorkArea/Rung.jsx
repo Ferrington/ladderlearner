@@ -25,7 +25,7 @@ export default function Rung({number, rungData}) {
         path: [number],
         elementType: "Rung"
       })
-      
+
       setRungSelected(false);
     }
   }

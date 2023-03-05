@@ -15,18 +15,30 @@ export default function DragLandingPad({path}) {
     e.preventDefault();
   };
   const dropped = (e) => {
-    const instructionType = e.dataTransfer.getData("text/plain");
-
-    dispatch({
-      type: "added",
-      path,
-      instructionType
+    [...document.querySelectorAll('.landing-pad')].forEach(ele => {
+      ele.classList.add('hidden');
+      ele.classList.remove('go-for-landing');
     });
+
+    const data = JSON.parse(e.dataTransfer.getData("text/plain"));
+
+    if (data.actionType === "add")
+      dispatch({
+        type: "added",
+        path,
+        data
+      });
+    else if (data.actionType === "move")
+      dispatch({
+        type: "moved",
+        path,
+        data
+      })
   };
 
   return (
     <div 
-      className="landing-pad hidden" 
+      className="landing-pad hidden"
       onDragEnter={goodToDrop} 
       onDragOver={overDragTarget} 
       onDragLeave={abortLanding} 

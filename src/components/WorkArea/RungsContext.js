@@ -21,7 +21,10 @@ export function RungsProvider({children}) {
 function rungsReducer(rungs, action) {
   switch (action.type) {
     case 'added': {
-      return addInstruction(rungs, action.path, action.instructionType);
+      return addInstruction(rungs, action.path, action.data);
+    }
+    case 'moved': {
+      return moveInstruction(rungs, action.path, action.data);
     }
     case 'deleted': {
       return deleteInstruction(rungs, action.path, action.elementType);
@@ -30,6 +33,20 @@ function rungsReducer(rungs, action) {
       throw Error(`Unknown action: ${action.type}`);
     }
   }
+}
+
+function moveInstruction(rungs, path, data) {
+  let modPath = [...path];
+
+  // need to modify the path array if deleted item changes the path to the added item
+  if (data.path[0] === path[0] && path.length >= data.path.length) {
+    console.log(data.path.slice(-1)[0], path[data.path.length - 1])
+    modPath[data.path.length - 1] = data.path.slice(-1)[0] < path[data.path.length - 1] ? path[data.path.length - 1] - 1 : path[data.path.length - 1];
+  }
+
+
+  const modRungs = deleteInstruction(rungs, data.path, data.type);
+  return addInstruction(modRungs, modPath, data);
 }
 
 function deleteInstruction(rungs, path, elementType) {
@@ -73,8 +90,9 @@ function deleteInstruction(rungs, path, elementType) {
   }
 }
 
-function addInstruction(rungs, path, instructionType) {
-  const createNewRung = (oldRung, path, instructionType) => {
+function addInstruction(rungs, path, data) {
+  console.log("add", path);
+  const createNewRung = (oldRung, path, data) => {
     if (path.length === 1) {
       if (path[0] === "last")
         return {
@@ -82,9 +100,9 @@ function addInstruction(rungs, path, instructionType) {
           contents: [
             ...oldRung.contents,
             {
-              type: "Instruction",
-              name: instructionType,
-              tag: null
+              type: data.type,
+              name: data.name,
+              tag: data.tag
             }
           ]
         }
@@ -93,9 +111,9 @@ function addInstruction(rungs, path, instructionType) {
         contents: [
           ...oldRung.contents.slice(0, path[0]),
           {
-            type: "Instruction",
-            name: instructionType,
-            tag: null
+            type: data.type,
+            name: data.name,
+            tag: data.tag
           },
           ...oldRung.contents.slice(path[0])
         ]
@@ -106,13 +124,13 @@ function addInstruction(rungs, path, instructionType) {
       ...oldRung,
       contents: oldRung.contents.map((ele, i) =>
         path[0] === i
-          ? createNewRung(ele, path.slice(1), instructionType)
+          ? createNewRung(ele, path.slice(1), data)
           : ele
       )
     };
   }
   const oldRung = rungs[path[0]];
-  const newRung = createNewRung(oldRung, path.slice(1), instructionType);
+  const newRung = createNewRung(oldRung, path.slice(1), data);
 
   return [
     ...rungs.slice(0, path[0]),

@@ -20,7 +20,25 @@ export default function Instruction({data, path}) {
     setInstructionSelected(false);
   });
 
+  const drag = (e, data, path) => {
+    data.actionType = "move";
+    data.path = path;
+    e.dataTransfer.setData("text/plain", JSON.stringify(data));
+    e.target.classList.add('dragging');
+    [...document.querySelectorAll('.landing-pad')].forEach(ele => ele.classList.remove('hidden'));
+    e.target.querySelector('.landing-pad').classList.add('hidden');
+  };
+  
+  const dragEnd = (e) => {
+    e.target.classList.remove('dragging');
+    [...document.querySelectorAll('.landing-pad')].forEach(ele => {
+      ele.classList.add('hidden');
+      ele.classList.remove('go-for-landing');
+    });
+  }
+
   const handleClick = (e) => {
+    e.preventDefault();
     if (e.target.tagName === "H5") {
       setTagSelected(true);
       setInstructionSelected(false);
@@ -52,14 +70,18 @@ export default function Instruction({data, path}) {
       onClick={handleClick}
       onKeyDown={handleKeyPress}
       tabIndex={0}
+      draggable="true"
+      onDragStart={(e) => drag(e, data, path)}
+      onDragEnd={dragEnd}
     >
-      <DragLandingPad 
+      <DragLandingPad
         path={path}
       />
       <img 
         className="rung-img" 
         src={`/static/imgs/${data.name}.png`} 
         alt="{data.name}" 
+        draggable="false"
       />
       <h5
         ref={tagRef}
