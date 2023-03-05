@@ -1,13 +1,13 @@
 import './InstructionPalette.css';
 
-export function InstructionPalette() {
-  const drag = (e: any, instruct: string) => {
+export default function InstructionPalette() {
+  const drag = (e, instruct) => {
     e.dataTransfer.setData("text/plain", instruct);
     e.target.classList.add('dragging');
     [...document.querySelectorAll('.landing-pad')].forEach(ele => ele.classList.remove('hidden'));
   };
   
-  const dragEnd = (e: any) => {
+  const dragEnd = (e) => {
     e.target.classList.remove('dragging');
     [...document.querySelectorAll('.landing-pad')].forEach(ele => {
       ele.classList.add('hidden');

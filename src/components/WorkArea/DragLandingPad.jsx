@@ -1,16 +1,17 @@
-export function DragLandingPad() {
-  const goodToDrop = (e: any) => {
+export default function DragLandingPad({path}) {
+  const goodToDrop = (e) => {
     e.preventDefault();
     e.target.classList.add("go-for-landing");
   };
-  const abortLanding = (e: any) => {
+  const abortLanding = (e) => {
     e.target.classList.remove("go-for-landing");
   };
-  const overDragTarget = (e: any) => {
+  const overDragTarget = (e) => {
     e.preventDefault();
   };
-  const dropped = (e:any) => {
-    console.log(e.dataTransfer.getData("text/plain"));
+  const dropped = (e) => {
+    console.log(e.dataTransfer.getData("text/plain"), path);
+    
   };
 
   return (
