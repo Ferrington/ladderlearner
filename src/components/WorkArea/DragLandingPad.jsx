@@ -1,4 +1,9 @@
+import { useContext } from "react";
+import { RungsDispatchContext } from "./RungsContext";
+
 export default function DragLandingPad({path}) {
+  const dispatch = useContext(RungsDispatchContext);
+
   const goodToDrop = (e) => {
     e.preventDefault();
     e.target.classList.add("go-for-landing");
@@ -10,8 +15,13 @@ export default function DragLandingPad({path}) {
     e.preventDefault();
   };
   const dropped = (e) => {
-    console.log(e.dataTransfer.getData("text/plain"), path);
-    
+    const instructionType = e.dataTransfer.getData("text/plain");
+
+    dispatch({
+      type: "added",
+      path,
+      instructionType
+    });
   };
 
   return (
