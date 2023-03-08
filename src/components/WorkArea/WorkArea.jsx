@@ -1,20 +1,16 @@
-import './WorkArea.css';
-import Rung from './Rung';
-import { useContext } from 'react';
-import { RungsContext } from './RungsContext';
+import { useSelector } from "react-redux";
+import { selectAllRungIds } from "../../store/workspaceSlice";
 
+import "./WorkArea.css";
+import Rung from "./Rung";
 
 export default function WorkArea() {
-  const rungs = useContext(RungsContext);
+  const rungs = useSelector(selectAllRungIds);
 
   return (
     <div className="WorkArea">
-      {rungs.map((rung, i) => {
-        return <Rung 
-          key={`rung${i}`}
-          number={i}
-          rungData={rung}
-        />
+      {rungs.map((rung) => {
+        return <Rung key={rung} id={rung} />;
       })}
     </div>
   );

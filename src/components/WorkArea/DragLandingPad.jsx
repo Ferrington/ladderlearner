@@ -1,8 +1,11 @@
 import { useContext } from "react";
 import { RungsDispatchContext } from "./RungsContext";
+import { useDispatch } from "react-redux";
+import { addInstruction } from "../../store/workspaceSlice";
 
-export default function DragLandingPad({path}) {
+export default function DragLandingPad({ path }) {
   const dispatch = useContext(RungsDispatchContext);
+  const dispatch2 = useDispatch();
 
   const goodToDrop = (e) => {
     e.preventDefault();
@@ -15,33 +18,34 @@ export default function DragLandingPad({path}) {
     e.preventDefault();
   };
   const dropped = (e) => {
-    [...document.querySelectorAll('.landing-pad')].forEach(ele => {
-      ele.classList.add('hidden');
-      ele.classList.remove('go-for-landing');
+    [...document.querySelectorAll(".landing-pad")].forEach((ele) => {
+      ele.classList.add("hidden");
+      ele.classList.remove("go-for-landing");
     });
 
-    const data = JSON.parse(e.dataTransfer.getData("text/plain"));
+    const instruction = JSON.parse(e.dataTransfer.getData("text/plain"));
 
-    if (data.actionType === "add")
-      dispatch({
-        type: "added",
-        path,
-        data
-      });
-    else if (data.actionType === "move")
+    if (instruction.actionType === "add")
+      dispatch2(
+        addInstruction({
+          path,
+          instruction,
+        })
+      );
+    else if (instruction.actionType === "move")
       dispatch({
         type: "moved",
         path,
-        data
-      })
+        instruction,
+      });
   };
 
   return (
-    <div 
+    <div
       className="landing-pad hidden"
-      onDragEnter={goodToDrop} 
-      onDragOver={overDragTarget} 
-      onDragLeave={abortLanding} 
+      onDragEnter={goodToDrop}
+      onDragOver={overDragTarget}
+      onDragLeave={abortLanding}
       onDrop={dropped}
     >
       <div className="landing-beacon"></div>

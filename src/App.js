@@ -1,8 +1,8 @@
-import './App.css';
-import './instruction.css';
-import WorkArea from './components/WorkArea/WorkArea';
-import InstructionPalette from './components/InstructionPalette/InstructionPalette';
-import { RungsProvider } from './components/WorkArea/RungsContext';
+import "./App.css";
+import "./instruction.css";
+import WorkArea from "./components/WorkArea/WorkArea";
+import InstructionPalette from "./components/InstructionPalette/InstructionPalette";
+import { RungsProvider } from "./components/WorkArea/RungsContext";
 
 function App() {
   return (
