@@ -1,13 +1,13 @@
 import { useRef, useState } from "react";
 import DragLandingPad from "./DragLandingPad";
 import useOnClickOutside from "use-onclickoutside";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { RungsDispatchContext } from "./RungsContext";
 
 import { useSelector } from "react-redux";
-import { selectElementById } from "../../store/workspaceSlice";
+import { makeSelectElementById } from "../../store/workspaceSlice";
 
-export default function Instruction({ id }) {
+export default function Instruction({ id, parent }) {
   const dispatch = useContext(RungsDispatchContext);
 
   const tagRef = useRef(null);
@@ -15,9 +15,10 @@ export default function Instruction({ id }) {
   const instructionRef = useRef(null);
   const [instructionSelected, setInstructionSelected] = useState(false);
 
-  const instruction = useSelector((state) => selectElementById(state, id));
-
-  console.log(instruction);
+  const instructionSelectElementById = useMemo(makeSelectElementById, []);
+  const instruction = useSelector((state) =>
+    instructionSelectElementById(state, id)
+  );
 
   useOnClickOutside(tagRef, () => {
     setTagSelected(false);
@@ -84,7 +85,7 @@ export default function Instruction({ id }) {
       onDragStart={(e) => drag(e, instruction, null)}
       onDragEnd={dragEnd}
     >
-      <DragLandingPad />
+      <DragLandingPad parent={parent.id} index={parent.children.indexOf(id)} />
       <img
         className="rung-img"
         src={`/static/imgs/${instruction.name}.png`}

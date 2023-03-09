@@ -1,41 +1,41 @@
 .rung {
   padding-inline: 10px;
-  display:grid;
+  display: grid;
   grid-template-columns: 50px auto;
   grid-template-rows: auto auto;
-  min-height:50px;
+  min-height: 50px;
 }
 
 .rung + .rung {
-  margin-top:20px;
+  margin-top: 20px;
 }
 
 .rung > div {
-  display:inline-block;
+  display: inline-block;
 }
 
 .rung-number {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
-  padding-block-start:32px;
-  width:100%;
-  height:80%;
-  text-align:center;
+  padding-block-start: 32px;
+  width: 100%;
+  height: 80%;
+  text-align: center;
 }
 
 .rung-comment {
   grid-column: 2 / 3;
-  place-self:center;
+  place-self: center;
 }
 
 .rung-code {
   grid-column: 2 / 3;
-  align-self:center;
+  align-self: center;
   overflow-x: auto;
   position: relative;
   white-space: nowrap;
-  padding-bottom:20px;
-  user-select: none;  
+  padding-bottom: 20px;
+  user-select: none;
 }
 
 .rung-code:before {
@@ -45,7 +45,7 @@
   border-right: 2px solid black;
   vertical-align: top;
   margin-top: 16px;
-  content: '';
+  content: "";
 }
 
 .rung-code::after {
@@ -55,7 +55,7 @@
   border-left: 2px solid black;
   vertical-align: top;
   margin-top: 16px;
-  content: '';
+  content: "";
 }
 
 .rung-main-rung {
@@ -82,11 +82,10 @@
   box-sizing: border-box;
   padding: 0 30px;
   display: flex;
-  align-items:flex-start;
+  align-items: flex-start;
   gap: 25px;
-  min-height:1em;
+  min-height: 1em;
 }
-
 
 .rung-or {
   position: relative;
@@ -94,8 +93,9 @@
   vertical-align: top;
 }
 
-.rung-or:before, .rung-or:after {
-  content: '';
+.rung-or:before,
+.rung-or:after {
+  content: "";
   width: 2px;
   background: black;
   display: block;
@@ -111,17 +111,16 @@
 
 .rung-branch {
   position: relative;
-  min-height:50px;
+  min-height: 50px;
 }
 
 .landing-pad {
-  position:absolute;
-  display:flex;
-  align-items:center;
+  position: absolute;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  width:25px;
-  height:25px;
-  outline:1px solid black;
+  width: 25px;
+  height: 25px;
 }
 
 .landing-pad * {
@@ -129,33 +128,33 @@
 }
 
 .rung-or > .landing-pad {
-  left:-25px;
-  top:29px;
+  left: -25px;
+  top: 29px;
 }
 
 .rung-instruction > .landing-pad {
-  left:-22px;
-  top:-4px;
+  left: -22px;
+  top: -4px;
 }
 
 .rung-instruction-wrapper > .landing-pad {
-  top:29px;
+  top: 29px;
   right: 8px;
 }
 
 .landing-beacon {
   outline: 1px solid red;
-  background:yellow;
-  width:8px;
-  height:8px;
+  background: yellow;
+  width: 8px;
+  height: 8px;
 }
 
 .go-for-landing .landing-beacon {
-  background:lime;
+  background: lime;
 }
 
 .hidden {
-  display:none;
+  display: none;
 }
 
 .dragging {
@@ -163,9 +162,8 @@
 }
 
 .destructive:not(.destructive + .destructive) {
-  margin-left:auto;
+  margin-left: auto;
 }
 .or-destructive {
-  margin-left:auto !important;
+  margin-left: auto !important;
 }
-

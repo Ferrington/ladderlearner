@@ -1,10 +1,10 @@
 import DragLandingPad from "./DragLandingPad";
 import Branch from "./Branch";
-import { useLayoutEffect, useRef, useState, useContext } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import useWindowSize from "../../hooks/useWindowSize";
 import useOnClickOutside from "use-onclickoutside";
 import { useSelector } from "react-redux";
-import { selectElementById } from "../../store/workspaceSlice";
+import { makeSelectElementById } from "../../store/workspaceSlice";
 
 export default function Rung({ id }) {
   const [mainRungWidth, setMainRungWidth] = useState(0);
@@ -13,7 +13,12 @@ export default function Rung({ id }) {
   const windowSize = useWindowSize();
   const [rungSelected, setRungSelected] = useState(false);
 
-  const rung = useSelector((state) => selectElementById(state, id));
+  const rungSelectElementById = useMemo(makeSelectElementById, []);
+  const childSelectElementById = useMemo(makeSelectElementById, []);
+  const rung = useSelector((state) => rungSelectElementById(state, id));
+  const child = useSelector((state) =>
+    childSelectElementById(state, rung.child)
+  );
 
   const handleClick = () => {
     setRungSelected(true);
@@ -57,8 +62,8 @@ export default function Rung({ id }) {
         >
           <div className="rung-line"></div>
           <div className="rung-instruction-wrapper rung-instruction-test">
-            <DragLandingPad />
-            <Branch id={rung.child} />
+            <DragLandingPad parent={rung.child} index={child.children.length} />
+            <Branch id={rung.child} parent={rung} />
           </div>
         </div>
       </div>

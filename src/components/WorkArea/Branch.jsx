@@ -1,20 +1,22 @@
 import Instruction from "./Instruction";
 import DragLandingPad from "./DragLandingPad";
-import { useRef, useLayoutEffect, useContext, useState } from "react";
-import { RungsContext } from "./RungsContext";
+import { useRef, useLayoutEffect, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import {
-  selectElementById,
-  selectChildrenByParentId,
+  makeSelectElementById,
+  selectElementsByIds,
 } from "../../store/workspaceSlice";
 
-export default function Branch({ id }) {
+export default function Branch({ id, parent }) {
   const [orHeight, setOrHeight] = useState(0);
   const orRef = useRef(null);
-  const rungs = useContext(RungsContext);
 
-  const branch = useSelector((store) => selectElementById(store, id));
-  const children = useSelector((store) => selectChildrenByParentId(store, id));
+  const branchSelectElementById = useMemo(makeSelectElementById, []);
+  const branch = useSelector((store) => branchSelectElementById(store, id));
+
+  const children = useSelector((store) =>
+    selectElementsByIds(store, branch.children)
+  );
 
   useLayoutEffect(() => {
     if (!orRef.current) return;
@@ -39,44 +41,46 @@ export default function Branch({ id }) {
     );
 
     destructive.forEach((ele) => ele.classList.add("or-destructive"));
-  }, [rungs]);
+  }, [branch]);
 
-  if (branch.type === "AND")
+  if (branch.type === "AND") {
     return (
       <>
         {children.map((ele) => {
           let innards;
 
           if (["AND", "OR"].includes(ele.type))
-            innards = <Branch key={ele.id} id={ele.id} />;
+            innards = <Branch key={ele.id} id={ele.id} parent={branch} />;
           else if (ele.type === "Instruction")
-            innards = <Instruction key={ele.id} id={ele.id} />;
+            innards = <Instruction key={ele.id} id={ele.id} parent={branch} />;
 
           return innards;
         })}
       </>
     );
-  else if (branch.type === "OR")
+  } else if (branch.type === "OR") {
+    const landingPadIndex = parent.children.indexOf(id);
+
     return (
       <div
         className="rung-or"
         ref={orRef}
         style={{ "--line-height": `${orHeight}px` }}
       >
-        <DragLandingPad />
+        <DragLandingPad parent={parent.id} index={landingPadIndex} />
         {children.map((ele, i) => {
           let innards;
 
           if (["AND", "OR"].includes(ele.type))
-            innards = <Branch id={ele.id} />;
+            innards = <Branch id={ele.id} parent={branch} />;
           else if (ele.type === "Instruction")
-            innards = <Instruction id={ele.id} />;
+            innards = <Instruction id={ele.id} parent={branch} />;
 
           return (
             <div key={ele.id} className="rung-branch">
               {i > 0 && <div className="rung-line"></div>}
               <div className="rung-instruction-wrapper">
-                <DragLandingPad />
+                <DragLandingPad parent={ele.id} index={ele.children.length} />
                 {innards}
               </div>
             </div>
@@ -84,4 +88,5 @@ export default function Branch({ id }) {
         })}
       </div>
     );
+  }
 }

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { testRungs } from "./testRungs";
 
 export const workspaceSlice = createSlice({
@@ -14,17 +14,29 @@ export const workspaceSlice = createSlice({
 export const { addInstruction } = workspaceSlice.actions;
 
 export const selectAllRungIds = (state) => state.workspace.value.rungs.allIds;
-export const selectElementById = (state, id) => {
-  if (id.indexOf("rung") > -1) {
-    return state.workspace.value.rungs.byId[id];
-  } else if (id.indexOf("branch") > -1) {
-    return state.workspace.value.branches[id];
-  } else if (id.indexOf("instruction") > -1)
-    return state.workspace.value.instructions[id];
+const selectAllElements = (state) => ({
+  ...state.workspace.value.rungs.byId,
+  ...state.workspace.value.branches,
+  ...state.workspace.value.instructions,
+});
+
+export const makeSelectElementById = () => {
+  const selectElementById = createSelector(
+    [selectAllElements, (state, id) => id],
+    (elements, id) => elements[id]
+  );
+  return selectElementById;
 };
-export const selectChildrenByParentId = (state, id) => {
-  const children = selectElementById(state, id).children;
-  return children.map((childId) => selectElementById(state, childId));
-};
+
+export const selectElementsByIds = createSelector(
+  [selectAllElements, (state, ids) => ids],
+  (eles, ids) => ids.map((id) => eles[id])
+);
+
+// export const selectChildrenByParentId = createSelector(
+//   [selectElementById],
+//   (parent) =>
+//     parent.children.map((childId) => selectElementById(state, childId))
+// );
 
 export default workspaceSlice.reducer;
