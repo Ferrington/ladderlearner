@@ -16,8 +16,15 @@ export const addInstruction = (instruction) => {
     parent: parent.id,
     isDestructive: isDestructive(instruction.name),
   };
-  console.log(instruction);
-  console.log(state);
+};
+
+export const deleteInstruction = (instruction) => {
+  const state = store.rungs;
+
+  const parent = state.branches[instruction.parent];
+  parent.children = parent.children.filter((child) => child !== instruction.id);
+
+  delete state.instructions[instruction.id];
 };
 
 const isDestructive = (name) => {

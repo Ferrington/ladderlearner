@@ -34,7 +34,7 @@ export default function Branch({ id, state }) {
     );
 
     destructive.forEach((ele) => ele.classList.add("or-destructive"));
-  }, [branch]);
+  }, [state]);
 
   if (branch.type === "AND") {
     return (

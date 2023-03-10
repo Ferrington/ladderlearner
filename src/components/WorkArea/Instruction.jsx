@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import DragLandingPad from "./DragLandingPad";
 import useOnClickOutside from "use-onclickoutside";
 import { getRungElement } from "../../store/selectors";
+import { deleteInstruction } from "../../store/actions";
 
 export default function Instruction({ id, state }) {
   const dispatch = null;
@@ -52,12 +53,7 @@ export default function Instruction({ id, state }) {
   };
 
   const handleKeyPress = (e) => {
-    if (e.keyCode === 46)
-      dispatch({
-        type: "deleted",
-        path: null,
-        elementType: instruction.type,
-      });
+    if (e.keyCode === 46) deleteInstruction(instruction);
   };
 
   let instructionClass = "rung-instruction";
