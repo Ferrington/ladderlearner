@@ -1,24 +1,18 @@
 import { useRef, useState } from "react";
 import DragLandingPad from "./DragLandingPad";
 import useOnClickOutside from "use-onclickoutside";
-import { useContext, useMemo } from "react";
-import { RungsDispatchContext } from "./RungsContext";
+import { getRungElement } from "../../store/selectors";
 
-import { useSelector } from "react-redux";
-import { makeSelectElementById } from "../../store/workspaceSlice";
+export default function Instruction({ id, state }) {
+  const dispatch = null;
 
-export default function Instruction({ id, parent }) {
-  const dispatch = useContext(RungsDispatchContext);
+  const instruction = getRungElement(state, id);
+  const parent = getRungElement(state, instruction.parent);
 
   const tagRef = useRef(null);
   const [tagSelected, setTagSelected] = useState(false);
   const instructionRef = useRef(null);
   const [instructionSelected, setInstructionSelected] = useState(false);
-
-  const instructionSelectElementById = useMemo(makeSelectElementById, []);
-  const instruction = useSelector((state) =>
-    instructionSelectElementById(state, id)
-  );
 
   useOnClickOutside(tagRef, () => {
     setTagSelected(false);

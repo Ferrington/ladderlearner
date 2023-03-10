@@ -1,16 +1,15 @@
-import { useSelector } from "react-redux";
-import { selectAllRungIds } from "../../store/workspaceSlice";
-
 import "./WorkArea.css";
 import Rung from "./Rung";
+import { useSnapshot } from "valtio";
+import { state } from "../../store/store";
 
 export default function WorkArea() {
-  const rungs = useSelector(selectAllRungIds);
+  const workSpaceState = useSnapshot(state.rungs);
 
   return (
     <div className="WorkArea">
-      {rungs.map((rung) => {
-        return <Rung key={rung} id={rung} />;
+      {workSpaceState.rungs.allIds.map((rung) => {
+        return <Rung key={rung} id={rung} state={workSpaceState} />;
       })}
     </div>
   );

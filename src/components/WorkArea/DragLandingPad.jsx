@@ -1,9 +1,4 @@
-import { useDispatch } from "react-redux";
-import { addInstruction } from "../../store/workspaceSlice";
-
 export default function DragLandingPad({ parent, index }) {
-  const dispatch = useDispatch();
-
   const goodToDrop = (e) => {
     e.preventDefault();
     e.target.classList.add("go-for-landing");

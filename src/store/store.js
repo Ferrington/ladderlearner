@@ -1,8 +1,6 @@
-import { configureStore } from "@reduxjs/toolkit";
-import workspaceReducer from "./workspaceSlice";
+import { proxy } from "valtio";
+import { testRungs } from "./testRungs";
 
-export default configureStore({
-  reducer: {
-    workspace: workspaceReducer,
-  },
+export const state = proxy({
+  rungs: testRungs,
 });

@@ -1,22 +1,15 @@
 import Instruction from "./Instruction";
 import DragLandingPad from "./DragLandingPad";
-import { useRef, useLayoutEffect, useState, useMemo } from "react";
-import { useSelector } from "react-redux";
-import {
-  makeSelectElementById,
-  selectElementsByIds,
-} from "../../store/workspaceSlice";
+import { useRef, useLayoutEffect, useState } from "react";
+import { getRungElement } from "../../store/selectors";
 
-export default function Branch({ id, parent }) {
+export default function Branch({ id, state }) {
   const [orHeight, setOrHeight] = useState(0);
   const orRef = useRef(null);
 
-  const branchSelectElementById = useMemo(makeSelectElementById, []);
-  const branch = useSelector((store) => branchSelectElementById(store, id));
-
-  const children = useSelector((store) =>
-    selectElementsByIds(store, branch.children)
-  );
+  const branch = getRungElement(state, id);
+  const children = branch.children.map((child) => getRungElement(state, child));
+  const parent = getRungElement(state, branch.parent);
 
   useLayoutEffect(() => {
     if (!orRef.current) return;
@@ -50,9 +43,9 @@ export default function Branch({ id, parent }) {
           let innards;
 
           if (["AND", "OR"].includes(ele.type))
-            innards = <Branch key={ele.id} id={ele.id} parent={branch} />;
+            innards = <Branch key={ele.id} id={ele.id} state={state} />;
           else if (ele.type === "Instruction")
-            innards = <Instruction key={ele.id} id={ele.id} parent={branch} />;
+            innards = <Instruction key={ele.id} id={ele.id} state={state} />;
 
           return innards;
         })}
@@ -72,9 +65,9 @@ export default function Branch({ id, parent }) {
           let innards;
 
           if (["AND", "OR"].includes(ele.type))
-            innards = <Branch id={ele.id} parent={branch} />;
+            innards = <Branch id={ele.id} state={state} />;
           else if (ele.type === "Instruction")
-            innards = <Instruction id={ele.id} parent={branch} />;
+            innards = <Instruction id={ele.id} state={state} />;
 
           return (
             <div key={ele.id} className="rung-branch">
