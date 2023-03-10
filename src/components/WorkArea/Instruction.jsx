@@ -62,7 +62,7 @@ export default function Instruction({ id, state }) {
 
   let instructionClass = "rung-instruction";
   instructionClass += instructionSelected ? " selected" : "";
-  instructionClass += isDestructive(instruction.name) ? " destructive" : "";
+  instructionClass += instruction.isDestructive ? " destructive" : "";
 
   let h5Class = "";
   h5Class += tagSelected ? " selected" : "";
@@ -91,10 +91,4 @@ export default function Instruction({ id, state }) {
       </h5>
     </div>
   );
-}
-
-function isDestructive(name) {
-  const destructiveList = ["OTE", "OTL", "OTU"];
-
-  return destructiveList.includes(name);
 }

@@ -1,3 +1,5 @@
+import { addInstruction } from "../../store/actions";
+
 export default function DragLandingPad({ parent, index }) {
   const goodToDrop = (e) => {
     e.preventDefault();
@@ -17,15 +19,13 @@ export default function DragLandingPad({ parent, index }) {
 
     const instruction = JSON.parse(e.dataTransfer.getData("text/plain"));
 
-    console.log(parent, index);
-
-    // if (instruction.actionType === "add")
-    //   dispatch2(
-    //     addInstruction({
-    //       path,
-    //       instruction,
-    //     })
-    //   );
+    if (instruction.actionType === "add") {
+      addInstruction({
+        ...instruction,
+        parent,
+        index,
+      });
+    }
     // else if (instruction.actionType === "move")
     //   dispatch({
     //     type: "moved",

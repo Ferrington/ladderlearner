@@ -43,7 +43,7 @@ export const testRungs = {
       name: "XIC",
       tag: "Tag 1",
       parent: "branch3",
-      isDestructive: true,
+      isDestructive: false,
     },
     instruction2: {
       id: "instruction2",
@@ -51,7 +51,7 @@ export const testRungs = {
       name: "XIO",
       tag: "Tag 2",
       parent: "branch4",
-      isDestructive: true,
+      isDestructive: false,
     },
     instruction3: {
       id: "instruction3",

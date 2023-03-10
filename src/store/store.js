@@ -1,6 +1,6 @@
 import { proxy } from "valtio";
 import { testRungs } from "./testRungs";
 
-export const state = proxy({
+export const store = proxy({
   rungs: testRungs,
 });
