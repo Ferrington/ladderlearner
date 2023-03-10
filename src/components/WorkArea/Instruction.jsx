@@ -5,8 +5,6 @@ import { getRungElement } from "../../store/selectors";
 import { deleteInstruction } from "../../store/actions";
 
 export default function Instruction({ id, state }) {
-  const dispatch = null;
-
   const instruction = getRungElement(state, id);
   const parent = getRungElement(state, instruction.parent);
 

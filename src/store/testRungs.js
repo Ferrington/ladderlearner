@@ -3,11 +3,14 @@ export const testRungs = {
     byId: {
       rung1: {
         id: "rung1",
-        number: 1,
         child: "branch1",
       },
+      rung2: {
+        id: "rung2",
+        child: "branch5",
+      },
     },
-    allIds: ["rung1"],
+    allIds: ["rung1", "rung2"],
   },
   branches: {
     branch1: {
@@ -34,6 +37,12 @@ export const testRungs = {
       type: "AND",
       parent: "branch2",
       children: ["instruction2"],
+    },
+    branch5: {
+      id: "branch5",
+      type: "AND",
+      parent: "rung2",
+      children: [],
     },
   },
   instructions: {

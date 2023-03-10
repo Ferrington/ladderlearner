@@ -8,8 +8,8 @@ export default function WorkArea() {
 
   return (
     <div className="WorkArea">
-      {state.rungs.allIds.map((rung) => {
-        return <Rung key={rung} id={rung} state={state} />;
+      {state.rungs.allIds.map((rung, i) => {
+        return <Rung key={rung} id={rung} state={state} number={i + 1} />;
       })}
     </div>
   );

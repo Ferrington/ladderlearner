@@ -4,8 +4,9 @@ import { useLayoutEffect, useRef, useState } from "react";
 import useWindowSize from "../../hooks/useWindowSize";
 import useOnClickOutside from "use-onclickoutside";
 import { getRungElement, getRungChild } from "../../store/selectors";
+import { deleteRung } from "../../store/actions";
 
-export default function Rung({ id, state }) {
+export default function Rung({ id, state, number }) {
   const [mainRungWidth, setMainRungWidth] = useState(0);
   const codeRef = useRef(null);
   const rungRef = useRef(null);
@@ -20,14 +21,10 @@ export default function Rung({ id, state }) {
   };
 
   const handleKeyPress = (e) => {
-    // if (e.keyCode === 46) {
-    // dispatch({
-    //   type: "deleted",
-    //   path: [number],
-    //   elementType: "Rung",
-    // });
-    //   setRungSelected(false);
-    // }
+    if (e.keyCode === 46) {
+      deleteRung(rung);
+      setRungSelected(false);
+    }
   };
 
   useOnClickOutside(rungRef, () => {
@@ -47,7 +44,7 @@ export default function Rung({ id, state }) {
         onKeyDown={handleKeyPress}
         tabIndex={0}
       >
-        {rung.number}
+        {number}
       </div>
       <div className="rung-comment"></div>
       <div className="rung-code" ref={codeRef}>

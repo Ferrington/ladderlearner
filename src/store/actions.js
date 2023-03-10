@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
 import { store } from "./store";
+import { getRungElement } from "./selectors";
 
 export const addInstruction = (instruction) => {
   const state = store.rungs;
@@ -25,6 +26,30 @@ export const deleteInstruction = (instruction) => {
   parent.children = parent.children.filter((child) => child !== instruction.id);
 
   delete state.instructions[instruction.id];
+};
+
+export const deleteRung = (rung) => {
+  const state = store.rungs;
+  deleteChildren(state.branches[rung.child]);
+
+  console.log(state);
+  if (state.rungs.allIds.length === 1) return;
+
+  state.rungs.allIds = state.rungs.allIds.filter((id) => id !== rung.id);
+  delete state.branches[rung.child];
+  delete state.rungs.byId[rung.id];
+};
+
+const deleteChildren = (ele, firstRun = true) => {
+  const state = store.rungs;
+
+  if (ele.children != null)
+    ele.children
+      .map((child) => getRungElement(state, child))
+      .forEach((child) => deleteChildren(child, false));
+
+  if (!firstRun) delete state.branches[ele.id];
+  else state.branches[ele.id].children = [];
 };
 
 const isDestructive = (name) => {
