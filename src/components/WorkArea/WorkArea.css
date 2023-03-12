@@ -4,6 +4,7 @@
   grid-template-columns: 50px auto;
   grid-template-rows: auto auto;
   min-height: 50px;
+  outline-offset: -5px;
 }
 
 .rung + .rung {
@@ -64,6 +65,10 @@
   min-width: 94%;
 }
 
+.rung-line-wrapper {
+  position: relative;
+}
+
 .rung-line {
   position: relative;
   height: 2px;
@@ -99,7 +104,15 @@
   width: 100%;
   height: 10px;
   top: -4px;
-  z-index: -1;
+  z-index: -5;
+}
+
+.rung-line-select.clickable {
+  background: none;
+}
+
+.rung-line-clickable {
+  cursor: pointer;
 }
 
 .rung-instruction-wrapper {
@@ -149,6 +162,7 @@
   justify-content: center;
   width: 25px;
   height: 25px;
+  z-index: 4;
 }
 
 .landing-pad * {
@@ -203,4 +217,9 @@
 }
 .or-destructive {
   margin-left: auto !important;
+}
+
+.clickable:not(.selected) {
+  outline: 1px dashed black;
+  cursor: pointer;
 }

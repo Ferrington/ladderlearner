@@ -54,8 +54,6 @@ export const deleteInstruction = (instruction) => {
 };
 
 export const moveInstruction = (instruction) => {
-  const state = store.rungs;
-
   const addInstruct = {
     ...instruction,
     parent: instruction.newParent,

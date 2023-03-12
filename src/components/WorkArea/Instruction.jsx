@@ -15,6 +15,8 @@ export default function Instruction({ id, state, children }) {
   const instructionRef = useRef(null);
   const [instructionSelected, setInstructionSelected] = useState(false);
   const [beingDragged, setBeingDragged] = useState(false);
+  const [lookinClickable, setLookinClickable] = useState(false);
+  const [tagLookinClickable, setTagLookinClickable] = useState(false);
 
   const { weDraggin } = useSnapshot(store);
 
@@ -54,6 +56,23 @@ export default function Instruction({ id, state, children }) {
     }
   };
 
+  const lookClickable = (e) => {
+    if (e.target.tagName !== "H5") setLookinClickable(true);
+    else setLookinClickable(false);
+  };
+
+  const dontLookClickable = () => {
+    setLookinClickable(false);
+  };
+
+  const tagLookClickable = () => {
+    setTagLookinClickable(true);
+  };
+
+  const tagDontLookClickable = () => {
+    setTagLookinClickable(false);
+  };
+
   const handleKeyPress = (e) => {
     if (e.keyCode === 46) deleteInstruction(instruction);
   };
@@ -62,10 +81,12 @@ export default function Instruction({ id, state, children }) {
   instructionClass += instructionSelected ? " selected" : "";
   instructionClass += instruction.isDestructive ? " destructive" : "";
   instructionClass += beingDragged ? " dragging" : "";
+  instructionClass += lookinClickable ? " clickable" : "";
 
   let h5Class = "";
   h5Class += tagSelected ? " selected" : "";
   h5Class += instruction.tag == null ? " unassigned" : "";
+  h5Class += tagLookinClickable ? " clickable" : "";
 
   return (
     <div
@@ -77,18 +98,31 @@ export default function Instruction({ id, state, children }) {
       draggable="true"
       onDragStart={(e) => drag(e, instruction)}
       onDragEnd={dragEnd}
+      onMouseOver={lookClickable}
+      onMouseLeave={dontLookClickable}
     >
-      <DragLandingPad parent={parent.id} index={parent.children.indexOf(id)} />
+      {!beingDragged && (
+        <DragLandingPad
+          parent={parent.id}
+          index={parent.children.indexOf(id)}
+        />
+      )}
       <img
         className="rung-img"
         src={`/static/imgs/${instruction.name}.png`}
         alt="{instruction.name}"
         draggable="false"
       />
-      <h5 ref={tagRef} className={h5Class} onClick={handleClick}>
+      <h5
+        ref={tagRef}
+        className={h5Class}
+        onClick={handleClick}
+        onMouseOver={tagLookClickable}
+        onMouseLeave={tagDontLookClickable}
+      >
         {instruction.tag ?? "Assign Tag"}
       </h5>
-      {children}
+      {!beingDragged && children}
     </div>
   );
 }

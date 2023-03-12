@@ -24,6 +24,7 @@ export default function Rung({ id, state, number }) {
   const rungRef = useRef(null);
   const windowSize = useWindowSize();
   const [rungSelected, setRungSelected] = useState(false);
+  const [lookinClickable, setLookinClickable] = useState(false);
 
   const rung = getRungElement(state, id);
   const child = getRungChild(state, id);
@@ -41,6 +42,14 @@ export default function Rung({ id, state, number }) {
     }
   };
 
+  const lookClickable = (e) => {
+    setLookinClickable(true);
+  };
+
+  const dontLookClickable = () => {
+    setLookinClickable(false);
+  };
+
   useOnClickOutside(rungRef, () => {
     setRungSelected(false);
   });
@@ -49,13 +58,19 @@ export default function Rung({ id, state, number }) {
     setMainRungWidth(codeRef.current.offsetWidth - 55);
   }, [windowSize]);
 
+  let rungClass = "rung";
+  rungClass += rungSelected ? " selected" : "";
+  rungClass += lookinClickable ? " clickable" : "";
+
   return (
-    <div className={"rung" + (rungSelected ? " selected" : "")}>
+    <div className={rungClass}>
       <div
         ref={rungRef}
         className="rung-number"
         onClick={handleClick}
         onKeyDown={handleKeyPress}
+        onMouseOver={lookClickable}
+        onMouseLeave={dontLookClickable}
         tabIndex={0}
       >
         {number}

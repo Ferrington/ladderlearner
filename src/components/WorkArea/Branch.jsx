@@ -66,6 +66,7 @@ export default function Branch({ id, state, extraLandingPadLoc, children }) {
                 )}
               </Instruction>
             );
+          return null;
         })}
         {children}
       </>
