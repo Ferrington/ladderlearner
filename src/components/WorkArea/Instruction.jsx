@@ -4,7 +4,7 @@ import useOnClickOutside from "use-onclickoutside";
 import { getRungElement } from "../../store/selectors";
 import { deleteInstruction } from "../../store/actions";
 
-export default function Instruction({ id, state }) {
+export default function Instruction({ id, state, children }) {
   const instruction = getRungElement(state, id);
   const parent = getRungElement(state, instruction.parent);
 
@@ -83,6 +83,7 @@ export default function Instruction({ id, state }) {
       <h5 ref={tagRef} className={h5Class} onClick={handleClick}>
         {instruction.tag ?? "Assign Tag"}
       </h5>
+      {children}
     </div>
   );
 }

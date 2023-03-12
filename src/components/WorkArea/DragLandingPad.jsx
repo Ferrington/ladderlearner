@@ -1,6 +1,6 @@
 import { addInstruction } from "../../store/actions";
 
-export default function DragLandingPad({ parent, index }) {
+export default function DragLandingPad({ parent, index, extra }) {
   const goodToDrop = (e) => {
     e.preventDefault();
     e.target.classList.add("go-for-landing");
@@ -34,8 +34,13 @@ export default function DragLandingPad({ parent, index }) {
     //   });
   };
 
+  let id = null;
+  if (extra === 0) id = "extra-landing-pad-first-ele";
+  if (extra >= 1) id = "extra-landing-pad";
+
   return (
     <div
+      id={id}
       className="landing-pad hidden"
       onDragEnter={goodToDrop}
       onDragOver={overDragTarget}

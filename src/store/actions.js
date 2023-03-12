@@ -32,7 +32,6 @@ export const deleteRung = (rung) => {
   const state = store.rungs;
   deleteChildren(state.branches[rung.child]);
 
-  console.log(state);
   if (state.rungs.allIds.length === 1) return;
 
   state.rungs.allIds = state.rungs.allIds.filter((id) => id !== rung.id);

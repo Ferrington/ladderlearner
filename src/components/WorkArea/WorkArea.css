@@ -128,18 +128,27 @@
 }
 
 .rung-or > .landing-pad {
+  top: 28px;
   left: -25px;
-  top: 29px;
 }
 
 .rung-instruction > .landing-pad {
+  top: -5px;
   left: -22px;
-  top: -4px;
 }
 
 .rung-instruction-wrapper > .landing-pad {
-  top: 29px;
+  top: 28px;
   right: 8px;
+}
+
+#extra-landing-pad-first-ele {
+  left: 6px;
+}
+
+#extra-landing-pad {
+  right: -25px;
+  left: auto;
 }
 
 .landing-beacon {

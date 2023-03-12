@@ -5,6 +5,18 @@ import useWindowSize from "../../hooks/useWindowSize";
 import useOnClickOutside from "use-onclickoutside";
 import { getRungElement, getRungChild } from "../../store/selectors";
 import { deleteRung } from "../../store/actions";
+import { hasDestructiveChild } from "./Branch";
+
+const findExtraLandingPadLoc = (state, id) => {
+  const ele = getRungElement(state, id);
+
+  const destructives = ele.children.map((child) =>
+    hasDestructiveChild(state, child)
+  );
+
+  const index = destructives.indexOf(true);
+  return index > -1 ? index : 0;
+};
 
 export default function Rung({ id, state, number }) {
   const [mainRungWidth, setMainRungWidth] = useState(0);
@@ -15,6 +27,8 @@ export default function Rung({ id, state, number }) {
 
   const rung = getRungElement(state, id);
   const child = getRungChild(state, id);
+
+  const extraLandingPadLoc = findExtraLandingPadLoc(state, child.id);
 
   const handleClick = () => {
     setRungSelected(true);
@@ -54,8 +68,19 @@ export default function Rung({ id, state, number }) {
         >
           <div className="rung-line"></div>
           <div className="rung-instruction-wrapper rung-instruction-test">
+            {extraLandingPadLoc === 0 && (
+              <DragLandingPad
+                parent={child.id}
+                index={0}
+                extra={extraLandingPadLoc}
+              />
+            )}
             <DragLandingPad parent={child.id} index={child.children.length} />
-            <Branch id={child.id} state={state} />
+            <Branch
+              id={child.id}
+              state={state}
+              extraLandingPadLoc={extraLandingPadLoc}
+            />
           </div>
         </div>
       </div>
