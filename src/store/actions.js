@@ -39,6 +39,10 @@ export const deleteRung = (rung) => {
   delete state.rungs.byId[rung.id];
 };
 
+export const setDragState = (weAreDraggin) => {
+  store.weDraggin = weAreDraggin;
+};
+
 const deleteChildren = (ele, firstRun = true) => {
   const state = store.rungs;
 

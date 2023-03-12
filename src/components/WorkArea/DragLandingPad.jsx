@@ -1,22 +1,28 @@
+import { useSnapshot } from "valtio";
+import { store } from "../../store/store";
 import { addInstruction } from "../../store/actions";
+import { useEffect, useState } from "react";
 
 export default function DragLandingPad({ parent, index, extra }) {
+  const [goForLanding, setGoForLanding] = useState(false);
+
+  const { weDraggin } = useSnapshot(store);
+
+  useEffect(() => {
+    if (!weDraggin) setGoForLanding(false);
+  }, [weDraggin]);
+
   const goodToDrop = (e) => {
     e.preventDefault();
-    e.target.classList.add("go-for-landing");
+    setGoForLanding(true);
   };
   const abortLanding = (e) => {
-    e.target.classList.remove("go-for-landing");
+    setGoForLanding(false);
   };
   const overDragTarget = (e) => {
     e.preventDefault();
   };
   const dropped = (e) => {
-    [...document.querySelectorAll(".landing-pad")].forEach((ele) => {
-      ele.classList.add("hidden");
-      ele.classList.remove("go-for-landing");
-    });
-
     const instruction = JSON.parse(e.dataTransfer.getData("text/plain"));
 
     if (instruction.actionType === "add") {
@@ -39,15 +45,17 @@ export default function DragLandingPad({ parent, index, extra }) {
   if (extra >= 1) id = "extra-landing-pad";
 
   return (
-    <div
-      id={id}
-      className="landing-pad hidden"
-      onDragEnter={goodToDrop}
-      onDragOver={overDragTarget}
-      onDragLeave={abortLanding}
-      onDrop={dropped}
-    >
-      <div className="landing-beacon"></div>
-    </div>
+    weDraggin && (
+      <div
+        id={id}
+        className={"landing-pad" + (goForLanding ? " go-for-landing" : "")}
+        onDragEnter={goodToDrop}
+        onDragOver={overDragTarget}
+        onDragLeave={abortLanding}
+        onDrop={dropped}
+      >
+        <div className="landing-beacon"></div>
+      </div>
+    )
   );
 }
