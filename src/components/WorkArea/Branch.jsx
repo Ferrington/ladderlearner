@@ -3,6 +3,19 @@ import DragLandingPad from "./DragLandingPad";
 import { useRef, useLayoutEffect, useState } from "react";
 import { getRungElement } from "../../store/selectors";
 
+const hasDestructiveChild = (state, id) => {
+  const ele = getRungElement(state, id);
+
+  if (ele.type === "Instruction") return ele.isDestructive;
+
+  let result = false;
+  ele.children.forEach((child) => {
+    if (hasDestructiveChild(state, child)) result = true;
+  });
+
+  return result;
+};
+
 export default function Branch({ id, state }) {
   const [orHeight, setOrHeight] = useState(0);
   const orRef = useRef(null);
@@ -22,18 +35,6 @@ export default function Branch({ id, state }) {
       0
     );
     setOrHeight(height);
-
-    [...document.querySelectorAll(".or-destructive")].forEach((ele) =>
-      ele.classList.remove("or-destructive")
-    );
-    const destructive = [].filter.call(
-      document.querySelectorAll(".rung-or"),
-      (ele) => {
-        return ele.querySelector(".destructive");
-      }
-    );
-
-    destructive.forEach((ele) => ele.classList.add("or-destructive"));
   }, [state]);
 
   if (branch.type === "AND") {
@@ -53,10 +54,12 @@ export default function Branch({ id, state }) {
     );
   } else if (branch.type === "OR") {
     const landingPadIndex = parent.children.indexOf(id);
+    let classList = "rung-or";
+    classList += hasDestructiveChild(state, id) ? " or-destructive" : "";
 
     return (
       <div
-        className="rung-or"
+        className={classList}
         ref={orRef}
         style={{ "--line-height": `${orHeight}px` }}
       >
