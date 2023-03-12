@@ -97,7 +97,7 @@ export default function Branch({ id, state, extraLandingPadLoc, children }) {
                 "rung-branch" + (i === kids.length - 1 ? " last-branch" : "")
               }
             >
-              {i > 0 && <RungLine />}
+              {i > 0 && <RungLine branch={ele} />}
               <div className="rung-instruction-wrapper">
                 <DragLandingPad parent={ele.id} index={ele.children.length} />
                 {innards}

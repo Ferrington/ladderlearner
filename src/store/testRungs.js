@@ -23,7 +23,7 @@ export const testRungs = {
       id: "branch2",
       type: "OR",
       parent: "branch1",
-      children: ["branch3", "branch4"],
+      children: ["branch3", "branch4", "branch9"],
     },
     branch3: {
       id: "branch3",
@@ -60,6 +60,12 @@ export const testRungs = {
       type: "AND",
       parent: "branch6",
       children: ["instruction7", "instruction8"],
+    },
+    branch9: {
+      id: "branch9",
+      type: "AND",
+      parent: "branch2",
+      children: ["instruction9"],
     },
   },
   instructions: {
@@ -126,6 +132,14 @@ export const testRungs = {
       tag: "Tag 8",
       parent: "branch7",
       isDestructive: true,
+    },
+    instruction9: {
+      id: "instruction9",
+      type: "Instruction",
+      name: "XIO",
+      tag: "Tag 9",
+      parent: "branch8",
+      isDestructive: false,
     },
   },
 };

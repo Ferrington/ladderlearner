@@ -2,6 +2,31 @@ import { nanoid } from "nanoid";
 import { store } from "./store";
 import { getRungElement } from "./selectors";
 
+export const deleteBranch = (branch) => {
+  const state = store.rungs;
+  deleteChildren(branch);
+
+  const parent = state.branches[branch.parent];
+
+  parent.children = parent.children.filter((child) => child !== branch.id);
+  delete state.branches[branch.id];
+
+  if (parent.children.length === 1) {
+    const grandparent = state.branches[parent.parent];
+    const index = grandparent.children.indexOf(parent.id);
+    const leftovers = state.branches[parent.children[0]].children;
+
+    leftovers.forEach((id) => {
+      const ele = getRungElement(state, id);
+      ele.parent = grandparent.id;
+    });
+
+    delete state.branches[parent.children[0]];
+    delete state.branches[parent.id];
+    grandparent.children.splice(index, 1, ...[...leftovers]);
+  }
+};
+
 export const addInstruction = (instruction) => {
   const state = store.rungs;
   const newId = "instruction" + nanoid();

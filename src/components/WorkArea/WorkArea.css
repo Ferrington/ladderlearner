@@ -65,6 +65,7 @@
 }
 
 .rung-line {
+  position: relative;
   height: 2px;
   background: black;
   position: absolute;
@@ -72,6 +73,33 @@
   top: 40px;
   left: 0;
   right: 0;
+}
+
+.rung-line:before,
+.rung-line:after {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 20px;
+  top: -10px;
+  z-index: 3;
+}
+
+.rung-line:before {
+  left: -15px;
+}
+.rung-line:after {
+  right: -15px;
+}
+
+.rung-line-select {
+  position: absolute;
+  outline: 1px dashed black;
+  background: yellow;
+  width: 100%;
+  height: 10px;
+  top: -4px;
+  z-index: -1;
 }
 
 .rung-instruction-wrapper {
