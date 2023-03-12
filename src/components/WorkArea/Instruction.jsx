@@ -1,8 +1,10 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import DragLandingPad from "./DragLandingPad";
 import useOnClickOutside from "use-onclickoutside";
 import { getRungElement } from "../../store/selectors";
-import { deleteInstruction } from "../../store/actions";
+import { deleteInstruction, setDragState } from "../../store/actions";
+import { useSnapshot } from "valtio";
+import { store } from "../../store/store";
 
 export default function Instruction({ id, state, children }) {
   const instruction = getRungElement(state, id);
@@ -12,6 +14,13 @@ export default function Instruction({ id, state, children }) {
   const [tagSelected, setTagSelected] = useState(false);
   const instructionRef = useRef(null);
   const [instructionSelected, setInstructionSelected] = useState(false);
+  const [beingDragged, setBeingDragged] = useState(false);
+
+  const { weDraggin } = useSnapshot(store);
+
+  useEffect(() => {
+    if (!weDraggin) setBeingDragged(false);
+  }, [weDraggin]);
 
   useOnClickOutside(tagRef, () => {
     setTagSelected(false);
@@ -21,23 +30,18 @@ export default function Instruction({ id, state, children }) {
     setInstructionSelected(false);
   });
 
-  const drag = (e, data, path) => {
+  const drag = (e, data) => {
     data.actionType = "move";
-    data.path = path;
+    e.dataTransfer.dropEffect = "copy";
     e.dataTransfer.setData("text/plain", JSON.stringify(data));
-    e.target.classList.add("dragging");
-    [...document.querySelectorAll(".landing-pad")].forEach((ele) =>
-      ele.classList.remove("hidden")
-    );
-    e.target.querySelector(".landing-pad").classList.add("hidden");
+
+    setDragState(true);
+    setBeingDragged(true);
   };
 
   const dragEnd = (e) => {
-    e.target.classList.remove("dragging");
-    [...document.querySelectorAll(".landing-pad")].forEach((ele) => {
-      ele.classList.add("hidden");
-      ele.classList.remove("go-for-landing");
-    });
+    setDragState(false);
+    setBeingDragged(false);
   };
 
   const handleClick = (e) => {
@@ -57,6 +61,7 @@ export default function Instruction({ id, state, children }) {
   let instructionClass = "rung-instruction";
   instructionClass += instructionSelected ? " selected" : "";
   instructionClass += instruction.isDestructive ? " destructive" : "";
+  instructionClass += beingDragged ? " dragging" : "";
 
   let h5Class = "";
   h5Class += tagSelected ? " selected" : "";
@@ -70,7 +75,7 @@ export default function Instruction({ id, state, children }) {
       onKeyDown={handleKeyPress}
       tabIndex={0}
       draggable="true"
-      onDragStart={(e) => drag(e, instruction, null)}
+      onDragStart={(e) => drag(e, instruction)}
       onDragEnd={dragEnd}
     >
       <DragLandingPad parent={parent.id} index={parent.children.indexOf(id)} />

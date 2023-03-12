@@ -1,6 +1,6 @@
 import { useSnapshot } from "valtio";
 import { store } from "../../store/store";
-import { addInstruction } from "../../store/actions";
+import { addInstruction, moveInstruction } from "../../store/actions";
 import { useEffect, useState } from "react";
 
 export default function DragLandingPad({ parent, index, extra }) {
@@ -31,13 +31,14 @@ export default function DragLandingPad({ parent, index, extra }) {
         parent,
         index,
       });
+    } else if (instruction.actionType === "move") {
+      moveInstruction({
+        ...instruction,
+        newParent: parent,
+        oldParent: instruction.parent,
+        index,
+      });
     }
-    // else if (instruction.actionType === "move")
-    //   dispatch({
-    //     type: "moved",
-    //     path,
-    //     instruction,
-    //   });
   };
 
   let id = null;

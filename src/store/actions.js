@@ -28,6 +28,26 @@ export const deleteInstruction = (instruction) => {
   delete state.instructions[instruction.id];
 };
 
+export const moveInstruction = (instruction) => {
+  const state = store.rungs;
+
+  const addInstruct = {
+    ...instruction,
+    parent: instruction.newParent,
+  };
+
+  addInstruction(addInstruct);
+
+  const oldInstruct = {
+    ...instruction,
+    parent: instruction.oldParent,
+  };
+
+  deleteInstruction(oldInstruct);
+
+  setDragState(false);
+};
+
 export const deleteRung = (rung) => {
   const state = store.rungs;
   deleteChildren(state.branches[rung.child]);

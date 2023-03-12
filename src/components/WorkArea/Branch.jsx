@@ -2,6 +2,7 @@ import Instruction from "./Instruction";
 import DragLandingPad from "./DragLandingPad";
 import { useRef, useLayoutEffect, useState } from "react";
 import { getRungElement } from "../../store/selectors";
+import RungLine from "./RungLine";
 
 export const hasDestructiveChild = (state, id) => {
   const ele = getRungElement(state, id);
@@ -96,7 +97,7 @@ export default function Branch({ id, state, extraLandingPadLoc, children }) {
                 "rung-branch" + (i === kids.length - 1 ? " last-branch" : "")
               }
             >
-              {i > 0 && <div className="rung-line"></div>}
+              {i > 0 && <RungLine />}
               <div className="rung-instruction-wrapper">
                 <DragLandingPad parent={ele.id} index={ele.children.length} />
                 {innards}
