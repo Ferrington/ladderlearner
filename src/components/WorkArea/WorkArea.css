@@ -1,6 +1,7 @@
 .rung {
   padding-inline: 10px;
   display: grid;
+  position: relative;
   grid-template-columns: 50px auto;
   grid-template-rows: auto auto;
   min-height: 50px;
@@ -11,17 +12,19 @@
   margin-top: 20px;
 }
 
-.rung > div {
+.rung > div:not(.rung-landing-pad) {
   display: inline-block;
 }
 
 .rung-number {
+  position: relative;
   grid-column: 1 / 2;
   grid-row: 2 / 3;
   padding-block-start: 32px;
   width: 100%;
   height: 80%;
   text-align: center;
+  cursor: pointer;
 }
 
 .rung-comment {
@@ -153,6 +156,22 @@
 .rung-branch {
   position: relative;
   min-height: 50px;
+}
+
+.rung-landing-pad {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50px;
+  outline: 1px solid lime;
+  bottom: -30px;
+}
+
+.rung-landing-pad.first-pad {
+  bottom: auto;
+  top: -10px;
 }
 
 .landing-pad {

@@ -98,6 +98,15 @@ export const moveInstruction = (instruction) => {
   setDragState(false);
 };
 
+export const moveRung = (rung) => {
+  let state = store.rungs.rungs.allIds;
+  const prevIndex = state.indexOf(rung.id);
+  const newIndex =
+    rung.newIndex > prevIndex ? rung.newIndex - 1 : rung.newIndex;
+
+  state = arrayMove(state, prevIndex, newIndex);
+};
+
 export const deleteRung = (rung) => {
   const state = store.rungs;
   deleteChildren(state.branches[rung.child]);
@@ -111,6 +120,10 @@ export const deleteRung = (rung) => {
 
 export const setDragState = (weAreDraggin) => {
   store.weDraggin = weAreDraggin;
+};
+
+export const setRungDragState = (weAreDraggin) => {
+  store.weDragginRungs = weAreDraggin;
 };
 
 const deleteChildren = (ele, firstRun = true) => {
@@ -130,4 +143,12 @@ const isDestructive = (name) => {
   const destructiveList = ["OTE", "OTL", "OTU"];
 
   return destructiveList.includes(name);
+};
+
+const arrayMove = (array, oldIndex, newIndex) => {
+  if (newIndex >= array.length) {
+    newIndex = array.length - 1;
+  }
+  array.splice(newIndex, 0, array.splice(oldIndex, 1)[0]);
+  return array;
 };

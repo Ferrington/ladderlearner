@@ -7,8 +7,13 @@ const initialState = localStorageString
   ? JSON.parse(localStorageString)
   : { rungs: testRungs, weDraggin: false };
 
-export const store = proxy(initialState);
+export const store = proxy({
+  rungs: testRungs,
+  weDraggin: false,
+  weDragginRungs: false,
+});
 
 subscribe(store, () => {
-  localStorage.setItem("store", JSON.stringify(store));
+  // localStorage.setItem("store", JSON.stringify(store));
+  localStorage.clear();
 });

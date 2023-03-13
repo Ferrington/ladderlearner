@@ -1,11 +1,14 @@
 import DragLandingPad from "./DragLandingPad";
+import RungDragLandingPad from "./RungDragLandingPax";
 import Branch from "./Branch";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import useWindowSize from "../../hooks/useWindowSize";
 import useOnClickOutside from "use-onclickoutside";
 import { getRungElement, getRungChild } from "../../store/selectors";
-import { deleteRung } from "../../store/actions";
+import { deleteRung, setRungDragState } from "../../store/actions";
 import { hasDestructiveChild } from "./Branch";
+import { useSnapshot } from "valtio";
+import { store } from "../../store/store";
 
 const findExtraLandingPadLoc = (state, id) => {
   const ele = getRungElement(state, id);
@@ -19,17 +22,29 @@ const findExtraLandingPadLoc = (state, id) => {
 };
 
 export default function Rung({ id, state, number }) {
-  const [mainRungWidth, setMainRungWidth] = useState(0);
-  const codeRef = useRef(null);
-  const rungRef = useRef(null);
-  const windowSize = useWindowSize();
+  // local state
   const [rungSelected, setRungSelected] = useState(false);
   const [lookinClickable, setLookinClickable] = useState(false);
+  const [beingDragged, setBeingDragged] = useState(false);
+  const [mainRungWidth, setMainRungWidth] = useState(0);
+  const [target, setTarget] = useState(null);
 
+  // derived state
   const rung = getRungElement(state, id);
   const child = getRungChild(state, id);
-
   const extraLandingPadLoc = findExtraLandingPadLoc(state, child.id);
+  const { weDragginRungs } = useSnapshot(store);
+
+  // refs
+  const codeRef = useRef(null);
+  const rungRef = useRef(null);
+
+  // misc
+  const windowSize = useWindowSize();
+
+  useEffect(() => {
+    if (!weDragginRungs) setBeingDragged(false);
+  }, [weDragginRungs]);
 
   const handleClick = () => {
     setRungSelected(true);
@@ -50,6 +65,25 @@ export default function Rung({ id, state, number }) {
     setLookinClickable(false);
   };
 
+  const drag = (e, data, rungRef) => {
+    if (!rungRef.current.contains(target)) {
+      e.preventDefault();
+      return;
+    }
+
+    data.actionType = "move";
+    e.dataTransfer.dropEffect = "copy";
+    e.dataTransfer.setData("text/plain", JSON.stringify(data));
+
+    setRungDragState(true);
+    setBeingDragged(true);
+  };
+
+  const dragEnd = (e) => {
+    setRungDragState(false);
+    setBeingDragged(false);
+  };
+
   useOnClickOutside(rungRef, () => {
     setRungSelected(false);
   });
@@ -61,9 +95,16 @@ export default function Rung({ id, state, number }) {
   let rungClass = "rung";
   rungClass += rungSelected ? " selected" : "";
   rungClass += lookinClickable ? " clickable" : "";
+  rungClass += beingDragged ? " dragging" : "";
 
   return (
-    <div className={rungClass}>
+    <div
+      className={rungClass}
+      draggable="true"
+      onDragStart={(e) => drag(e, rung, rungRef)}
+      onDragEnd={dragEnd}
+      onMouseDown={(e) => setTarget(e.target)}
+    >
       <div
         ref={rungRef}
         className="rung-number"
@@ -73,6 +114,8 @@ export default function Rung({ id, state, number }) {
         onMouseLeave={dontLookClickable}
         tabIndex={0}
       >
+        {number === 1 && <RungDragLandingPad rung={0} />}
+        <RungDragLandingPad rung={number} />
         {number}
       </div>
       <div className="rung-comment"></div>
