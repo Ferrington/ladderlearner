@@ -25,9 +25,6 @@ export const addBranch = (branch) => {
       children: [],
     };
   });
-
-  const out = JSON.parse(JSON.stringify(state));
-  console.log(out);
 };
 
 export const deleteBranch = (branch) => {
