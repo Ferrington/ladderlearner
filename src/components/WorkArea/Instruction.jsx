@@ -88,6 +88,10 @@ export default function Instruction({ id, state, children }) {
   h5Class += instruction.tag == null ? " unassigned" : "";
   h5Class += tagLookinClickable ? " clickable" : "";
 
+  if (parent == null) {
+    console.log(instruction);
+  }
+
   return (
     <div
       ref={instructionRef}

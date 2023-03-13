@@ -2,6 +2,10 @@ import { nanoid } from "nanoid";
 import { store } from "./store";
 import { getRungElement } from "./selectors";
 
+export const addBranch = (branch) => {
+  console.log(branch);
+};
+
 export const deleteBranch = (branch) => {
   const state = store.rungs;
   deleteChildren(branch);
@@ -28,6 +32,8 @@ export const deleteBranch = (branch) => {
 };
 
 export const addInstruction = (instruction) => {
+  if (instruction.name === "Branch") return addBranch(instruction);
+
   const state = store.rungs;
   const newId = "instruction" + nanoid();
 
@@ -93,6 +99,7 @@ const deleteChildren = (ele, firstRun = true) => {
     ele.children
       .map((child) => getRungElement(state, child))
       .forEach((child) => deleteChildren(child, false));
+  else delete state.instructions[ele.id];
 
   if (!firstRun) delete state.branches[ele.id];
   else state.branches[ele.id].children = [];

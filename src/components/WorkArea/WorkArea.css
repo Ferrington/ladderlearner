@@ -212,9 +212,10 @@
   opacity: 0.5;
 }
 
-.destructive:not(.destructive + .destructive) {
+.destructive:not(.destructive + .destructive, .or-destructive + .destructive) {
   margin-left: auto;
 }
+
 .or-destructive {
   margin-left: auto !important;
 }
