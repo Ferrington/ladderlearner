@@ -3,7 +3,31 @@ import { store } from "./store";
 import { getRungElement } from "./selectors";
 
 export const addBranch = (branch) => {
-  console.log(branch);
+  const state = store.rungs;
+  const newId = "branch" + nanoid();
+  const childIds = ["branch" + nanoid(), "branch" + nanoid()];
+
+  const parent = state.branches[branch.parent];
+  parent.children.splice(branch.index, 0, newId);
+
+  state.branches[newId] = {
+    id: newId,
+    type: "OR",
+    parent: parent.id,
+    children: childIds,
+  };
+
+  childIds.forEach((childId) => {
+    state.branches[childId] = {
+      id: childId,
+      type: "AND",
+      parent: newId,
+      children: [],
+    };
+  });
+
+  const out = JSON.parse(JSON.stringify(state));
+  console.log(out);
 };
 
 export const deleteBranch = (branch) => {
