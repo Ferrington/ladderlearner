@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSnapshot } from "valtio";
 import { store } from "../../store/store";
 import { moveRung } from "../../store/actions";
 
 export default function RungDragLandingPad({ rung }) {
   const [goForLanding, setGoForLanding] = useState(false);
-
   const { weDragginRungs } = useSnapshot(store);
+  const padRef = useRef(null);
 
   useEffect(() => {
     if (!weDragginRungs) setGoForLanding(false);
@@ -24,7 +24,6 @@ export default function RungDragLandingPad({ rung }) {
   };
   const dropped = (e) => {
     const data = JSON.parse(e.dataTransfer.getData("text/plain"));
-    console.log("dropped!", rung, data);
     moveRung({
       ...data,
       newIndex: rung,
@@ -36,14 +35,17 @@ export default function RungDragLandingPad({ rung }) {
   classList += goForLanding ? " go-for-landing" : "";
 
   return (
-    <div
-      className={classList}
-      onDragEnter={goodToDrop}
-      onDragOver={overDragTarget}
-      onDragLeave={abortLanding}
-      onDrop={dropped}
-    >
-      <div className="landing-beacon"></div>
-    </div>
+    weDragginRungs && (
+      <div
+        ref={padRef}
+        className={classList}
+        onDragEnter={goodToDrop}
+        onDragOver={overDragTarget}
+        onDragLeave={abortLanding}
+        onDrop={dropped}
+      >
+        <div className="landing-beacon"></div>
+      </div>
+    )
   );
 }

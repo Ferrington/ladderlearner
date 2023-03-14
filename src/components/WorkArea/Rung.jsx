@@ -1,5 +1,5 @@
 import DragLandingPad from "./DragLandingPad";
-import RungDragLandingPad from "./RungDragLandingPax";
+import RungDragLandingPad from "./RungDragLandingPad";
 import Branch from "./Branch";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import useWindowSize from "../../hooks/useWindowSize";
