@@ -1,13 +1,14 @@
 import TagNestedRow from '@/features/TagManager/TagNestedRow';
+import { useTagRow } from '@/features/TagManager/hooks/useTagRow';
+import { deleteTag } from '@/store/tag/tagSlice';
 import { CounterTag, Tag, TimerTag } from '@/types';
 import { formatTagValue } from '@/utils/formatTagValue';
-import { isNumeric } from '@/utils/isNumeric';
 import { DraggableAttributes } from '@dnd-kit/core';
 import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
-import { useClickOutside } from '@mantine/hooks';
 import clsx from 'clsx';
-import { ChangeEvent, KeyboardEvent, LegacyRef, MouseEvent, forwardRef, useState } from 'react';
+import { LegacyRef, forwardRef, useState } from 'react';
 import { RiArrowRightSLine, RiDeleteBinLine, RiDraggable } from 'react-icons/ri';
+import { useDispatch } from 'react-redux';
 import styles from './styles/TagRow.module.css';
 
 type DraggableStyle = {
@@ -28,46 +29,17 @@ function _TagRow(
   { tag, style, listeners, attributes, dragging, dragOverlay }: Props,
   ref: LegacyRef<HTMLDivElement>,
 ) {
-  const [editMode, setEditMode] = useState(false);
+  const dispatch = useDispatch();
+
+  const { editMode, inputValue, inputRef, handleChange, handleClick, handleInputKeypress } =
+    useTagRow({ name: tag.name, initialValue: tag.type === 'number' ? tag.value : undefined });
+
   const [dropdownExpanded, setDropdownExpanded] = useState(false);
-  const [inputValue, setInputValue] = useState<string>(formatTagValue(tag));
-  const inputRef = useClickOutside(() => cancelInput());
   // const { runSimulation } = useSnapshot(store);
 
-  function cancelInput() {
-    setInputValue(formatTagValue(tag));
-    setEditMode(false);
-  }
-
-  function handleCommit() {
-    if (isNumeric(inputValue)) {
-      //update tag
-      setEditMode(false);
-    }
-  }
-
-  function handleClick(e: MouseEvent) {
-    e.stopPropagation();
-    if (tag.type === 'number') {
-      setEditMode(true);
-    }
-
-    // if bool toggle
-  }
-
   function handleDelete() {
-    // delete tag if simulation not running
-  }
-
-  function handleInputKeyPress(e: KeyboardEvent) {
-    e.stopPropagation();
-
-    if (e.key === 'Enter') handleCommit();
-    if (e.key === 'Escape') cancelInput();
-  }
-
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    setInputValue(e.target.value);
+    // TODO check if simulation running before delete
+    dispatch(deleteTag(tag.name));
   }
 
   function createNestedRows(tag: CounterTag | TimerTag) {
@@ -87,7 +59,7 @@ function _TagRow(
         value={inputValue}
         maxLength={6}
         onChange={handleChange}
-        onKeyDown={handleInputKeyPress}
+        onKeyDown={handleInputKeypress}
       />
     );
   else value = formatTagValue(tag);

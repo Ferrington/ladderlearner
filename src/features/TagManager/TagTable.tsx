@@ -6,7 +6,7 @@ import styles from './styles/TagTable.module.css';
 // import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 // import { useState } from 'react';
 
-// const items: Tag[] = [
+// const tags: Tag[] = [
 //   { name: 'Tag 1', type: 'bool', value: true },
 //   { name: 'Tag 2', type: 'bool', value: false },
 //   { name: 'Tag 3', type: 'number', value: 5 },
