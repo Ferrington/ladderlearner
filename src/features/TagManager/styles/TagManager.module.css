@@ -1,0 +1,22 @@
+.tag-manager {
+  border-right: var(--section-border);
+  overflow-y: auto;
+  padding-bottom: 40px;
+}
+
+.add-task {
+  padding-left: 26px;
+  padding-top: 20px;
+  font-size: 14px;
+}
+
+.add-task:hover {
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.add-task-icon {
+  position: relative;
+  top: 2px;
+  margin-right: 5px;
+}

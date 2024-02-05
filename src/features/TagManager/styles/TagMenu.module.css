@@ -1,0 +1,18 @@
+.tag-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-inline: 20px;
+  padding-top: 20px;
+}
+
+.button-wrapper {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.button-label {
+  color: black;
+  font-weight: normal;
+}
