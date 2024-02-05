@@ -1,4 +1,6 @@
-import { Tag } from '@/types';
+import TagNestedRow from '@/features/TagManager/TagNestedRow';
+import { CounterTag, Tag, TimerTag } from '@/types';
+import { formatTagValue } from '@/utils/formatTagValue';
 import { isNumeric } from '@/utils/isNumeric';
 import { DraggableAttributes } from '@dnd-kit/core';
 import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
@@ -9,8 +11,8 @@ import { RiArrowRightSLine, RiDeleteBinLine, RiDraggable } from 'react-icons/ri'
 import styles from './styles/TagRow.module.css';
 
 type DraggableStyle = {
-  transform: string;
-  transition: string;
+  transform: string | undefined;
+  transition: string | undefined;
 };
 
 type Props = {
@@ -22,31 +24,18 @@ type Props = {
   dragOverlay?: boolean;
 };
 
-function formatValue(tag: Tag) {
-  switch (tag.type) {
-    case 'bool':
-      return tag.value ? 'True' : 'False';
-    case 'number':
-      return String(tag.value);
-    case 'counter':
-      return 'Counter';
-    case 'timer':
-      return 'Timer';
-  }
-}
-
 function _TagRow(
   { tag, style, listeners, attributes, dragging, dragOverlay }: Props,
   ref: LegacyRef<HTMLDivElement>,
 ) {
   const [editMode, setEditMode] = useState(false);
   const [dropdownExpanded, setDropdownExpanded] = useState(false);
-  const [inputValue, setInputValue] = useState<string>(formatValue(tag));
+  const [inputValue, setInputValue] = useState<string>(formatTagValue(tag));
   const inputRef = useClickOutside(() => cancelInput());
   // const { runSimulation } = useSnapshot(store);
 
   function cancelInput() {
-    setInputValue(formatValue(tag));
+    setInputValue(formatTagValue(tag));
     setEditMode(false);
   }
 
@@ -81,18 +70,10 @@ function _TagRow(
     setInputValue(e.target.value);
   }
 
-  function createNestedRows() {
+  function createNestedRows(tag: CounterTag | TimerTag) {
     return Object.keys(tag.value)
       .filter((key) => key !== 'startTime')
-      .map(
-        () => 'test',
-        // <TagNestedRow
-        //   key={key}
-        //   myKey={key}
-        //   instructType={tag.value}
-        //   tag={tag}
-        // />
-      );
+      .map((key) => <TagNestedRow key={key} name={key} tag={tag} />);
   }
 
   let value;
@@ -109,43 +90,43 @@ function _TagRow(
         onKeyDown={handleInputKeyPress}
       />
     );
-  else value = formatValue(tag);
+  else value = formatTagValue(tag);
 
   let row;
   if (tag.type === 'counter' || tag.type === 'timer')
     row = (
       <>
         <RiArrowRightSLine
-          className="table-row--dropdown-control"
+          className={styles['dropdown-control']}
           style={{
             rotate: dropdownExpanded ? '90deg' : '0deg',
           }}
           size="1.25em"
           onClick={() => setDropdownExpanded(!dropdownExpanded)}
         />
-        <span className="table-row--col-a">{tag.name}</span>
-        <span className="table-row--col-b">{value}</span>
+        <span>{tag.name}</span>
+        <span className={styles['col-b']}>{value}</span>
         {!dragOverlay && (
           <RiDeleteBinLine
-            className="table-row--delete-icon"
+            className={styles['delete-icon']}
             size="1.25em"
             onClick={handleDelete}
             title="Delete Tag"
           />
         )}
-        {dropdownExpanded && (tag.type === 'counter' || tag.type === 'timer') && createNestedRows()}
+        {dropdownExpanded && createNestedRows(tag)}
       </>
     );
   else
     row = (
       <>
-        <span className="table-row--col-a">{tag.name}</span>
-        <span className="table-row--col-b editable" onClick={handleClick}>
+        <span>{tag.name}</span>
+        <span className={clsx(styles['col-b'], styles['editable'])} onClick={handleClick}>
           {value}
         </span>
         {!dragOverlay && (
           <RiDeleteBinLine
-            className="table-row--delete-icon"
+            className={styles['delete-icon']}
             size="1.25em"
             onClick={handleDelete}
             title="Delete Tag"
@@ -167,7 +148,7 @@ function _TagRow(
       <RiDraggable
         style={{ cursor: dragOverlay ? 'grabbing' : 'grab' }}
         size="1.25em"
-        className="table-row--drag-handle"
+        className={styles['drag-handle']}
         {...listeners}
       />
       {row}
