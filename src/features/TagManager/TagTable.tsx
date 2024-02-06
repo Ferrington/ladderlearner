@@ -1,30 +1,55 @@
-// import { KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import SortableTagRow from '@/features/TagManager/SortableTagRow';
+import TagRow from '@/features/TagManager/TagRow';
 import { selectTagsAsList } from '@/store/tag/tagSelectors';
-import { useSelector } from 'react-redux';
+import { setTagOrder } from '@/store/tag/tagSlice';
+import { Tag } from '@/types';
+import {
+  DndContext,
+  DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
+  KeyboardSensor,
+  PointerSensor,
+  UniqueIdentifier,
+  closestCenter,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles/TagTable.module.css';
-// import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-// import { useState } from 'react';
-
-// const tags: Tag[] = [
-//   { name: 'Tag 1', type: 'bool', value: true },
-//   { name: 'Tag 2', type: 'bool', value: false },
-//   { name: 'Tag 3', type: 'number', value: 5 },
-//   { name: 'Tag 4', type: 'number', value: 10 },
-//   { name: 'Tag 5', type: 'counter', value: { pre: 5, acc: 0, dn: false } },
-// ];
 
 export default function TagTable() {
-  // const [activeId, setActiveId] = useState<string | null>(null);
-  // const [items, setItems] = useState(tags.map((tag) => tag.name));
+  const dispatch = useDispatch();
+
+  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const tags = useSelector(selectTagsAsList);
 
-  // const sensors = useSensors(
-  //   useSensor(PointerSensor),
-  //   useSensor(KeyboardSensor, {
-  //     coordinateGetter: sortableKeyboardCoordinates,
-  //   }),
-  // );
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  function handleDragStart(e: DragStartEvent) {
+    setActiveId(e.active.id);
+  }
+
+  function handleDragEnd(e: DragEndEvent) {
+    setActiveId(null);
+
+    const { active, over } = e;
+    if (over == null || active.id === over.id) return;
+
+    dispatch(setTagOrder({ from: active.id as string, to: over.id as string }));
+  }
 
   return (
     <div className={styles['tag-table']}>
@@ -32,9 +57,23 @@ export default function TagTable() {
         <span className={styles['header-tag']}>Tag</span>
         <span className={styles['header-value']}>Value</span>
       </div>
-      {tags.map((tag) => (
-        <SortableTagRow key={tag.name} id={tag.name} tag={tag} />
-      ))}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext items={tags.map((tag) => tag.name)} strategy={verticalListSortingStrategy}>
+          {tags.map((tag) => (
+            <SortableTagRow key={tag.name} id={tag.name} tag={tag} />
+          ))}
+        </SortableContext>
+        <DragOverlay modifiers={[restrictToVerticalAxis]}>
+          {activeId ? (
+            <TagRow tag={tags.find((tag) => tag.name === activeId) as Tag} dragOverlay />
+          ) : null}
+        </DragOverlay>
+      </DndContext>
     </div>
   );
 }

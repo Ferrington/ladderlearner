@@ -1,5 +1,6 @@
 import { Counter, Tag, Timer } from '@/types';
 import { createNewTag } from '@/utils/createNewTag';
+import { arrayMove } from '@dnd-kit/sortable';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export type TagSlice = {
@@ -21,6 +22,11 @@ type SetTagPayload = {
 type ToggleTagPayload = {
   name: string;
   key?: string;
+};
+
+type ReorderTagPayload = {
+  from: string;
+  to: string;
 };
 
 const tagSlice = createSlice({
@@ -69,9 +75,17 @@ const tagSlice = createSlice({
       state.allIds = state.allIds.filter((id) => id !== action.payload);
       delete state.byId[action.payload];
     },
+    setTagOrder(state, action: PayloadAction<ReorderTagPayload>) {
+      const { from, to } = action.payload;
+      const fromIndex = state.allIds.indexOf(from);
+      const toIndex = state.allIds.indexOf(to);
+      const nextOrder = arrayMove(state.allIds, fromIndex, toIndex);
+
+      state.allIds = nextOrder;
+    },
   },
 });
 
-export const { addTag, setTagValue, toggleTagValue, deleteTag } = tagSlice.actions;
+export const { addTag, setTagValue, toggleTagValue, deleteTag, setTagOrder } = tagSlice.actions;
 
 export const tagReducer = tagSlice.reducer;
