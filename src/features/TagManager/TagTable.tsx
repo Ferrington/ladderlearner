@@ -1,55 +1,14 @@
 import SortableTagRow from '@/features/TagManager/SortableTagRow';
 import TagRow from '@/features/TagManager/TagRow';
-import { selectTagsAsList } from '@/store/tag/tagSelectors';
-import { setTagOrder } from '@/store/tag/tagSlice';
+import { useTagTable } from '@/features/TagManager/hooks/useTagTable';
 import { Tag } from '@/types';
-import {
-  DndContext,
-  DragEndEvent,
-  DragOverlay,
-  DragStartEvent,
-  KeyboardSensor,
-  PointerSensor,
-  UniqueIdentifier,
-  closestCenter,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
+import { DndContext, DragOverlay, closestCenter } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
-import {
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import styles from './styles/TagTable.module.css';
 
 export default function TagTable() {
-  const dispatch = useDispatch();
-
-  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
-  const tags = useSelector(selectTagsAsList);
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  );
-
-  function handleDragStart(e: DragStartEvent) {
-    setActiveId(e.active.id);
-  }
-
-  function handleDragEnd(e: DragEndEvent) {
-    setActiveId(null);
-
-    const { active, over } = e;
-    if (over == null || active.id === over.id) return;
-
-    dispatch(setTagOrder({ from: active.id as string, to: over.id as string }));
-  }
+  const { activeId, tags, sensors, handleDragStart, handleDragEnd } = useTagTable();
 
   return (
     <div className={styles['tag-table']}>
