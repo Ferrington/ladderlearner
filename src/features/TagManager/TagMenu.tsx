@@ -11,7 +11,7 @@ export default function TagMenu({ hideMenu }: Props) {
     useTagMenu();
 
   return (
-    <div className={styles['tag-menu']}>
+    <div className={styles['tag-menu']} data-testid="tag-menu">
       <TextInput
         size="xs"
         error={error}
@@ -21,6 +21,7 @@ export default function TagMenu({ hideMenu }: Props) {
         onChange={handleNameChange}
         onKeyDown={handleNameKeyPress}
         placeholder={'Tag Name'}
+        data-testid="tag-name"
       />
       <Select
         onChange={setType}
@@ -32,6 +33,7 @@ export default function TagMenu({ hideMenu }: Props) {
           { value: 'timer', label: 'Timer' },
         ]}
         value={type}
+        data-testid="tag-type"
       />
       <div className={styles['button-wrapper']}>
         <Button
@@ -39,6 +41,7 @@ export default function TagMenu({ hideMenu }: Props) {
           color="gray.4"
           size="xs"
           onClick={() => hideMenu()}
+          data-testid="close-tag-menu-button"
         >
           Cancel
         </Button>
@@ -47,6 +50,7 @@ export default function TagMenu({ hideMenu }: Props) {
           color="orange.4"
           size="xs"
           onClick={createTag}
+          data-testid="create-tag-button"
         >
           Add
         </Button>

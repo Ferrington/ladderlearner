@@ -1,10 +1,14 @@
 import { tagReducer } from '@/store/tag/tagSlice';
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-export const store = configureStore({
-  reducer: {
-    tags: tagReducer,
-  },
-});
+const rootReducer = combineReducers({ tags: tagReducer });
 
-export type RootState = ReturnType<typeof store.getState>;
+export function setupStore(preloadedState?: Partial<RootState>) {
+  return configureStore({
+    reducer: rootReducer,
+    preloadedState,
+  });
+}
+
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setupStore>;

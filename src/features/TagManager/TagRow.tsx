@@ -92,7 +92,7 @@ function _TagRow(
   else
     row = (
       <>
-        <span>{tag.name}</span>
+        <span data-testid="tag-row-name">{tag.name}</span>
         <span className={clsx(styles['col-b'], styles['editable'])} onClick={handleClick}>
           {value}
         </span>

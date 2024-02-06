@@ -12,7 +12,11 @@ export default function TagManager() {
     menu = <TagMenu hideMenu={() => setShowMenu(false)} />;
   } else {
     menu = (
-      <div className={styles['add-task']} onClick={() => setShowMenu(true)}>
+      <div
+        className={styles['add-task']}
+        onClick={() => setShowMenu(true)}
+        data-testid="show-menu-button"
+      >
         <RiAddLine className={styles['add-task-icon']} />
         Add Tag
       </div>
