@@ -1,4 +1,4 @@
-import TagManager from '@/features/TagManager/TagManager';
+import TagManager from '@/features/TagManager/components/TagManager';
 import { renderWithProviders } from '@/test/renderWithProviders';
 import { fireEvent, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';

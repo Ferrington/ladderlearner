@@ -1,11 +1,11 @@
-import SortableTagRow from '@/features/TagManager/SortableTagRow';
-import TagRow from '@/features/TagManager/TagRow';
+import SortableTagRow from '@/features/TagManager/components/SortableTagRow';
+import TagRow from '@/features/TagManager/components/TagRow';
 import { useTagTable } from '@/features/TagManager/hooks/useTagTable';
 import { Tag } from '@/types';
 import { DndContext, DragOverlay, closestCenter } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import styles from './styles/TagTable.module.css';
+import styles from '../styles/TagTable.module.css';
 
 export default function TagTable() {
   const { activeId, tags, sensors, handleDragStart, handleDragEnd } = useTagTable();

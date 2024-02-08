@@ -1,6 +1,6 @@
 import { useTagMenu } from '@/features/TagManager/hooks/useTagMenu';
 import { Button, Select, TextInput } from '@mantine/core';
-import styles from './styles/TagMenu.module.css';
+import styles from '../styles/TagMenu.module.css';
 
 type Props = {
   hideMenu: () => void;

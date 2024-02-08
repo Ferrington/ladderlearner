@@ -1,8 +1,8 @@
-import TagMenu from '@/features/TagManager/TagMenu';
-import TagTable from '@/features/TagManager/TagTable';
+import TagMenu from '@/features/TagManager/components/TagMenu';
+import TagTable from '@/features/TagManager/components/TagTable';
 import { useState } from 'react';
 import { RiAddLine } from 'react-icons/ri';
-import styles from './styles/TagManager.module.css';
+import styles from '../styles/TagManager.module.css';
 
 export default function TagManager() {
   const [showMenu, setShowMenu] = useState(false);

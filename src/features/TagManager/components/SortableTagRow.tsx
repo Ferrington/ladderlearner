@@ -1,4 +1,4 @@
-import TagRow from '@/features/TagManager/TagRow';
+import TagRow from '@/features/TagManager/components/TagRow';
 import { Tag } from '@/types';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';

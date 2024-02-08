@@ -1,6 +1,6 @@
 import { useTagRow } from '@/features/TagManager/hooks/useTagRow';
 import { Counter, CounterTag, Timer, TimerTag } from '@/types';
-import styles from './styles/TagRow.module.css';
+import styles from '../styles/TagRow.module.css';
 
 type Props = {
   name: string;

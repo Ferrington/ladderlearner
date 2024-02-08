@@ -1,4 +1,4 @@
-import TagTable from '@/features/TagManager/TagTable';
+import TagTable from '@/features/TagManager/components/TagTable';
 import { TagSlice } from '@/store/tag/tagSlice';
 import { renderWithProviders } from '@/test/renderWithProviders';
 import { screen } from '@testing-library/react';

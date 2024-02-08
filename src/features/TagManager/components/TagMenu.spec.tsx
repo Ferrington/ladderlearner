@@ -1,4 +1,4 @@
-import TagMenu from '@/features/TagManager/TagMenu';
+import TagMenu from '@/features/TagManager/components/TagMenu';
 import { AppStore } from '@/store';
 import { renderWithProviders } from '@/test/renderWithProviders';
 import { fireEvent, screen } from '@testing-library/react';

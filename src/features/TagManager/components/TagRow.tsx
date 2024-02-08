@@ -1,4 +1,4 @@
-import TagNestedRow from '@/features/TagManager/TagNestedRow';
+import TagNestedRow from '@/features/TagManager/components/TagNestedRow';
 import { useTagRow } from '@/features/TagManager/hooks/useTagRow';
 import { deleteTag } from '@/store/tag/tagSlice';
 import { CounterTag, Tag, TimerTag } from '@/types';
@@ -9,7 +9,7 @@ import clsx from 'clsx';
 import { LegacyRef, forwardRef, useState } from 'react';
 import { RiArrowRightSLine, RiDeleteBinLine, RiDraggable } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
-import styles from './styles/TagRow.module.css';
+import styles from '../styles/TagRow.module.css';
 
 type DraggableStyle = {
   transform: string | undefined;

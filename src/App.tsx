@@ -1,8 +1,9 @@
 import styles from '@/App.module.css';
 import '@/assets/base.css';
+import Workspace from '@/base/components/Workspace';
 import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
-import TagManager from './features/TagManager/TagManager';
+import TagManager from './features/TagManager/components/TagManager';
 
 export default function App() {
   return (
@@ -16,7 +17,9 @@ export default function App() {
             width={160}
           />
         </div>
-        <div>Workspace</div>
+        <div className={styles['workspace']}>
+          <Workspace />
+        </div>
         <TagManager />
       </MantineProvider>
     </div>
