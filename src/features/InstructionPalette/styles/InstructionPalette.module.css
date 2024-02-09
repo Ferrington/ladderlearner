@@ -1,0 +1,27 @@
+.instruction-palette-container {
+  border-bottom: var(--section-border);
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr 100px;
+}
+
+.rungs-branches {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  border-left: 0.125rem solid #dee2e6;
+}
+
+.panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  height: 127px;
+}
+
+.tabslist::before {
+  top: unset !important;
+  bottom: 0 !important;
+}

@@ -1,3 +1,4 @@
+import InstructionPalette from '@/features/InstructionPalette/components/InstructionPalette';
 import { Tabs } from '@mantine/core';
 import { RiInformationLine } from 'react-icons/ri';
 import styles from '../styles/Workspace.module.css';
@@ -18,8 +19,7 @@ export default function Workspace() {
       >
         <Tabs.Panel value="RoutineEditor">
           <div className="routine-editor-wrapper">
-            Workspace
-            {/* <InstructionPalette /> */}
+            <InstructionPalette />
             {/* <RoutineEditor /> */}
           </div>
         </Tabs.Panel>
