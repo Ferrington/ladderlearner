@@ -1,0 +1,32 @@
+.instruction {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.instruction :is(.selected, .clickable) {
+  cursor: pointer;
+}
+
+.instruction p {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-weight: normal;
+  font-size: 13px;
+}
+
+.instruction p.unassigned {
+  color: red;
+}
+
+.instruction .tag-edit {
+  display: block;
+}
+
+.img {
+  position: relative;
+  height: 16px;
+  display: inline-block;
+  z-index: 10;
+}

@@ -114,9 +114,9 @@ export default function Rung({ rungId, rungNumber }: Props) {
             )}
             <InstructionDropArea parent={child.id} index={child.children.length} /> */}
             <BranchAnd
-            // branchId={rung.child}
-            // routine={routine}
-            // extraLandingPadLoc={extraLandingPadLoc}
+              branchId={rung.child}
+              // routine={routine}
+              // extraLandingPadLoc={extraLandingPadLoc}
             />
           </div>
         </div>
