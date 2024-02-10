@@ -1,0 +1,39 @@
+.routine-editor {
+  position: relative;
+  box-sizing: border-box;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0 inset,
+    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 10px;
+  padding-top: 20px;
+  padding-bottom: 40vh;
+}
+
+.simulation-control-wrapper {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 50;
+}
+
+.simulation-control-background {
+  position: fixed;
+  border: 1px solid transparent;
+  border-radius: 15px;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  background: white;
+  cursor: pointer;
+}
+
+.start-simulation {
+  align-self: center;
+  margin-left: 2px;
+}
+
+.stop-simulation {
+  align-self: center;
+  margin-left: 3px;
+}

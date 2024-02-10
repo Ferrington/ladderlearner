@@ -1,4 +1,5 @@
 import InstructionPalette from '@/features/InstructionPalette/components/InstructionPalette';
+import RoutineEditor from '@/features/RoutineEditor/components/RoutineEditor';
 import { Tabs } from '@mantine/core';
 import { RiInformationLine } from 'react-icons/ri';
 import styles from '../styles/Workspace.module.css';
@@ -18,9 +19,9 @@ export default function Workspace() {
         inverted
       >
         <Tabs.Panel value="RoutineEditor">
-          <div className="routine-editor-wrapper">
+          <div className={styles['routine-editor-wrapper']}>
             <InstructionPalette />
-            {/* <RoutineEditor /> */}
+            <RoutineEditor />
           </div>
         </Tabs.Panel>
         <Tabs.Panel value="About">

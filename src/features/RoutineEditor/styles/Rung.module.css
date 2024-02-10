@@ -1,0 +1,116 @@
+.rung {
+  padding-left: 10px;
+  display: grid;
+  position: relative;
+  grid-template-columns: 73px auto;
+  grid-template-rows: auto auto;
+  min-height: 50px;
+  outline-offset: -5px;
+  border-radius: 20px;
+}
+
+.rung-number {
+  position: relative;
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+  padding-block-start: 32px;
+  padding-left: 45px;
+  width: 100%;
+  height: 50px;
+  align-self: start;
+}
+
+.comment {
+  grid-column: 2 / 3;
+  place-self: center;
+  text-align: center;
+}
+
+.delete,
+.edit-comment {
+  visibility: hidden;
+  position: absolute;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+}
+
+.delete {
+  top: 13px;
+  right: 35px;
+}
+
+.edit-comment {
+  top: 50px;
+  right: 35px;
+}
+
+.delete-icon:hover,
+.comment-icon:hover {
+  color: #ffa94d;
+}
+
+.delete.deletable,
+.edit-comment.deletable {
+  visibility: visible;
+}
+
+.code {
+  grid-column: 2 / 3;
+  align-self: center;
+  overflow-x: auto;
+  position: relative;
+  white-space: nowrap;
+  padding-bottom: 20px;
+  user-select: none;
+}
+
+.code:before {
+  display: inline-block;
+  height: 50px;
+  width: 2px;
+  border-right: 2px solid black;
+  vertical-align: top;
+  margin-top: 16px;
+  content: '';
+}
+
+.code::after {
+  display: inline-block;
+  height: 50px;
+  width: 2px;
+  border-left: 2px solid black;
+  vertical-align: top;
+  margin-top: 16px;
+  content: '';
+}
+
+.main-rung {
+  position: relative;
+  display: inline-block;
+  min-width: 94%;
+}
+
+.instruction-wrapper {
+  position: relative;
+  white-space: nowrap;
+  min-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 30px;
+  display: flex;
+  align-items: flex-start;
+  gap: 25px;
+  min-height: 1em;
+}
+
+.line {
+  height: 2px;
+  background: black;
+  position: absolute;
+  width: 100%;
+  top: 40px;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
