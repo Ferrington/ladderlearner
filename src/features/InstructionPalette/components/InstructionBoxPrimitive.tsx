@@ -22,7 +22,7 @@ export default function InstructionBoxPrimitive({ instructionId }: { instruction
       </div>
       <p className={styles.description}>{instruction.description}</p>
       <div className={styles['body-wrapper']}>
-        <div className="tag-holder">
+        <div>
           {Object.keys(instruction.parameters).map((key) => {
             const { value, hidden } = instruction.parameters[key];
             if (hidden) return null;

@@ -1,3 +1,4 @@
+import BoxDragOverlay from '@/features/RoutineEditor/components/BoxDragOverlay';
 import BranchOr from '@/features/RoutineEditor/components/BranchOr';
 import SpecialDragOverlay from '@/features/RoutineEditor/components/SpecialDragOverlay';
 import {
@@ -59,15 +60,13 @@ export default function BranchAnd({ branchId, children: componentChildren }: Pro
           //     extra={extraLandingPadLoc}
           //   />
           // );
-          // return (
-          //   <BoxDragOverlay
-          //     key={ele.id}
-          //     routine={routine}
-          //     instructionId={ele.id}
-          //     instructionChild={instructionChild}
-          //     destructive={destructiveLoc === i}
-          //   />
-          // );
+          return (
+            <BoxDragOverlay
+              key={ele.id}
+              instructionId={ele.id}
+              destructive={destructiveLoc === i}
+            />
+          );
         } else {
           throw new Error(`Unexpected child of BranchAnd: ${branchId}`);
         }

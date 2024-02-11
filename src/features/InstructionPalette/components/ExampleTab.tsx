@@ -4,6 +4,7 @@ import { useState } from 'react';
 import styles from '../styles/ExampleTab.module.css';
 
 const loadSample = async (sampleName: string) => {
+  sampleName;
   // let importedState;
   // if (sampleName === "motor") {
   //   const { state } = await import("store/preMadeStates/motor");
