@@ -1,0 +1,67 @@
+.line {
+  height: 2px;
+  background: black;
+  position: absolute;
+  width: 100%;
+  top: 40px;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.line:focus {
+  outline: none;
+}
+
+.line:before,
+.line:after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 20px;
+  top: -10px;
+  z-index: 3;
+}
+
+.line:before {
+  left: -15px;
+}
+
+.line:after {
+  right: -15px;
+}
+
+.line-delete {
+  visibility: hidden;
+  top: -25px;
+  left: -25px;
+  position: absolute;
+  width: 60px;
+  height: 30px;
+}
+
+.line-delete-icon:hover {
+  color: #ffa94d;
+}
+
+.line-delete.deletable {
+  visibility: visible;
+}
+
+.line-select {
+  position: absolute;
+  top: 36px;
+  outline: 2px dashed #ffa94d;
+  outline-offset: 5px;
+  width: calc(100%);
+  height: 10px;
+  border-radius: 10px;
+}
+
+.line-select.clickable {
+  background: none;
+}
+
+.line-clickable {
+  cursor: pointer;
+}

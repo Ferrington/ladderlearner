@@ -11,14 +11,14 @@ export type RoutineSlice = {
   instructions: Record<string, Instruction>;
 };
 
-type Rung = {
+export type Rung = {
   id: string;
   type: 'Rung';
   comment?: string;
   child: string;
 };
 
-type Branch = {
+export type Branch = {
   id: string;
   type: 'AND' | 'OR';
   parent: string;

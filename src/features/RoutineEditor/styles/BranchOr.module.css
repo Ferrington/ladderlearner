@@ -1,0 +1,44 @@
+.or {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.or:before,
+.or:after {
+  content: '';
+  width: 2px;
+  background: black;
+  display: block;
+  position: absolute;
+  top: 40px;
+  min-height: 50px;
+  /*noinspection CssUnresolvedCustomProperty*/
+  height: var(--line-height);
+}
+
+.or::after {
+  right: 0;
+}
+
+.branch {
+  position: relative;
+  min-height: 50px;
+}
+
+.destructive {
+  margin-left: auto;
+}
+
+.instruction-wrapper {
+  position: relative;
+  white-space: nowrap;
+  min-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 30px;
+  display: flex;
+  align-items: flex-start;
+  gap: 25px;
+  min-height: 1em;
+}

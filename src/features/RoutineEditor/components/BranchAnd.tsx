@@ -1,3 +1,4 @@
+import BranchOr from '@/features/RoutineEditor/components/BranchOr';
 import SpecialDragOverlay from '@/features/RoutineEditor/components/SpecialDragOverlay';
 import {
   selectBranchChildren,
@@ -22,22 +23,17 @@ export default function BranchAnd({ branchId, children: componentChildren }: Pro
         // const landingPadGoesHere = extraLandingPadLoc != null && extraLandingPadLoc - 1 === i;
 
         if (ele.type === 'OR') {
-          // return (
-          //   <BranchOr
-          //     key={ele.id}
-          //     branchId={ele.id}
-          //     routine={routine}
-          //     destructive={destructiveLoc === i}
-          //   >
-          //     {landingPadGoesHere && (
-          //       <InstructionDropArea
-          //         parent={branch.id}
-          //         index={extraLandingPadLoc}
-          //         extra={extraLandingPadLoc}
-          //       />
-          //     )}
-          //   </BranchOr>
-          // );
+          return (
+            <BranchOr key={ele.id} branchId={ele.id} destructive={destructiveLoc === i}>
+              {/* {landingPadGoesHere && (
+                <InstructionDropArea
+                  parent={branch.id}
+                  index={extraLandingPadLoc}
+                  extra={extraLandingPadLoc}
+                />
+              )} */}
+            </BranchOr>
+          );
         } else if (ele.type === 'Instruction' && ele.displayType === 'Special') {
           // const instructionChild = landingPadGoesHere && (
           //   <InstructionDropArea
