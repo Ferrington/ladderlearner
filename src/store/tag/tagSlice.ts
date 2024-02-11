@@ -1,4 +1,4 @@
-import { tagSlice as initialTagState } from '@/store/premade-states/motor';
+import { tagSlice as initialTagState } from '@/store/premade-states/trafficLight';
 import { Counter, Tag, Timer } from '@/types';
 import { createNewTag } from '@/utils/createNewTag';
 import { arrayMove } from '@dnd-kit/sortable';

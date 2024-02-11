@@ -1,4 +1,4 @@
-import { routineSlice as motorInitialState } from '@/store/premade-states/motor';
+import { routineSlice as trafficLightInitialState } from '@/store/premade-states/trafficLight';
 import { Instruction } from '@/types';
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -36,7 +36,7 @@ export type Branch = {
 
 const routineSlice = createSlice({
   name: 'routine',
-  initialState: motorInitialState,
+  initialState: trafficLightInitialState,
   reducers: {},
 });
 

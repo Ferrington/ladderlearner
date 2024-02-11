@@ -1,5 +1,9 @@
 import BitTab from '@/features/InstructionPalette/components/BitTab';
+import CompareTab from '@/features/InstructionPalette/components/CompareTab';
+import CountTimeTab from '@/features/InstructionPalette/components/CountTimeTab';
+import ExampleTab from '@/features/InstructionPalette/components/ExampleTab';
 import InstructionSpecialPrimitive from '@/features/InstructionPalette/components/InstructionSpecialPrimitive';
+import MathTab from '@/features/InstructionPalette/components/MathTab';
 import { useDroppable } from '@dnd-kit/core';
 import { Tabs } from '@mantine/core';
 import styles from '../styles/InstructionPalette.module.css';
@@ -35,23 +39,19 @@ export default function InstructionPalette() {
           </Tabs.Panel>
 
           <Tabs.Panel value="Compare">
-            {/* <CompareTab /> */}
-            Compare
+            <CompareTab />
           </Tabs.Panel>
 
           <Tabs.Panel value="Math">
-            {/* <MathTab /> */}
-            Math
+            <MathTab />
           </Tabs.Panel>
 
           <Tabs.Panel value="Count/Time">
-            {/* <TimeCountTab /> */}
-            TimeCount
+            <CountTimeTab />
           </Tabs.Panel>
 
           <Tabs.Panel value="Examples">
-            Examples
-            {/* <ExampleTab /> */}
+            <ExampleTab />
           </Tabs.Panel>
         </Tabs>
       </div>

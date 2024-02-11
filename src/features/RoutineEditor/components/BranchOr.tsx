@@ -35,7 +35,6 @@ export default function BranchOr({ branchId, destructive, children: componentChi
       `:scope > .rung--branch:not(.last-branch)`,
     );
     const height = [...children].reduce((sum, child) => sum + child.offsetHeight, 0);
-    console.log(height);
     setOrHeight(height);
   }, [heightAdjust]);
 

@@ -1,0 +1,57 @@
+.instruction {
+  display: inline-block;
+  position: relative;
+  margin-inline: 5px;
+  text-align: center;
+  vertical-align: top;
+  border: 1px solid black;
+  background: white;
+  z-index: 5;
+  border-radius: 10px;
+}
+
+.instruction p {
+  /* text-align: left; */
+  margin: 0;
+  font-size: 12px;
+}
+
+.header-wrapper {
+  background: #ffa94d;
+  border-bottom: 1px solid black;
+  border-radius: 10px 10px 0 0;
+}
+
+.body-wrapper {
+  margin: 4px 5px;
+  min-width: 70px;
+}
+
+.name {
+  text-align: center;
+  padding-inline: 5px;
+}
+
+.instruction .description {
+  text-align: center;
+  font-size: 11px;
+  padding-inline: 5px;
+  margin-top: 2px;
+}
+
+.param-row {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 20px;
+  align-items: center;
+}
+
+.instruct-key {
+  color: gray;
+  text-align: left;
+}
+
+.instruct-value {
+  text-align: right;
+  padding-block: 2px;
+}
