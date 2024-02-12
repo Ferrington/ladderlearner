@@ -1,10 +1,12 @@
 import InlineAutocomplete from '@/base/components/InlineAutocomplete';
 import { RootState } from '@/store';
 import { selectInstructionById } from '@/store/routine/routineSelectors';
+import { deleteInstruction, setSpecialTagName } from '@/store/routine/routineSlice';
 import { makeSelectTagOptions } from '@/store/tag/tagSelectors';
 import clsx from 'clsx';
 import { MouseEvent, ReactNode, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { RiDeleteBinLine } from 'react-icons/ri';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from '../styles/InstructionSpecial.module.css';
 
 type Props = {
@@ -18,7 +20,10 @@ export default function InstructionSpecial({
   beingDragged,
   children: componentChildren,
 }: Props) {
+  const dispatch = useDispatch();
+
   const [editMode, setEditMode] = useState(false);
+  const [isDeletable, setIsDeletable] = useState(false);
 
   const instruction = useSelector(selectInstructionById(instructionId));
 
@@ -59,8 +64,11 @@ export default function InstructionSpecial({
     // setTagLookinClickable(false);
   }
 
-  function handleCommit(input: string) {
-    console.log(input);
+  function handleCommit(name: string) {
+    if (!tagList.includes(name)) return;
+
+    dispatch(setSpecialTagName({ name, instructionId }));
+    setEditMode(false);
   }
 
   function filterMatches(input: string) {
@@ -69,6 +77,37 @@ export default function InstructionSpecial({
       const inputLower = input.toLowerCase();
       return tagLower.indexOf(inputLower) === 0;
     });
+  }
+
+  // const lookClickable = (e: MouseEvent) => {
+  //   // if (runSimulation) return;
+  //   const tagName = (e.target as HTMLElement).tagName;
+
+  //   if (["INPUT", "P"].includes(tagName)) {
+  //     setTagLookinClickable(true);
+  //     setLookinClickable(false);
+  //   } else {
+  //     setLookinClickable(true);
+  //     setTagLookinClickable(false);
+  //   }
+  // };
+
+  const handleMouseOver = () => {
+    // if (runSimulation) return;
+
+    setIsDeletable(true);
+  };
+
+  const dontLookClickable = () => {
+    // setLookinClickable(false);
+    // setTagLookinClickable(false);
+    setIsDeletable(false);
+  };
+
+  function handleDelete() {
+    // if (runSimulation) return;
+
+    dispatch(deleteInstruction(instruction));
   }
 
   let tagDisplay;
@@ -97,35 +136,34 @@ export default function InstructionSpecial({
 
   return (
     <div
-      className={styles.instruction}
+      className={clsx(styles.instruction, { [styles.energized]: instruction.energized && false })}
       onClick={handleClick}
-      // onMouseOver={handleMouseOver}
-      // onMouseLeave={dontLookClickable}
+      onMouseOver={handleMouseOver}
+      onMouseLeave={dontLookClickable}
       // style={{
       //   opacity: whichDraggingInstruction === instructionId ? 0.5 : 1,
       //   cursor,
       // }}
     >
-      {/* <div className="energized-wrapper">
+      <div className={styles['energized-wrapper']}>
         {!beingDragged && (
           <div
-            className={clsx({
-              "rung--instruction-special-delete": true,
-              deletable: isDeletable,
+            className={clsx(styles.delete, {
+              [styles.deletable]: isDeletable,
             })}
           >
             <RiDeleteBinLine
-              className="rung--instruction-special-delete-icon"
-              onMouseOver={lookClickable}
+              className={styles['delete-icon']}
+              // onMouseOver={lookClickable}
               onMouseLeave={dontLookClickable}
               onClick={handleDelete}
               size="1.25em"
-              style={{ background: "white" }}
+              style={{ background: 'white' }}
               title="Delete Instruction"
             />
           </div>
         )}
-      </div> */}
+      </div>
       {/* {!beingDragged && (
         <InstructionDropArea
           parent={parent.id}

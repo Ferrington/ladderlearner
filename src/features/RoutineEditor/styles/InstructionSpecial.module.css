@@ -30,3 +30,39 @@
   display: inline-block;
   z-index: 10;
 }
+
+.energized-wrapper {
+  position: relative;
+  width: 10px;
+  margin: 0 auto;
+}
+
+.energized .energized-wrapper::before {
+  content: '';
+  top: 4px;
+  left: -20px;
+  width: 50px;
+  height: 8px;
+  background-color: lime;
+  position: absolute;
+}
+
+.delete {
+  visibility: hidden;
+  top: -18px;
+  left: -18px;
+  position: absolute;
+  width: 60px;
+  height: 40px;
+  text-align: right;
+  cursor: pointer;
+  z-index: 4;
+}
+
+.delete-icon:hover {
+  color: #ffa94d;
+}
+
+.delete.deletable {
+  visibility: visible;
+}

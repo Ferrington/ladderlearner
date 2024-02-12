@@ -1,6 +1,6 @@
 import { routineSlice as trafficLightInitialState } from '@/store/premade-states/trafficLight';
 import { Instruction } from '@/types';
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export type RoutineSlice = {
   rungs: {
@@ -25,6 +25,11 @@ export type Branch = {
   children: string[];
 };
 
+type SetSpecialTagNamePayload = {
+  name: string;
+  instructionId: string;
+};
+
 // const initialState = {
 //   rungs: {
 //     byId: {},
@@ -37,7 +42,27 @@ export type Branch = {
 const routineSlice = createSlice({
   name: 'routine',
   initialState: trafficLightInitialState,
-  reducers: {},
+  reducers: {
+    setSpecialTagName(state, action: PayloadAction<SetSpecialTagNamePayload>) {
+      const { name, instructionId } = action.payload;
+      const instruction = state.instructions[instructionId];
+
+      if (instruction.displayType !== 'Special') return;
+
+      instruction.tag = name;
+      instruction.energized = false;
+    },
+    deleteInstruction(state, action: PayloadAction<Instruction>) {
+      const instruction = action.payload;
+
+      const parent = state.branches[instruction.parent];
+      parent.children = parent.children.filter((id) => id !== instruction.id);
+
+      delete state.instructions[instruction.id];
+    },
+  },
 });
+
+export const { setSpecialTagName, deleteInstruction } = routineSlice.actions;
 
 export const routineReducer = routineSlice.reducer;
