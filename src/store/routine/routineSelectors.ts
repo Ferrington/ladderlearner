@@ -32,20 +32,19 @@ export function makeSelectBranchChildren() {
   );
 }
 
-export function selectDestructiveChildIndex(branchId: string) {
-  return (store: RootState) => {
-    return createSelector(
-      (store: RootState) => store.routine,
-      (store: RootState) => selectBranchById(branchId)(store),
-      (routine, branch) => {
-        const children = routine.branches[branchId].children;
-        for (let i = 0; i < children.length; i++) {
-          if (hasDestructiveChild(routine, branch.children[i])) return i;
-        }
-        return -1;
-      },
-    )(store);
-  };
+export function makeSelectDestructiveChildIndex() {
+  return createSelector(
+    (store: RootState) => store.routine,
+    (_store: RootState, branchId: string) => branchId,
+    (store: RootState, branchId: string) => selectBranchById(branchId)(store),
+    (routine, branchId, branch) => {
+      const children = routine.branches[branchId].children;
+      for (let i = 0; i < children.length; i++) {
+        if (hasDestructiveChild(routine, branch.children[i])) return i;
+      }
+      return -1;
+    },
+  );
 }
 
 function hasDestructiveChild(routine: RoutineSlice, id: string): boolean {

@@ -4,7 +4,7 @@ import SpecialDragOverlay from '@/features/RoutineEditor/components/SpecialDragO
 import { RootState } from '@/store';
 import {
   makeSelectBranchChildren,
-  selectDestructiveChildIndex,
+  makeSelectDestructiveChildIndex,
 } from '@/store/routine/routineSelectors';
 import { ReactNode, useMemo } from 'react';
 import { useSelector } from 'react-redux';
@@ -18,7 +18,10 @@ export default function BranchAnd({ branchId, children: componentChildren }: Pro
   const selectBranchChildren = useMemo(makeSelectBranchChildren, []);
   const children = useSelector((state: RootState) => selectBranchChildren(state, branchId));
 
-  const destructiveLoc = useSelector(selectDestructiveChildIndex(branchId));
+  const selectDestructiveChildIndex = useMemo(makeSelectDestructiveChildIndex, []);
+  const destructiveLoc = useSelector((state: RootState) =>
+    selectDestructiveChildIndex(state, branchId),
+  );
 
   return (
     <>
