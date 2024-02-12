@@ -1,5 +1,9 @@
+import InlineAutocomplete from '@/base/components/InlineAutocomplete';
+import { RootState } from '@/store';
 import { selectInstructionById } from '@/store/routine/routineSelectors';
-import { ReactNode } from 'react';
+import { makeSelectTagOptions } from '@/store/tag/tagSelectors';
+import clsx from 'clsx';
+import { MouseEvent, ReactNode, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styles from '../styles/InstructionSpecial.module.css';
 
@@ -14,32 +18,77 @@ export default function InstructionSpecial({
   beingDragged,
   children: componentChildren,
 }: Props) {
+  const [editMode, setEditMode] = useState(false);
+
   const instruction = useSelector(selectInstructionById(instructionId));
+
+  const selectTagOptions = useMemo(makeSelectTagOptions, []);
+  const tagList = useSelector((state: RootState) =>
+    selectTagOptions(state, instruction.displayType),
+  );
   if (instruction.displayType !== 'Special') return null;
 
-  const editMode = false;
+  function handleClick(e: MouseEvent) {
+    e.preventDefault();
+    // if (runSimulation) {
+    //   if (!instruction.tag) return;
+
+    //   const tag = getTagByName(instruction.tag);
+    //   const isOutput = checkIfOutput(tag);
+    //   if (!isOutput) {
+    //     tagActions.updateTag(tag.name, !tag.value);
+    //   }
+
+    //   return;
+    // }
+
+    const tagName = (e.target as HTMLElement).tagName;
+
+    if (['INPUT', 'P'].includes(tagName)) {
+      setEditMode(true);
+      // actions.setEditMode(true);
+    } else {
+      setEditMode(false);
+      // actions.setEditMode(false);
+    }
+  }
+
+  function handleClickOutsideInput() {
+    setEditMode(false);
+    // actions.setEditMode(false);
+    // setTagLookinClickable(false);
+  }
+
+  function handleCommit(input: string) {
+    console.log(input);
+  }
+
+  function filterMatches(input: string) {
+    return tagList.filter((tag) => {
+      const tagLower = tag.toLowerCase();
+      const inputLower = input.toLowerCase();
+      return tagLower.indexOf(inputLower) === 0;
+    });
+  }
 
   let tagDisplay;
   if (editMode) {
-    // tagDisplay = (
-    //   <InlineAutocomplete
-    //     initialState={instruction.tag ?? ""}
-    //     changeCheck={() => true}
-    //     filterMatches={(input: string) => filterMatches(input, instruction)}
-    //     onClickOutside={handleClickOutsideInput}
-    //     onCommit={(input) => handleCommit(input)}
-    //   />
-    // );
+    tagDisplay = (
+      <InlineAutocomplete
+        initialState={instruction.tag ?? ''}
+        changeCheck={() => true}
+        filterMatches={(input) => filterMatches(input)}
+        onClickOutside={handleClickOutsideInput}
+        onCommit={(input) => handleCommit(input)}
+      />
+    );
   } else {
     tagDisplay = (
       <p
-      // className={clsx({
-      //   unassigned: instruction.tag == null,
-      //   'tag-clickable': tagLookinClickable,
-      // })}
-      // style={{
-      //   cursor: runSimulation && instruction.isDestructive ? 'auto' : 'pointer',
-      // }}
+        className={clsx({
+          [styles.unassigned]: instruction.tag == null,
+          [styles.clickable]: true,
+        })}
       >
         {instruction.tag || 'Assign Tag'}
       </p>
@@ -49,7 +98,7 @@ export default function InstructionSpecial({
   return (
     <div
       className={styles.instruction}
-      // onClick={handleClick}
+      onClick={handleClick}
       // onMouseOver={handleMouseOver}
       // onMouseLeave={dontLookClickable}
       // style={{

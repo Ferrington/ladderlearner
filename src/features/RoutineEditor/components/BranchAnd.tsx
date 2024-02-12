@@ -1,11 +1,12 @@
 import BoxDragOverlay from '@/features/RoutineEditor/components/BoxDragOverlay';
 import BranchOr from '@/features/RoutineEditor/components/BranchOr';
 import SpecialDragOverlay from '@/features/RoutineEditor/components/SpecialDragOverlay';
+import { RootState } from '@/store';
 import {
-  selectBranchChildren,
+  makeSelectBranchChildren,
   selectDestructiveChildIndex,
 } from '@/store/routine/routineSelectors';
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 type Props = {
@@ -14,7 +15,8 @@ type Props = {
 };
 
 export default function BranchAnd({ branchId, children: componentChildren }: Props) {
-  const children = useSelector(selectBranchChildren(branchId));
+  const selectBranchChildren = useMemo(makeSelectBranchChildren, []);
+  const children = useSelector((state: RootState) => selectBranchChildren(state, branchId));
 
   const destructiveLoc = useSelector(selectDestructiveChildIndex(branchId));
 

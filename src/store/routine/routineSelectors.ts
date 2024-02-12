@@ -22,15 +22,14 @@ export function selectInstructionById(id: string) {
   return (store: RootState) => store.routine.instructions[id];
 }
 
-export function selectBranchChildren(branchId: string) {
-  return (store: RootState) => {
-    return createSelector(
-      (store: RootState) => store.routine,
-      (routine) => {
-        return routine.branches[branchId].children.map((id) => selectElementById(routine, id));
-      },
-    )(store);
-  };
+export function makeSelectBranchChildren() {
+  return createSelector(
+    (store: RootState) => store.routine,
+    (_store: RootState, branchId: string) => branchId,
+    (routine, branchId) => {
+      return routine.branches[branchId].children.map((id) => selectElementById(routine, id));
+    },
+  );
 }
 
 export function selectDestructiveChildIndex(branchId: string) {

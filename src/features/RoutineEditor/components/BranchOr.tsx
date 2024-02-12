@@ -1,9 +1,9 @@
 import BranchAnd from '@/features/RoutineEditor/components/BranchAnd';
 import RungLine from '@/features/RoutineEditor/components/RungLine';
-import { store } from '@/store';
-import { selectBranchChildren } from '@/store/routine/routineSelectors';
+import { RootState, store } from '@/store';
+import { makeSelectBranchChildren } from '@/store/routine/routineSelectors';
 import clsx from 'clsx';
-import { CSSProperties, ReactNode, useLayoutEffect, useRef, useState } from 'react';
+import { CSSProperties, ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styles from '../styles/BranchOr.module.css';
 
@@ -26,7 +26,8 @@ export default function BranchOr({ branchId, destructive, children: componentChi
     setHeightAdjust(!heightAdjust);
   });
 
-  const children = useSelector(selectBranchChildren(branchId));
+  const selectBranchChildren = useMemo(makeSelectBranchChildren, []);
+  const children = useSelector((state: RootState) => selectBranchChildren(state, branchId));
 
   useLayoutEffect(() => {
     if (!orRef.current) return;
