@@ -52,6 +52,29 @@ const routineSlice = createSlice({
       instruction.tag = name;
       instruction.energized = false;
     },
+    deleteBranch(state, action: PayloadAction<Branch>) {
+      const branch = action.payload;
+      deleteChildren(state, branch);
+
+      const parent = state.branches[branch.parent];
+      parent.children = parent.children.filter((id) => id !== branch.id);
+      delete state.branches[branch.id];
+
+      if (parent.children.length !== 1) return;
+
+      const grandparent = state.branches[parent.parent];
+      const index = grandparent.children.indexOf(parent.id);
+      const leftovers = state.branches[parent.children[0]].children;
+
+      leftovers.forEach((id) => {
+        const ele = id in state.instructions ? state.instructions[id] : state.branches[id];
+        ele.parent = grandparent.id;
+      });
+
+      delete state.branches[parent.children[0]];
+      delete state.branches[parent.id];
+      grandparent.children.splice(index, 1, ...leftovers);
+    },
     deleteInstruction(state, action: PayloadAction<Instruction>) {
       const instruction = action.payload;
 
@@ -63,6 +86,19 @@ const routineSlice = createSlice({
   },
 });
 
-export const { setSpecialTagName, deleteInstruction } = routineSlice.actions;
+function deleteChildren(state: RoutineSlice, ele: Branch | Instruction, firstRun: boolean = true) {
+  if (ele.type === 'OR' || ele.type === 'AND') {
+    ele.children
+      .map((id) => (id in state.instructions ? state.instructions[id] : state.branches[id]))
+      .forEach((child) => deleteChildren(state, child, false));
+  } else {
+    delete state.instructions[ele.id];
+  }
+
+  if (!firstRun) delete state.branches[ele.id];
+  else state.branches[ele.id].children = [];
+}
+
+export const { setSpecialTagName, deleteInstruction, deleteBranch } = routineSlice.actions;
 
 export const routineReducer = routineSlice.reducer;

@@ -31,7 +31,7 @@
   right: -15px;
 }
 
-.line-delete {
+.delete {
   visibility: hidden;
   top: -25px;
   left: -25px;
@@ -40,15 +40,19 @@
   height: 30px;
 }
 
-.line-delete-icon:hover {
+.delete-icon {
+  background: white;
+}
+
+.delete-icon:hover {
   color: #ffa94d;
 }
 
-.line-delete.deletable {
+.delete.deletable {
   visibility: visible;
 }
 
-.line-select {
+.selected {
   position: absolute;
   top: 36px;
   outline: 2px dashed #ffa94d;
@@ -58,10 +62,6 @@
   border-radius: 10px;
 }
 
-.line-select.clickable {
-  background: none;
-}
-
-.line-clickable {
+.clickable {
   cursor: pointer;
 }
