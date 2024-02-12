@@ -24,6 +24,7 @@ export default function InstructionSpecial({
 
   const [editMode, setEditMode] = useState(false);
   const [isDeletable, setIsDeletable] = useState(false);
+  const [showInteractOutline, setShowInteractOutline] = useState(false);
 
   const instruction = useSelector(selectInstructionById(instructionId));
 
@@ -102,6 +103,7 @@ export default function InstructionSpecial({
     // setLookinClickable(false);
     // setTagLookinClickable(false);
     setIsDeletable(false);
+    setShowInteractOutline(false);
   };
 
   function handleDelete() {
@@ -136,7 +138,10 @@ export default function InstructionSpecial({
 
   return (
     <div
-      className={clsx(styles.instruction, { [styles.energized]: instruction.energized && false })}
+      className={clsx(styles.instruction, {
+        [styles.energized]: instruction.energized && false,
+        [styles['interact-outline']]: showInteractOutline,
+      })}
       onClick={handleClick}
       onMouseOver={handleMouseOver}
       onMouseLeave={dontLookClickable}
@@ -154,7 +159,7 @@ export default function InstructionSpecial({
           >
             <RiDeleteBinLine
               className={styles['delete-icon']}
-              // onMouseOver={lookClickable}
+              onMouseOver={() => setShowInteractOutline(true)}
               onMouseLeave={dontLookClickable}
               onClick={handleDelete}
               size="1.25em"
