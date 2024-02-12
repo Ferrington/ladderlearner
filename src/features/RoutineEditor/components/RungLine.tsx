@@ -9,16 +9,16 @@ export default function RungLine({ branch }: { branch: Branch }) {
   const dispatch = useDispatch();
 
   const [isDeletable, setIsDeletable] = useState(false);
-  const [lookinClickable, setLookinClickable] = useState(false);
+  const [showInteractOutline, setShowInteractOutline] = useState(false);
 
   function lookClickable() {
     // if (runSimulation) return;
 
-    setLookinClickable(true);
+    setShowInteractOutline(true);
   }
 
   function dontLookClickable() {
-    setLookinClickable(false);
+    setShowInteractOutline(false);
     setIsDeletable(false);
   }
 
@@ -34,10 +34,12 @@ export default function RungLine({ branch }: { branch: Branch }) {
 
   return (
     <div>
-      {lookinClickable && <div className={styles.selected} onMouseLeave={dontLookClickable}></div>}
+      {showInteractOutline && (
+        <div className={styles['interact-outline']} onMouseLeave={dontLookClickable}></div>
+      )}
       <div
         className={clsx(styles.line, {
-          [styles.clickable]: lookinClickable,
+          [styles['clickable']]: showInteractOutline,
         })}
         onMouseOver={handleMouseOver}
         onMouseLeave={dontLookClickable}

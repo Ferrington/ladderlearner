@@ -30,6 +30,11 @@ type SetSpecialTagNamePayload = {
   instructionId: string;
 };
 
+type EditRungCommentPayload = {
+  rung: Rung;
+  comment: string;
+};
+
 // const initialState = {
 //   rungs: {
 //     byId: {},
@@ -51,6 +56,20 @@ const routineSlice = createSlice({
 
       instruction.tag = name;
       instruction.energized = false;
+    },
+    editRungComment(state, action: PayloadAction<EditRungCommentPayload>) {
+      const { rung, comment } = action.payload;
+      state.rungs.byId[rung.id].comment = comment;
+    },
+    deleteRung(state, action: PayloadAction<Rung>) {
+      const rung = action.payload;
+      deleteChildren(state, state.branches[rung.child]);
+
+      if (state.rungs.allIds.length === 1) return;
+
+      state.rungs.allIds = state.rungs.allIds.filter((id) => id !== rung.id);
+      delete state.branches[rung.child];
+      delete state.rungs.byId[rung.id];
     },
     deleteBranch(state, action: PayloadAction<Branch>) {
       const branch = action.payload;
@@ -99,6 +118,7 @@ function deleteChildren(state: RoutineSlice, ele: Branch | Instruction, firstRun
   else state.branches[ele.id].children = [];
 }
 
-export const { setSpecialTagName, deleteInstruction, deleteBranch } = routineSlice.actions;
+export const { setSpecialTagName, editRungComment, deleteRung, deleteBranch, deleteInstruction } =
+  routineSlice.actions;
 
 export const routineReducer = routineSlice.reducer;

@@ -1,8 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 .app-container {
-  position: absolute;
-  inset: 0;
+  height: 100dvh;
   display: grid;
   grid-template-columns: 280px 1fr;
   grid-template-rows: 168px 1fr;

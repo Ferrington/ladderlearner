@@ -52,7 +52,7 @@
   visibility: visible;
 }
 
-.selected {
+.interact-outline {
   position: absolute;
   top: 36px;
   outline: 2px dashed #ffa94d;

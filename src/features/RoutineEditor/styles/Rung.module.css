@@ -10,6 +10,7 @@
 }
 
 .rung-number {
+  box-sizing: content-box;
   position: relative;
   grid-column: 1 / 2;
   grid-row: 2 / 3;
@@ -113,4 +114,14 @@
   left: 0;
   right: 0;
   z-index: 2;
+}
+
+.interact-outline {
+  outline: 2px dashed #ffa94d;
+  cursor: pointer;
+}
+
+.button-label {
+  color: black;
+  font-weight: normal;
 }
