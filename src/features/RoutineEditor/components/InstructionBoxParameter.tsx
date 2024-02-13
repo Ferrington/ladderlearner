@@ -1,12 +1,12 @@
 import InlineAutocomplete from '@/base/components/InlineAutocomplete';
-import { RootState } from '@/store';
-import { setBoxTagName } from '@/store/routine/routineSlice';
+import { RootState, useAppDispatch } from '@/store';
+import { setBoxTagNameAction } from '@/store/combined-actions/setBoxTagNameAction';
 import { makeSelectTagOptions } from '@/store/tag/tagSelectors';
 import { InstructionBox } from '@/types';
 import { isNumeric } from '@/utils/isNumeric';
 import clsx from 'clsx';
 import { useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styles from '../styles/InstructionBox.module.css';
 
 type Props = {
@@ -38,7 +38,7 @@ export default function InstructionBoxParameter({ instruction, paramKey }: Props
 
   const param = instruction.parameters[paramKey];
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const selectTagOptions = useMemo(makeSelectTagOptions, []);
   const tagList = useSelector((state: RootState) =>
     selectTagOptions(state, instruction.displayType, param.type, paramKey),
@@ -77,7 +77,7 @@ export default function InstructionBoxParameter({ instruction, paramKey }: Props
 
     if (!tagList.includes(name) && !isAcceptableNumber) return;
 
-    dispatch(setBoxTagName({ name, instructionId: instruction.id, key: paramKey }));
+    dispatch(setBoxTagNameAction(name, instruction.id, paramKey));
     setEditMode(false);
   }
 

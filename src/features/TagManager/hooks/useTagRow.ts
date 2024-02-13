@@ -1,8 +1,9 @@
-import { setTagValue, toggleTagValue } from '@/store/tag/tagSlice';
+import { useAppDispatch } from '@/store';
+import { updateTagAction } from '@/store/combined-actions/updateTagAction';
+import { toggleTagValue } from '@/store/tag/tagSlice';
 import { isNumeric } from '@/utils/isNumeric';
 import { useClickOutside } from '@mantine/hooks';
 import { ChangeEvent, KeyboardEvent, MouseEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 type Props = {
   name: string;
@@ -11,7 +12,7 @@ type Props = {
 };
 
 export function useTagRow({ name, key, initialValue }: Props) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [editMode, setEditMode] = useState(false);
   const [inputValue, setInputValue] = useState<string>(String(initialValue));
@@ -28,7 +29,7 @@ export function useTagRow({ name, key, initialValue }: Props) {
 
   function handleCommit() {
     if (isNumeric(inputValue)) {
-      dispatch(setTagValue({ name, key, value: Number(inputValue) }));
+      dispatch(updateTagAction({ name, key, value: Number(inputValue) }));
       setEditMode(false);
     }
   }

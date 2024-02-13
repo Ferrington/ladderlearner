@@ -1,6 +1,6 @@
 import { routineSlice as trafficLightInitialState } from '@/store/premade-states/trafficLight';
 import { deleteChildren } from '@/store/routine/utils';
-import { Instruction } from '@/types';
+import { Counter, Instruction, Timer } from '@/types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export type RoutineSlice = {
@@ -37,6 +37,17 @@ type SetBoxTagNamePayload = {
   key: string;
 };
 
+type SetNestedValuePayload = {
+  instructionId: string;
+  key: string;
+  value: string | number | boolean;
+};
+
+type SetNestedValuesPayload = {
+  instructionId: string;
+  obj: Timer | Counter;
+};
+
 type EditRungCommentPayload = {
   rung: Rung;
   comment: string;
@@ -70,15 +81,26 @@ const routineSlice = createSlice({
       const instruction = state.instructions[instructionId];
       if (instruction.displayType !== 'Box') return;
 
-      if (['TON', 'TOF'].includes(instruction.abbreviated)) {
-        //
-      } else if (['CTU', 'CTD'].includes(instruction.abbreviated)) {
-        //
-      } else {
-        instruction.parameters[key].value = name;
-      }
-
+      instruction.parameters[key].value = name;
       instruction.energized = false;
+    },
+    setNestedValue(state, action: PayloadAction<SetNestedValuePayload>) {
+      const { instructionId, key, value } = action.payload;
+      const instruction = state.instructions[instructionId];
+      if (instruction.displayType !== 'Box') return;
+
+      instruction.parameters[key].value = value;
+    },
+    setNestedValues(state, action: PayloadAction<SetNestedValuesPayload>) {
+      const { instructionId, obj } = action.payload;
+
+      const instruction = state.instructions[instructionId];
+      if (instruction.displayType !== 'Box') return;
+
+      instruction.parameters.pre.value = obj.pre;
+      instruction.parameters.acc.value = obj.acc;
+      instruction.parameters.dn.value = obj.dn;
+      if ('tt' in obj) instruction.parameters.tt.value = obj.tt;
     },
     editRungComment(state, action: PayloadAction<EditRungCommentPayload>) {
       const { rung, comment } = action.payload;

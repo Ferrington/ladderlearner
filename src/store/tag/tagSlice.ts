@@ -36,7 +36,7 @@ type ReorderTagPayload = {
 // } as TagSlice;
 
 const tagSlice = createSlice({
-  name: 'tag',
+  name: 'tags',
   initialState: initialTagState,
   reducers: {
     addTag(state, action: PayloadAction<AddTagPayload>) {
@@ -50,6 +50,9 @@ const tagSlice = createSlice({
         state.byId[name].value = value;
         return;
       }
+
+      console.log(JSON.parse(JSON.stringify(state)));
+      console.log(name);
 
       if (state.byId[name].type === 'counter') {
         const counter = state.byId[name].value as Record<keyof Counter, number | boolean>;
