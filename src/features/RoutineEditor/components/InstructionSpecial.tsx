@@ -1,7 +1,9 @@
 import InlineAutocomplete from '@/base/components/InlineAutocomplete';
+import InstructionDropArea from '@/features/RoutineEditor/components/InstructionDropArea';
 import { RootState } from '@/store';
+import { selectDraggingInstructionId, selectRunSimulation } from '@/store/base/selectors';
 import { setGlobalEditMode } from '@/store/base/slice';
-import { selectInstructionById } from '@/store/routine/selectors';
+import { selectBranchById, selectInstructionById } from '@/store/routine/selectors';
 import { deleteInstruction, setSpecialTagName } from '@/store/routine/slice';
 import { makeSelectTagOptions } from '@/store/tag/selectors';
 import clsx from 'clsx';
@@ -27,7 +29,10 @@ export default function InstructionSpecial({
   const [isDeletable, setIsDeletable] = useState(false);
   const [showInteractOutline, setShowInteractOutline] = useState(false);
 
+  const runSimulation = useSelector(selectRunSimulation);
+  const draggingInstructionId = useSelector(selectDraggingInstructionId);
   const instruction = useSelector(selectInstructionById(instructionId));
+  const parent = useSelector(selectBranchById(instruction.parent));
 
   const selectTagOptions = useMemo(makeSelectTagOptions, []);
   const tagList = useSelector((state: RootState) =>
@@ -113,6 +118,13 @@ export default function InstructionSpecial({
     dispatch(deleteInstruction(instruction));
   }
 
+  let cursor;
+  if (runSimulation) {
+    cursor = instruction.isDestructive ? 'auto' : 'pointer';
+  } else {
+    cursor = beingDragged ? 'grabbing' : 'grab';
+  }
+
   let tagDisplay;
   if (editMode) {
     tagDisplay = (
@@ -146,10 +158,10 @@ export default function InstructionSpecial({
       onClick={handleClick}
       onMouseOver={handleMouseOver}
       onMouseLeave={dontLookClickable}
-      // style={{
-      //   opacity: whichDraggingInstruction === instructionId ? 0.5 : 1,
-      //   cursor,
-      // }}
+      style={{
+        opacity: draggingInstructionId === instructionId ? 0.5 : 1,
+        cursor,
+      }}
     >
       <div className={styles['energized-wrapper']}>
         {!beingDragged && (
@@ -170,12 +182,9 @@ export default function InstructionSpecial({
           </div>
         )}
       </div>
-      {/* {!beingDragged && (
-        <InstructionDropArea
-          parent={parent.id}
-          index={parent.children.indexOf(instructionId)}
-        />
-      )} */}
+      {!beingDragged && (
+        <InstructionDropArea parent={parent.id} index={parent.children.indexOf(instructionId)} />
+      )}
       <img
         className={styles.img}
         src={`/imgs/${instruction.abbreviated}.png`}

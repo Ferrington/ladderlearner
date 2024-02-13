@@ -1,0 +1,29 @@
+.drop-area {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  z-index: 5;
+  opacity: 1;
+}
+
+.drop-area * {
+  pointer-events: none;
+}
+
+.landing-beacon {
+  outline: 1px solid black;
+  background: gray;
+  width: 8px;
+  height: 8px;
+}
+
+.go-for-landing .landing-beacon {
+  background: lime;
+}
+
+.extra-landing-pad-first-ele {
+  left: 6px;
+}

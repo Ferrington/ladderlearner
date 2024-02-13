@@ -18,6 +18,13 @@ export function selectBranchById(branchId: string) {
   return (store: RootState) => store.routine.branches[branchId];
 }
 
+export function selectBranchParentById(branchId: string) {
+  return (store: RootState) => {
+    const parentId = store.routine.branches[branchId].parent;
+    return store.routine.branches[parentId];
+  };
+}
+
 export function selectInstructionById(id: string) {
   return (store: RootState) => store.routine.instructions[id];
 }
@@ -43,6 +50,20 @@ export function makeSelectDestructiveChildIndex() {
         if (hasDestructiveChild(routine, branch.children[i])) return i;
       }
       return -1;
+    },
+  );
+}
+
+export function makeSelectExtraLandingPadLocation() {
+  return createSelector(
+    (store: RootState) => store.routine,
+    (_store: RootState, branchId: string) => branchId,
+    (store: RootState, branchId: string) => selectBranchById(branchId)(store),
+    (routine, _branchId, branch) => {
+      const destructives = branch.children.map((id) => hasDestructiveChild(routine, id));
+
+      const index = destructives.indexOf(true);
+      return index > -1 ? index : branch.children.length;
     },
   );
 }

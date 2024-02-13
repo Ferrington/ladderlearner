@@ -1,6 +1,8 @@
 import InstructionBoxParameter from '@/features/RoutineEditor/components/InstructionBoxParameter';
+import InstructionDropArea from '@/features/RoutineEditor/components/InstructionDropArea';
 import TagPreview from '@/features/RoutineEditor/components/TagPreview';
-import { selectInstructionById } from '@/store/routine/selectors';
+import { selectDraggingInstructionId, selectRunSimulation } from '@/store/base/selectors';
+import { selectBranchById, selectInstructionById } from '@/store/routine/selectors';
 import { deleteInstruction } from '@/store/routine/slice';
 import { isNumeric } from '@/utils/isNumeric';
 import clsx from 'clsx';
@@ -25,7 +27,10 @@ export default function InstructionBox({
 
   const dispatch = useDispatch();
 
+  const runSimulation = useSelector(selectRunSimulation);
+  const draggingInstructionId = useSelector(selectDraggingInstructionId);
   const instruction = useSelector(selectInstructionById(instructionId));
+  const parent = useSelector(selectBranchById(instruction.parent));
   if (instruction.displayType !== 'Box') return null;
 
   function lookClickable(e: MouseEvent) {
@@ -56,6 +61,13 @@ export default function InstructionBox({
     dispatch(deleteInstruction(instruction));
   }
 
+  let cursor;
+  if (runSimulation) {
+    cursor = 'auto';
+  } else {
+    cursor = beingDragged ? 'grabbing' : 'grab';
+  }
+
   return (
     <div
       className={clsx(styles.instruction, {
@@ -64,10 +76,10 @@ export default function InstructionBox({
       })}
       onMouseOver={handleMouseOver}
       onMouseLeave={dontLookClickable}
-      // style={{
-      //   opacity: whichDraggingInstruction === instructionId ? 0.5 : 1,
-      //   cursor,
-      // }}
+      style={{
+        opacity: draggingInstructionId === instructionId ? 0.5 : 1,
+        cursor,
+      }}
     >
       {!beingDragged && (
         <div
@@ -86,12 +98,9 @@ export default function InstructionBox({
           />
         </div>
       )}
-      {/* {!beingDragged && (
-        <InstructionDropArea
-          parent={parent.id}
-          index={parent.children.indexOf(instructionId)}
-        />
-      )} */}
+      {!beingDragged && (
+        <InstructionDropArea parent={parent.id} index={parent.children.indexOf(instructionId)} />
+      )}
       <div className={styles['header-wrapper']}>
         <p>{instruction.name}</p>
       </div>

@@ -21,6 +21,16 @@
   right: 0;
 }
 
+.or > :global(.instruction-drop-area) {
+  top: 28px;
+  left: -25px;
+}
+
+.or :global(.extra-landing-pad) {
+  left: auto;
+  right: -25px;
+}
+
 .branch {
   position: relative;
   min-height: 50px;
@@ -41,4 +51,9 @@
   align-items: flex-start;
   gap: 25px;
   min-height: 1em;
+}
+
+.instruction-wrapper > :global(.instruction-drop-area) {
+  top: 28px;
+  right: 8px;
 }

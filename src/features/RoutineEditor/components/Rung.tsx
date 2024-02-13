@@ -1,11 +1,19 @@
 import BranchAnd from '@/features/RoutineEditor/components/BranchAnd';
+import InstructionDropArea from '@/features/RoutineEditor/components/InstructionDropArea';
+import RungDropArea from '@/features/RoutineEditor/components/RungDropArea';
 import useWindowSize from '@/hooks/useWindowSize';
-import { selectRungById } from '@/store/routine/selectors';
+import { RootState } from '@/store';
+import { selectRunSimulation } from '@/store/base/selectors';
+import {
+  makeSelectExtraLandingPadLocation,
+  selectBranchById,
+  selectRungById,
+} from '@/store/routine/selectors';
 import { deleteRung, editRungComment } from '@/store/routine/slice';
 import { Button, Modal, Textarea } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import clsx from 'clsx';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { RiDeleteBinLine, RiFileListLine } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from '../styles/Rung.module.css';
@@ -13,9 +21,18 @@ import styles from '../styles/Rung.module.css';
 type Props = {
   rungId: string;
   rungNumber: number;
+  beingDragged?: boolean;
+  dragAttributes?: object;
+  dragListeners?: object;
 };
 
-export default function Rung({ rungId, rungNumber }: Props) {
+export default function Rung({
+  rungId,
+  rungNumber,
+  beingDragged,
+  dragAttributes,
+  dragListeners,
+}: Props) {
   const isNotDragOverlay = true;
 
   const [mainRungWidth, setMainRungWidth] = useState(0);
@@ -28,21 +45,28 @@ export default function Rung({ rungId, rungNumber }: Props) {
 
   const codeRef = useRef<HTMLDivElement>(null);
 
+  const runSimulation = useSelector(selectRunSimulation);
   const rung = useSelector(selectRungById(rungId));
+  const child = useSelector(selectBranchById(rung.child));
   const [comment, setComment] = useState(rung.comment ?? '');
+
+  const selectExtraLandingPadLocation = useMemo(makeSelectExtraLandingPadLocation, []);
+  const extraLandingPadLoc = useSelector((state: RootState) =>
+    selectExtraLandingPadLocation(state, rung.child),
+  );
 
   useLayoutEffect(() => {
     if (codeRef.current != null) setMainRungWidth(codeRef.current.offsetWidth - 30);
   }, [windowSize]);
 
   function lookClickable() {
-    // if (runSimulation) return;
+    if (runSimulation) return;
 
     setShowInteractOutline(true);
   }
 
   function handleMouseOver() {
-    // if (runSimulation) return;
+    if (runSimulation) return;
 
     setIsDeletable(true);
   }
@@ -53,7 +77,7 @@ export default function Rung({ rungId, rungNumber }: Props) {
   }
 
   function handleDelete() {
-    // if (runSimulation) return;
+    if (runSimulation) return;
 
     dispatch(deleteRung(rung));
   }
@@ -71,17 +95,17 @@ export default function Rung({ rungId, rungNumber }: Props) {
   return (
     <div
       className={clsx(styles.rung, { [styles['interact-outline']]: showInteractOutline })}
-      // style={{ opacity: beingDragged ? 0.5 : 1 }}
+      style={{ opacity: beingDragged ? 0.5 : 1 }}
     >
-      {/* {rungNumber === 1 && <RungDropArea rungIndex={0} />}
-      {isNotDragOverlay && <RungDropArea rungIndex={rungNumber} />} */}
+      {rungNumber === 1 && <RungDropArea rungIndex={0} />}
+      {isNotDragOverlay && <RungDropArea rungIndex={rungNumber} />}
       <div
         className={styles['rung-number']}
         style={{ cursor: isNotDragOverlay ? 'grab' : 'grabbing' }}
         onMouseOver={handleMouseOver}
         onMouseLeave={dontLookClickable}
-        // {...dragListeners}
-        // {...dragAttributes}
+        {...dragListeners}
+        {...dragAttributes}
       >
         {isNotDragOverlay && (
           <>
@@ -159,15 +183,11 @@ export default function Rung({ rungId, rungNumber }: Props) {
         <div className={styles['main-rung']} style={{ minWidth: `${mainRungWidth}px` }}>
           <div className={styles.line}></div>
           <div className={styles['instruction-wrapper']}>
-            {/* {extraLandingPadLoc === 0 && (
+            {extraLandingPadLoc === 0 && (
               <InstructionDropArea parent={child.id} index={0} extra={extraLandingPadLoc} />
             )}
-            <InstructionDropArea parent={child.id} index={child.children.length} /> */}
-            <BranchAnd
-              branchId={rung.child}
-              // routine={routine}
-              // extraLandingPadLoc={extraLandingPadLoc}
-            />
+            <InstructionDropArea parent={child.id} index={child.children.length} />
+            <BranchAnd branchId={rung.child} extraLandingPadLoc={extraLandingPadLoc} />
           </div>
         </div>
       </div>

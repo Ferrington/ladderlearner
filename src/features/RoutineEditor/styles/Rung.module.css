@@ -105,6 +105,11 @@
   min-height: 1em;
 }
 
+.instruction-wrapper > :global(.instruction-drop-area) {
+  top: 28px;
+  right: 8px;
+}
+
 .line {
   height: 2px;
   background: black;

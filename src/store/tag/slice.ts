@@ -51,9 +51,6 @@ const tagSlice = createSlice({
         return;
       }
 
-      console.log(JSON.parse(JSON.stringify(state)));
-      console.log(name);
-
       if (state.byId[name].type === 'counter') {
         const counter = state.byId[name].value as Record<keyof Counter, number | boolean>;
         counter[key as keyof Counter] = value;

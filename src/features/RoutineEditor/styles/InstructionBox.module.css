@@ -16,6 +16,16 @@
   font-size: 12px;
 }
 
+.instruction > :global(.instruction-drop-area) {
+  top: 10px;
+  left: -29px;
+}
+
+.instruction :global(.extra-landing-pad) {
+  right: -29px;
+  left: auto;
+}
+
 .header-wrapper {
   background: #ffa94d;
   border-bottom: 1px solid black;

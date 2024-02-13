@@ -24,6 +24,16 @@
   display: block;
 }
 
+.instruction > :global(.instruction-drop-area) {
+  top: -5px;
+  left: -22px;
+}
+
+.instruction :global(.extra-landing-pad) {
+  right: -25px;
+  left: auto;
+}
+
 .img {
   position: relative;
   height: 16px;

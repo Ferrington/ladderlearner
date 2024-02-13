@@ -1,8 +1,9 @@
 import BranchAnd from '@/features/RoutineEditor/components/BranchAnd';
+import InstructionDropArea from '@/features/RoutineEditor/components/InstructionDropArea';
 import RungLine from '@/features/RoutineEditor/components/RungLine';
 import { RootState, store } from '@/store';
 import { selectGlobalEditMode } from '@/store/base/selectors';
-import { makeSelectBranchChildren } from '@/store/routine/selectors';
+import { makeSelectBranchChildren, selectBranchParentById } from '@/store/routine/selectors';
 import clsx from 'clsx';
 import { CSSProperties, ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -30,6 +31,7 @@ export default function BranchOr({ branchId, destructive, children: componentChi
 
   const selectBranchChildren = useMemo(makeSelectBranchChildren, []);
   const children = useSelector((state: RootState) => selectBranchChildren(state, branchId));
+  const parent = useSelector(selectBranchParentById(branchId));
 
   useLayoutEffect(() => {
     if (!orRef.current) return;
@@ -47,7 +49,7 @@ export default function BranchOr({ branchId, destructive, children: componentChi
       className={clsx(styles.or, { [styles['destructive']]: destructive })}
       style={{ '--line-height': `${orHeight}px` } as CSSPropertiesWithVars}
     >
-      {/* <InstructionDropArea parent={parent.id} index={parent.children.indexOf(branchId)} /> */}
+      <InstructionDropArea parent={parent.id} index={parent.children.indexOf(branchId)} />
       {children.map((ele, i) => {
         if (ele.type !== 'AND') throw new Error(`Unexpected child of BranchOr: ${branchId}`);
 
@@ -61,7 +63,8 @@ export default function BranchOr({ branchId, destructive, children: componentChi
             {i > 0 && <RungLine branch={ele} />}
             <div className={styles['instruction-wrapper']}>
               <BranchAnd key={ele.id} branchId={ele.id} />
-              {/* <InstructionDropArea parent={ele.id} index={ele.children.length} /> */}
+              <div className="thisOne"></div>
+              <InstructionDropArea parent={ele.id} index={ele.children.length} />
             </div>
           </div>
         );
