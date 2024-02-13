@@ -1,4 +1,6 @@
+import { useAppDispatch } from '@/store';
 import { setDraggingInstructionId, setDraggingRungIndex } from '@/store/base/slice';
+import { setDropLocationsAction } from '@/store/combined-actions/setDropLocationsAction';
 import {
   CollisionDetection,
   DndContext,
@@ -12,7 +14,6 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import { ReactNode, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 const customCollisionDetection: CollisionDetection = ({ droppableContainers, ...args }) => {
   const rectIntersectionCollisions = rectIntersection({
@@ -46,7 +47,7 @@ const customCollisionDetection: CollisionDetection = ({ droppableContainers, ...
 // };
 
 export default function WorkspaceDndWrapper({ children }: { children?: ReactNode }) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [dragOverlay, setDragOverlay] = useState(null);
 
   const pointerSensor = useSensor(PointerSensor, {
@@ -64,7 +65,7 @@ export default function WorkspaceDndWrapper({ children }: { children?: ReactNode
     }
 
     dispatch(setDraggingInstructionId(e.active.id as string));
-    // setDropLocations(e.active?.data?.current?.instruction?.abbreviated);
+    dispatch(setDropLocationsAction(e.active?.data?.current?.instruction?.abbreviated));
 
     setDragOverlay(e.active?.data?.current?.dragOverlay);
   }

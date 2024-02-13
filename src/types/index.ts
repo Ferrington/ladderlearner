@@ -94,3 +94,5 @@ export type TimerTag = {
 };
 
 export type Tag = BooleanTag | NumberTag | CounterTag | TimerTag;
+
+export type ValidDropLocations = Record<string, number[]>;

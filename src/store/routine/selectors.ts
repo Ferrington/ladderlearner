@@ -1,5 +1,5 @@
 import { RootState } from '@/store';
-import { RoutineSlice } from '@/store/routine/slice';
+import { hasDestructiveChild, selectElementById } from '@/store/routine/utils';
 import { createSelector } from '@reduxjs/toolkit';
 
 export function selectRungIds(store: RootState) {
@@ -45,23 +45,4 @@ export function makeSelectDestructiveChildIndex() {
       return -1;
     },
   );
-}
-
-function hasDestructiveChild(routine: RoutineSlice, id: string): boolean {
-  const element = selectElementById(routine, id);
-
-  if (element.type === 'Rung') throw new Error('Rungs cannot be children of branches');
-  else if (element.type === 'Instruction') return element.isDestructive;
-
-  for (const childId of element.children) {
-    if (hasDestructiveChild(routine, childId)) return true;
-  }
-  return false;
-}
-
-function selectElementById(routine: RoutineSlice, id: string) {
-  if (id in routine.branches) return routine.branches[id];
-  else if (id in routine.instructions) return routine.instructions[id];
-  else if (id in routine.rungs.byId) return routine.rungs.byId[id];
-  throw new Error(`Element with id ${id} not found`);
 }

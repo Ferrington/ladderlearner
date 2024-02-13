@@ -1,10 +1,11 @@
+import { ValidDropLocations } from '@/types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export type BaseSlice = {
   draggingRungIndex: number | null;
   rungDropLocations: number[] | null;
   draggingInstructionId: string | null;
-  dropLocations: Record<string, number> | 'none' | 'all';
+  dropLocations: ValidDropLocations | 'none' | 'all';
   globalEditMode: boolean;
   runSimulation: boolean;
   tagsAreUnassigned: boolean;
@@ -27,6 +28,9 @@ const baseSlice = createSlice({
     setDraggingRungIndex(state, action: PayloadAction<number | null>) {
       state.draggingRungIndex = action.payload;
     },
+    setDropLocations(state, action: PayloadAction<ValidDropLocations | 'none' | 'all'>) {
+      state.dropLocations = action.payload;
+    },
     setDraggingInstructionId(state, action: PayloadAction<string | null>) {
       state.draggingInstructionId = action.payload;
     },
@@ -44,6 +48,7 @@ const baseSlice = createSlice({
 
 export const {
   setDraggingRungIndex,
+  setDropLocations,
   setDraggingInstructionId,
   setGlobalEditMode,
   setRunSimulation,
