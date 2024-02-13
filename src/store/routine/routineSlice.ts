@@ -30,6 +30,12 @@ type SetSpecialTagNamePayload = {
   instructionId: string;
 };
 
+type SetBoxTagNamePayload = {
+  name: string;
+  instructionId: string;
+  key: string;
+};
+
 type EditRungCommentPayload = {
   rung: Rung;
   comment: string;
@@ -55,6 +61,22 @@ const routineSlice = createSlice({
       if (instruction.displayType !== 'Special') return;
 
       instruction.tag = name;
+      instruction.energized = false;
+    },
+    setBoxTagName(state, action: PayloadAction<SetBoxTagNamePayload>) {
+      const { name, instructionId, key } = action.payload;
+
+      const instruction = state.instructions[instructionId];
+      if (instruction.displayType !== 'Box') return;
+
+      if (['TON', 'TOF'].includes(instruction.abbreviated)) {
+        //
+      } else if (['CTU', 'CTD'].includes(instruction.abbreviated)) {
+        //
+      } else {
+        instruction.parameters[key].value = name;
+      }
+
       instruction.energized = false;
     },
     editRungComment(state, action: PayloadAction<EditRungCommentPayload>) {
@@ -118,7 +140,13 @@ function deleteChildren(state: RoutineSlice, ele: Branch | Instruction, firstRun
   else state.branches[ele.id].children = [];
 }
 
-export const { setSpecialTagName, editRungComment, deleteRung, deleteBranch, deleteInstruction } =
-  routineSlice.actions;
+export const {
+  setSpecialTagName,
+  setBoxTagName,
+  editRungComment,
+  deleteRung,
+  deleteBranch,
+  deleteInstruction,
+} = routineSlice.actions;
 
 export const routineReducer = routineSlice.reducer;

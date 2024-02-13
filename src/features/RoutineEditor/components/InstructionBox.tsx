@@ -1,9 +1,12 @@
 import InstructionBoxParameter from '@/features/RoutineEditor/components/InstructionBoxParameter';
 import TagPreview from '@/features/RoutineEditor/components/TagPreview';
 import { selectInstructionById } from '@/store/routine/routineSelectors';
+import { deleteInstruction } from '@/store/routine/routineSlice';
 import { isNumeric } from '@/utils/isNumeric';
-import { Fragment, ReactNode } from 'react';
-import { useSelector } from 'react-redux';
+import clsx from 'clsx';
+import { Fragment, MouseEvent, ReactNode, useState } from 'react';
+import { RiDeleteBinLine } from 'react-icons/ri';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from '../styles/InstructionBox.module.css';
 
 type Props = {
@@ -17,40 +20,72 @@ export default function InstructionBox({
   beingDragged,
   children: componentChildren,
 }: Props) {
-  // const [lookinClickable, setLookinClickable] = useState(false);
-  // const [isDeletable, setIsDeletable] = useState(false);
-  // const instructionRef = useRef<HTMLDivElement>(null);
-  // const { runSimulation, tags, whichDraggingInstruction } = useSnapshot(store);
+  const [showInteractOutline, setShowInteractOutline] = useState(false);
+  const [isDeletable, setIsDeletable] = useState(false);
+
+  const dispatch = useDispatch();
 
   const instruction = useSelector(selectInstructionById(instructionId));
   if (instruction.displayType !== 'Box') return null;
 
+  function lookClickable(e: MouseEvent) {
+    // if (runSimulation) return;
+
+    const element = e.target as HTMLElement;
+    if (element.classList.contains('instruct-value') || element.tagName === 'INPUT') {
+      setShowInteractOutline(false);
+    } else {
+      setShowInteractOutline(true);
+    }
+  }
+
+  function handleMouseOver() {
+    // if (runSimulation) return;
+
+    setIsDeletable(true);
+  }
+
+  function dontLookClickable() {
+    setShowInteractOutline(false);
+    setIsDeletable(false);
+  }
+
+  function handleDelete() {
+    // if (runSimulation) return;
+
+    dispatch(deleteInstruction(instruction));
+  }
+
   return (
     <div
-      className={styles.instruction}
+      className={clsx(styles.instruction, {
+        [styles['interact-outline']]: showInteractOutline,
+        [styles.energized]: instruction.energized && false,
+      })}
+      onMouseOver={handleMouseOver}
+      onMouseLeave={dontLookClickable}
       // style={{
       //   opacity: whichDraggingInstruction === instructionId ? 0.5 : 1,
       //   cursor,
       // }}
     >
-      {/* {!beingDragged && (
+      {!beingDragged && (
         <div
-          className={clsx({
-            "rung--instruction-box-delete": true,
-            deletable: isDeletable,
+          className={clsx(styles.delete, {
+            [styles.deletable]: isDeletable,
           })}
         >
           <RiDeleteBinLine
-            className="rung--instruction-box-delete-icon"
+            className={styles['delete-icon']}
             onMouseOver={lookClickable}
             onMouseLeave={dontLookClickable}
             onClick={handleDelete}
             size="1.25em"
-            style={{ background: "white" }}
+            style={{ background: 'white' }}
             title="Delete Instruction"
           />
         </div>
-      )} */}
+      )}
       {/* {!beingDragged && (
         <InstructionDropArea
           parent={parent.id}

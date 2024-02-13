@@ -59,3 +59,36 @@
 .tag-preview {
   color: rgb(165, 165, 165);
 }
+
+.interact-outline {
+  outline: 2px dashed #ffa94d;
+  outline-offset: 5px;
+  cursor: pointer;
+}
+
+.tag-clickable {
+  color: #ffa94d;
+  cursor: pointer;
+}
+
+.delete {
+  visibility: hidden;
+  top: -2px;
+  right: -26px;
+  position: absolute;
+  width: 30px;
+  height: 100%;
+  cursor: pointer;
+}
+
+.delete-icon:hover {
+  color: #ffa94d;
+}
+
+.delete.deletable {
+  visibility: visible;
+}
+
+.energized {
+  outline: 3px solid lime;
+}

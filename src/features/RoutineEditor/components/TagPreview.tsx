@@ -9,7 +9,7 @@ type Props = {
 
 export default function TagPreview({ tagId }: Props) {
   return (
-    <p className={clsx(styles['instruct-value'], styles['tag-preview'])}>
+    <p className={clsx('instruct-value', styles['instruct-value'], styles['tag-preview'])}>
       {useSelector(selectTagValueById(tagId)) as number}
     </p>
   );

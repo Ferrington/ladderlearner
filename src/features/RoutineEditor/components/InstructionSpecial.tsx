@@ -120,7 +120,7 @@ export default function InstructionSpecial({
         changeCheck={() => true}
         filterMatches={(input) => filterMatches(input)}
         onClickOutside={handleClickOutsideInput}
-        onCommit={(input) => handleCommit(input)}
+        onCommit={handleCommit}
       />
     );
   } else {
