@@ -1,4 +1,5 @@
 import { routineSlice as trafficLightInitialState } from '@/store/premade-states/trafficLight';
+import { deleteChildren } from '@/store/routine/utils';
 import { Instruction } from '@/types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
@@ -126,19 +127,6 @@ const routineSlice = createSlice({
     },
   },
 });
-
-function deleteChildren(state: RoutineSlice, ele: Branch | Instruction, firstRun: boolean = true) {
-  if (ele.type === 'OR' || ele.type === 'AND') {
-    ele.children
-      .map((id) => (id in state.instructions ? state.instructions[id] : state.branches[id]))
-      .forEach((child) => deleteChildren(state, child, false));
-  } else {
-    delete state.instructions[ele.id];
-  }
-
-  if (!firstRun) delete state.branches[ele.id];
-  else state.branches[ele.id].children = [];
-}
 
 export const {
   setSpecialTagName,
