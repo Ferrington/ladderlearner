@@ -33,7 +33,7 @@ export default function Rung({
   dragAttributes,
   dragListeners,
 }: Props) {
-  const isNotDragOverlay = true;
+  const isNotDragOverlay = dragListeners;
 
   const [mainRungWidth, setMainRungWidth] = useState(0);
   const [showInteractOutline, setShowInteractOutline] = useState(false);
@@ -93,15 +93,12 @@ export default function Rung({
   }
 
   return (
-    <div
-      className={clsx(styles.rung, { [styles['interact-outline']]: showInteractOutline })}
-      style={{ opacity: beingDragged ? 0.5 : 1 }}
-    >
+    <div className={clsx(styles.rung, { [styles['interact-outline']]: showInteractOutline })}>
       {rungNumber === 1 && <RungDropArea rungIndex={0} />}
       {isNotDragOverlay && <RungDropArea rungIndex={rungNumber} />}
       <div
         className={styles['rung-number']}
-        style={{ cursor: isNotDragOverlay ? 'grab' : 'grabbing' }}
+        style={{ cursor: isNotDragOverlay ? 'grab' : 'grabbing', opacity: beingDragged ? 0.5 : 1 }}
         onMouseOver={handleMouseOver}
         onMouseLeave={dontLookClickable}
         {...dragListeners}
@@ -143,7 +140,11 @@ export default function Rung({
       </div>
       <div
         className={styles.comment}
-        style={{ whiteSpace: 'pre-wrap', paddingTop: rung.comment ? 10 : 0 }}
+        style={{
+          whiteSpace: 'pre-wrap',
+          paddingTop: rung.comment ? 10 : 0,
+          opacity: beingDragged ? 0.5 : 1,
+        }}
       >
         {rung.comment}
         <Modal opened={opened} onClose={closeComment} title="Edit Comment">
@@ -179,7 +180,7 @@ export default function Rung({
           </div>
         </Modal>
       </div>
-      <div className={styles.code} ref={codeRef}>
+      <div className={styles.code} ref={codeRef} style={{ opacity: beingDragged ? 0.5 : 1 }}>
         <div className={styles['main-rung']} style={{ minWidth: `${mainRungWidth}px` }}>
           <div className={styles.line}></div>
           <div className={styles['instruction-wrapper']}>

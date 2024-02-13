@@ -75,7 +75,7 @@ export function findLastNonDestructiveChild(routine: RoutineSlice, id: string) {
 
 export function getAvailableDropLocations(routine: RoutineSlice, branch: Branch) {
   let locs: ValidDropLocations = {
-    [branch.id]: [...Array(branch.children.length).keys()],
+    [branch.id]: [...Array(branch.children.length + 1).keys()],
   };
 
   branch.children.forEach((childId) => {

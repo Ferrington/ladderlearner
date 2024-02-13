@@ -73,7 +73,7 @@ export default function WorkspaceDndWrapper({ children }: { children?: ReactNode
 
   function handleDragEnd(e: DragEndEvent) {
     dispatch(setDraggingRungIndex(null));
-    // dispatch(setDraggingInstructionId(null));
+    dispatch(setDraggingInstructionId(null));
 
     if (e.over == null) return;
     if (!e.active.data.current || !e.over.data.current) return;

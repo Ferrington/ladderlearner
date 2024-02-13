@@ -63,7 +63,6 @@ export default function BranchOr({ branchId, destructive, children: componentChi
             {i > 0 && <RungLine branch={ele} />}
             <div className={styles['instruction-wrapper']}>
               <BranchAnd key={ele.id} branchId={ele.id} />
-              <div className="thisOne"></div>
               <InstructionDropArea parent={ele.id} index={ele.children.length} />
             </div>
           </div>

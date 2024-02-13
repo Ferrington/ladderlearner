@@ -143,6 +143,7 @@ export default function InstructionSpecial({
           [styles.unassigned]: instruction.tag == null,
           [styles.clickable]: true,
         })}
+        style={{ opacity: draggingInstructionId === instructionId ? 0.5 : 1 }}
       >
         {instruction.tag || 'Assign Tag'}
       </p>
@@ -159,7 +160,6 @@ export default function InstructionSpecial({
       onMouseOver={handleMouseOver}
       onMouseLeave={dontLookClickable}
       style={{
-        opacity: draggingInstructionId === instructionId ? 0.5 : 1,
         cursor,
       }}
     >
@@ -190,6 +190,7 @@ export default function InstructionSpecial({
         src={`/imgs/${instruction.abbreviated}.png`}
         alt={instruction.abbreviated}
         draggable={false}
+        style={{ opacity: draggingInstructionId === instructionId ? 0.5 : 1 }}
       />
       {instruction.abbreviated !== 'ONS' && tagDisplay}
       {!beingDragged && componentChildren}

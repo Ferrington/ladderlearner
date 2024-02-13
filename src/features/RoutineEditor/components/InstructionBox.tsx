@@ -76,10 +76,7 @@ export default function InstructionBox({
       })}
       onMouseOver={handleMouseOver}
       onMouseLeave={dontLookClickable}
-      style={{
-        opacity: draggingInstructionId === instructionId ? 0.5 : 1,
-        cursor,
-      }}
+      style={{ cursor }}
     >
       {!beingDragged && (
         <div
@@ -101,11 +98,23 @@ export default function InstructionBox({
       {!beingDragged && (
         <InstructionDropArea parent={parent.id} index={parent.children.indexOf(instructionId)} />
       )}
-      <div className={styles['header-wrapper']}>
+
+      <div
+        className={styles['header-wrapper']}
+        style={{ opacity: draggingInstructionId === instructionId ? 0.5 : 1 }}
+      >
         <p>{instruction.name}</p>
       </div>
-      <p className={styles.description}>{instruction.description}</p>
-      <div className={styles['body-wrapper']}>
+      <p
+        className={styles.description}
+        style={{ opacity: draggingInstructionId === instructionId ? 0.5 : 1 }}
+      >
+        {instruction.description}
+      </p>
+      <div
+        className={styles['body-wrapper']}
+        style={{ opacity: draggingInstructionId === instructionId ? 0.5 : 1 }}
+      >
         <div>
           {Object.keys(instruction.parameters).map((key) => {
             const { hidden } = instruction.parameters[key];
