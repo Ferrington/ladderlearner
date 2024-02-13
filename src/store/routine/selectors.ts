@@ -1,5 +1,5 @@
 import { RootState } from '@/store';
-import { RoutineSlice } from '@/store/routine/routineSlice';
+import { RoutineSlice } from '@/store/routine/slice';
 import { createSelector } from '@reduxjs/toolkit';
 
 export function selectRungIds(store: RootState) {

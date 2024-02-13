@@ -1,8 +1,8 @@
 import InlineAutocomplete from '@/base/components/InlineAutocomplete';
 import { RootState } from '@/store';
-import { selectInstructionById } from '@/store/routine/routineSelectors';
-import { deleteInstruction, setSpecialTagName } from '@/store/routine/routineSlice';
-import { makeSelectTagOptions } from '@/store/tag/tagSelectors';
+import { selectInstructionById } from '@/store/routine/selectors';
+import { deleteInstruction, setSpecialTagName } from '@/store/routine/slice';
+import { makeSelectTagOptions } from '@/store/tag/selectors';
 import clsx from 'clsx';
 import { MouseEvent, ReactNode, useMemo, useState } from 'react';
 import { RiDeleteBinLine } from 'react-icons/ri';

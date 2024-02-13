@@ -1,6 +1,6 @@
 import { useAppDispatch } from '@/store';
 import { updateTagAction } from '@/store/combined-actions/updateTagAction';
-import { toggleTagValue } from '@/store/tag/tagSlice';
+import { toggleTagValue } from '@/store/tag/slice';
 import { isNumeric } from '@/utils/isNumeric';
 import { useClickOutside } from '@mantine/hooks';
 import { ChangeEvent, KeyboardEvent, MouseEvent, useState } from 'react';

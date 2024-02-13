@@ -1,7 +1,7 @@
 import BranchAnd from '@/features/RoutineEditor/components/BranchAnd';
 import useWindowSize from '@/hooks/useWindowSize';
-import { selectRungById } from '@/store/routine/routineSelectors';
-import { deleteRung, editRungComment } from '@/store/routine/routineSlice';
+import { selectRungById } from '@/store/routine/selectors';
+import { deleteRung, editRungComment } from '@/store/routine/slice';
 import { Button, Modal, Textarea } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import clsx from 'clsx';

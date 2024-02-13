@@ -1,7 +1,7 @@
 import BranchAnd from '@/features/RoutineEditor/components/BranchAnd';
 import RungLine from '@/features/RoutineEditor/components/RungLine';
 import { RootState, store } from '@/store';
-import { makeSelectBranchChildren } from '@/store/routine/routineSelectors';
+import { makeSelectBranchChildren } from '@/store/routine/selectors';
 import clsx from 'clsx';
 import { CSSProperties, ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';

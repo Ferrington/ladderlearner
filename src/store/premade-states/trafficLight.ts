@@ -1,5 +1,5 @@
-import { RoutineSlice } from '@/store/routine/routineSlice';
-import { TagSlice } from '@/store/tag/tagSlice';
+import { RoutineSlice } from '@/store/routine/slice';
+import { TagSlice } from '@/store/tag/slice';
 
 export const routineSlice: RoutineSlice = {
   rungs: {

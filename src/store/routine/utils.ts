@@ -1,4 +1,4 @@
-import { Branch, RoutineSlice } from '@/store/routine/routineSlice';
+import { Branch, RoutineSlice } from '@/store/routine/slice';
 import { Instruction } from '@/types';
 
 export function deleteChildren(

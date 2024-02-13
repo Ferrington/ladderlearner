@@ -1,9 +1,14 @@
-import { routineReducer } from '@/store/routine/routineSlice';
-import { tagReducer } from '@/store/tag/tagSlice';
+import { baseReducer } from '@/store/base/slice';
+import { routineReducer } from '@/store/routine/slice';
+import { tagReducer } from '@/store/tag/slice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 
-const rootReducer = combineReducers({ tags: tagReducer, routine: routineReducer });
+const rootReducer = combineReducers({
+  base: baseReducer,
+  tags: tagReducer,
+  routine: routineReducer,
+});
 
 export function setupStore(preloadedState?: Partial<RootState>) {
   return configureStore({

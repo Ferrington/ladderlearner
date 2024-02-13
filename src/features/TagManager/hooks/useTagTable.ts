@@ -1,5 +1,5 @@
-import { selectTagsAsList } from '@/store/tag/tagSelectors';
-import { setTagOrder } from '@/store/tag/tagSlice';
+import { selectTagsAsList } from '@/store/tag/selectors';
+import { setTagOrder } from '@/store/tag/slice';
 import {
   DragEndEvent,
   DragStartEvent,

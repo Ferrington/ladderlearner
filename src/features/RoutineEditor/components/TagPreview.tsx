@@ -1,4 +1,4 @@
-import { selectTagValueById } from '@/store/tag/tagSelectors';
+import { selectTagValueById } from '@/store/tag/selectors';
 import clsx from 'clsx';
 import { useSelector } from 'react-redux';
 import styles from '../styles/InstructionBox.module.css';

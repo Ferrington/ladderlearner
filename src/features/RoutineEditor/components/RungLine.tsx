@@ -1,4 +1,4 @@
-import { Branch, deleteBranch } from '@/store/routine/routineSlice';
+import { Branch, deleteBranch } from '@/store/routine/slice';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { RiDeleteBinLine } from 'react-icons/ri';

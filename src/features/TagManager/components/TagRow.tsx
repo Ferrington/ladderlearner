@@ -1,6 +1,6 @@
 import TagNestedRow from '@/features/TagManager/components/TagNestedRow';
 import { useTagRow } from '@/features/TagManager/hooks/useTagRow';
-import { deleteTag } from '@/store/tag/tagSlice';
+import { deleteTag } from '@/store/tag/slice';
 import { CounterTag, Tag, TimerTag } from '@/types';
 import { formatTagValue } from '@/utils/formatTagValue';
 import { DraggableAttributes } from '@dnd-kit/core';

@@ -1,5 +1,5 @@
 import TagTable from '@/features/TagManager/components/TagTable';
-import { TagSlice } from '@/store/tag/tagSlice';
+import { TagSlice } from '@/store/tag/slice';
 import { renderWithProviders } from '@/test/renderWithProviders';
 import { screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';

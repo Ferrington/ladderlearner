@@ -1,7 +1,7 @@
 import InlineAutocomplete from '@/base/components/InlineAutocomplete';
 import { RootState, useAppDispatch } from '@/store';
 import { setBoxTagNameAction } from '@/store/combined-actions/setBoxTagNameAction';
-import { makeSelectTagOptions } from '@/store/tag/tagSelectors';
+import { makeSelectTagOptions } from '@/store/tag/selectors';
 import { InstructionBox } from '@/types';
 import { isNumeric } from '@/utils/isNumeric';
 import clsx from 'clsx';

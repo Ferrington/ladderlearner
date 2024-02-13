@@ -1,5 +1,5 @@
 import RungDragOverlay from '@/features/RoutineEditor/components/RungDragOverlay';
-import { selectRungIds } from '@/store/routine/routineSelectors';
+import { selectRungIds } from '@/store/routine/selectors';
 import { useState } from 'react';
 import { RiPlayLine, RiStopLine } from 'react-icons/ri';
 import { useSelector } from 'react-redux';

@@ -5,7 +5,7 @@ import { RootState } from '@/store';
 import {
   makeSelectBranchChildren,
   makeSelectDestructiveChildIndex,
-} from '@/store/routine/routineSelectors';
+} from '@/store/routine/selectors';
 import { ReactNode, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 

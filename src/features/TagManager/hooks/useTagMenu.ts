@@ -1,5 +1,5 @@
-import { selectTags } from '@/store/tag/tagSelectors';
-import { addTag } from '@/store/tag/tagSlice';
+import { selectTags } from '@/store/tag/selectors';
+import { addTag } from '@/store/tag/slice';
 import { Tag } from '@/types';
 import { isNumeric } from '@/utils/isNumeric';
 import { ChangeEvent, KeyboardEvent, useState } from 'react';

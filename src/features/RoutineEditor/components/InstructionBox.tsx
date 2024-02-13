@@ -1,7 +1,7 @@
 import InstructionBoxParameter from '@/features/RoutineEditor/components/InstructionBoxParameter';
 import TagPreview from '@/features/RoutineEditor/components/TagPreview';
-import { selectInstructionById } from '@/store/routine/routineSelectors';
-import { deleteInstruction } from '@/store/routine/routineSlice';
+import { selectInstructionById } from '@/store/routine/selectors';
+import { deleteInstruction } from '@/store/routine/slice';
 import { isNumeric } from '@/utils/isNumeric';
 import clsx from 'clsx';
 import { Fragment, MouseEvent, ReactNode, useState } from 'react';
