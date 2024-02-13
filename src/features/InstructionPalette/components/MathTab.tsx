@@ -16,7 +16,7 @@ export default function MathTab() {
           //   instructionId={instruction}
           //   dragOverlay={dragOverlay}
           // >
-          <InstructionBoxPrimitive key={instruction} instructionId={instruction} />
+          <InstructionBoxPrimitive key={instruction} abbreviation={instruction} />
           // </PrimBoxDragWrapper>
         );
       })}

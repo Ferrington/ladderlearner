@@ -1,6 +1,7 @@
 import BranchAnd from '@/features/RoutineEditor/components/BranchAnd';
 import RungLine from '@/features/RoutineEditor/components/RungLine';
 import { RootState, store } from '@/store';
+import { selectGlobalEditMode } from '@/store/base/selectors';
 import { makeSelectBranchChildren } from '@/store/routine/selectors';
 import clsx from 'clsx';
 import { CSSProperties, ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
@@ -21,6 +22,7 @@ export default function BranchOr({ branchId, destructive, children: componentChi
   const [orHeight, setOrHeight] = useState(0);
   const orRef = useRef<HTMLDivElement>(null);
   const [heightAdjust, setHeightAdjust] = useState(false);
+  const globalEditMode = useSelector(selectGlobalEditMode);
 
   store.subscribe(() => {
     setHeightAdjust(!heightAdjust);
@@ -37,7 +39,7 @@ export default function BranchOr({ branchId, destructive, children: componentChi
     );
     const height = [...children].reduce((sum, child) => sum + child.offsetHeight, 0);
     setOrHeight(height);
-  }, [heightAdjust]);
+  }, [heightAdjust, globalEditMode]);
 
   return (
     <div

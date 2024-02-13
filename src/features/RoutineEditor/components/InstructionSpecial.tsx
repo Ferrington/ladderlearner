@@ -1,5 +1,6 @@
 import InlineAutocomplete from '@/base/components/InlineAutocomplete';
 import { RootState } from '@/store';
+import { setGlobalEditMode } from '@/store/base/slice';
 import { selectInstructionById } from '@/store/routine/selectors';
 import { deleteInstruction, setSpecialTagName } from '@/store/routine/slice';
 import { makeSelectTagOptions } from '@/store/tag/selectors';
@@ -52,16 +53,16 @@ export default function InstructionSpecial({
 
     if (['INPUT', 'P'].includes(tagName)) {
       setEditMode(true);
-      // actions.setEditMode(true);
+      dispatch(setGlobalEditMode(true));
     } else {
       setEditMode(false);
-      // actions.setEditMode(false);
+      dispatch(setGlobalEditMode(false));
     }
   }
 
   function handleClickOutsideInput() {
     setEditMode(false);
-    // actions.setEditMode(false);
+    dispatch(setGlobalEditMode(false));
     // setTagLookinClickable(false);
   }
 

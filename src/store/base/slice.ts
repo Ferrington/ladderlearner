@@ -1,11 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export type BaseSlice = {
   draggingRungIndex: number | null;
   rungDropLocations: number[] | null;
   draggingInstructionId: string | null;
   dropLocations: Record<string, number> | 'none' | 'all';
-  editMode: boolean;
+  globalEditMode: boolean;
   runSimulation: boolean;
   tagsAreUnassigned: boolean;
 };
@@ -15,7 +15,7 @@ const initialState: BaseSlice = {
   rungDropLocations: null,
   draggingInstructionId: null,
   dropLocations: 'none',
-  editMode: false,
+  globalEditMode: false,
   runSimulation: false,
   tagsAreUnassigned: false,
 };
@@ -23,7 +23,31 @@ const initialState: BaseSlice = {
 const baseSlice = createSlice({
   name: 'base',
   initialState,
-  reducers: {},
+  reducers: {
+    setDraggingRungIndex(state, action: PayloadAction<number | null>) {
+      state.draggingRungIndex = action.payload;
+    },
+    setDraggingInstructionId(state, action: PayloadAction<string | null>) {
+      state.draggingInstructionId = action.payload;
+    },
+    setGlobalEditMode(state, action: PayloadAction<boolean>) {
+      state.globalEditMode = action.payload;
+    },
+    setRunSimulation(state, action: PayloadAction<boolean>) {
+      state.runSimulation = action.payload;
+    },
+    setTagsAreUnassigned(state, action: PayloadAction<boolean>) {
+      state.tagsAreUnassigned = action.payload;
+    },
+  },
 });
+
+export const {
+  setDraggingRungIndex,
+  setDraggingInstructionId,
+  setGlobalEditMode,
+  setRunSimulation,
+  setTagsAreUnassigned,
+} = baseSlice.actions;
 
 export const baseReducer = baseSlice.reducer;

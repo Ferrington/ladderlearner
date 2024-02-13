@@ -16,7 +16,7 @@ export default function CountTimeTab() {
           //   instructionId={instruction}
           //   dragOverlay={dragOverlay}
           // >
-          <InstructionBoxPrimitive key={instruction} instructionId={instruction} />
+          <InstructionBoxPrimitive key={instruction} abbreviation={instruction} />
           // </PrimBoxDragWrapper>
         );
       })}

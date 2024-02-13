@@ -1,10 +1,12 @@
 import { INSTRUCTION_PROPERTIES } from '@/config/instructionProperties';
+import { selectDraggingInstructionId } from '@/store/base/selectors';
+import { useSelector } from 'react-redux';
 import styles from '../styles/InstructionBox.module.css';
 
-export default function InstructionBoxPrimitive({ instructionId }: { instructionId: string }) {
-  // const { whichDraggingInstruction, runSimulation } = useSnapshot(store);
+export default function InstructionBoxPrimitive({ abbreviation }: { abbreviation: string }) {
+  const draggingInstructionId = useSelector(selectDraggingInstructionId);
 
-  const instruction = INSTRUCTION_PROPERTIES[instructionId];
+  const instruction = INSTRUCTION_PROPERTIES[abbreviation];
   if (instruction.displayType === 'special') {
     throw new Error('Tried to create Box Instruction with type: InstructionSpecialProperties');
   }
@@ -12,10 +14,10 @@ export default function InstructionBoxPrimitive({ instructionId }: { instruction
   return (
     <div
       className={styles.instruction}
-      // style={{
-      //   opacity: whichDraggingInstruction === instructionId ? 0.5 : 1,
-      //   cursor: whichDraggingInstruction === instructionId ? 'grabbing' : 'grab',
-      // }}
+      style={{
+        opacity: draggingInstructionId === abbreviation ? 0.5 : 1,
+        cursor: draggingInstructionId === abbreviation ? 'grabbing' : 'grab',
+      }}
     >
       <div className={styles['header-wrapper']}>
         <p className={styles.name}>{instruction.name}</p>

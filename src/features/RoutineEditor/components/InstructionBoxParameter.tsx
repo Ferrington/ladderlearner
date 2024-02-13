@@ -1,5 +1,6 @@
 import InlineAutocomplete from '@/base/components/InlineAutocomplete';
 import { RootState, useAppDispatch } from '@/store';
+import { setGlobalEditMode } from '@/store/base/slice';
 import { setBoxTagNameAction } from '@/store/combined-actions/setBoxTagNameAction';
 import { makeSelectTagOptions } from '@/store/tag/selectors';
 import { InstructionBox } from '@/types';
@@ -65,11 +66,12 @@ export default function InstructionBoxParameter({ instruction, paramKey }: Props
 
     setLookinClickable(false);
     setEditMode(true);
-    // actions.setEditMode(true);
+    dispatch(setGlobalEditMode(true));
   }
 
   function handleClickOutside() {
     setEditMode(false);
+    dispatch(setGlobalEditMode(false));
   }
 
   function handleCommit(name: string) {
@@ -79,6 +81,7 @@ export default function InstructionBoxParameter({ instruction, paramKey }: Props
 
     dispatch(setBoxTagNameAction(name, instruction.id, paramKey));
     setEditMode(false);
+    dispatch(setGlobalEditMode(false));
   }
 
   if (editMode) {

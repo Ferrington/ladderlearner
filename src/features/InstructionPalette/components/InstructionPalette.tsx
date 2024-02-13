@@ -4,6 +4,7 @@ import CountTimeTab from '@/features/InstructionPalette/components/CountTimeTab'
 import ExampleTab from '@/features/InstructionPalette/components/ExampleTab';
 import InstructionSpecialPrimitive from '@/features/InstructionPalette/components/InstructionSpecialPrimitive';
 import MathTab from '@/features/InstructionPalette/components/MathTab';
+import PrimSpecialDragWrapper from '@/features/InstructionPalette/components/PrimSpecialDragWrapper';
 import { useDroppable } from '@dnd-kit/core';
 import { Tabs } from '@mantine/core';
 import styles from '../styles/InstructionPalette.module.css';
@@ -57,16 +58,16 @@ export default function InstructionPalette() {
       </div>
       <div className={styles['rungs-branches']}>
         {rungsAndBranches.map((instruction) => {
-          // const dragOverlay = <InstructionSpecialPrimitive instructionId={instruction} />;
+          const dragOverlay = <InstructionSpecialPrimitive abbreviation={instruction} />;
 
           return (
-            // <PrimSpecialDragWrapper
-            //   key={instruction}
-            //   instructionId={instruction}
-            //   dragOverlay={dragOverlay}
-            // >
-            <InstructionSpecialPrimitive key={instruction} instructionId={instruction} />
-            // </PrimSpecialDragWrapper>
+            <PrimSpecialDragWrapper
+              key={instruction}
+              abbreviation={instruction}
+              dragOverlay={dragOverlay}
+            >
+              <InstructionSpecialPrimitive key={instruction} abbreviation={instruction} />
+            </PrimSpecialDragWrapper>
           );
         })}
       </div>
