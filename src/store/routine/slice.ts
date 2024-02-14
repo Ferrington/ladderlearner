@@ -1,6 +1,7 @@
 import { routineSlice as trafficLightInitialState } from '@/store/premade-states/trafficLight';
-import { deleteChildren } from '@/store/routine/utils';
+import { deleteChildren, generateEmptyRung } from '@/store/routine/utils';
 import { Counter, Instruction, Timer } from '@/types';
+import { arrayMove } from '@/utils/arrayMove';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export type RoutineSlice = {
@@ -106,7 +107,26 @@ const routineSlice = createSlice({
       const { rung, comment } = action.payload;
       state.rungs.byId[rung.id].comment = comment;
     },
+    insertRung(state, action: PayloadAction<number>) {
+      const rungIndex = action.payload;
+
+      const { newRung, newBranch } = generateEmptyRung();
+      const rungId = newRung.id;
+      const branchId = newBranch.id;
+
+      state.rungs.byId[rungId] = newRung;
+      state.rungs.allIds.splice(rungIndex, 0, rungId);
+      state.branches[branchId] = newBranch;
+    },
+    moveRung(state, action: PayloadAction<{ rungNumber: number; dropIndex: number }>) {
+      const { rungNumber, dropIndex } = action.payload;
+      const prevIndex = rungNumber - 1;
+      const newIndex = dropIndex > prevIndex ? dropIndex - 1 : dropIndex;
+
+      state.rungs.allIds = arrayMove(state.rungs.allIds, prevIndex, newIndex);
+    },
     deleteRung(state, action: PayloadAction<Rung>) {
+      //runggFjQebHaajuoV1wGP-TPw
       const rung = action.payload;
       deleteChildren(state, state.branches[rung.child]);
 
@@ -154,6 +174,8 @@ export const {
   setSpecialTagName,
   setBoxTagName,
   editRungComment,
+  insertRung,
+  moveRung,
   deleteRung,
   deleteBranch,
   deleteInstruction,

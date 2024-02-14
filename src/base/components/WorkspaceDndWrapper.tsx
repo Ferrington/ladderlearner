@@ -1,6 +1,7 @@
 import { useAppDispatch } from '@/store';
 import { setDraggingInstructionId, setDraggingRungIndex } from '@/store/base/slice';
 import { setDropLocationsAction } from '@/store/combined-actions/setDropLocationsAction';
+import { insertRung, moveRung } from '@/store/routine/slice';
 import {
   CollisionDetection,
   DndContext,
@@ -62,42 +63,48 @@ export default function WorkspaceDndWrapper({ children }: { children?: ReactNode
     if (e.active.data.current && 'rungNumber' in e.active.data.current) {
       dispatch(setDraggingRungIndex(e.active.data.current.rungNumber));
       setDragOverlay(e.active?.data?.current?.dragOverlay);
-      return;
+    } else if (e.active.id === 'Rung') {
+      dispatch(setDraggingRungIndex(-1));
+    } else {
+      dispatch(setDraggingInstructionId(e.active.id as string));
+      dispatch(setDropLocationsAction(e.active?.data?.current?.instruction?.abbreviated));
+
+      setDragOverlay(e.active?.data?.current?.dragOverlay);
     }
-
-    dispatch(setDraggingInstructionId(e.active.id as string));
-    dispatch(setDropLocationsAction(e.active?.data?.current?.instruction?.abbreviated));
-
-    setDragOverlay(e.active?.data?.current?.dragOverlay);
   }
 
   function handleDragEnd(e: DragEndEvent) {
     dispatch(setDraggingRungIndex(null));
     dispatch(setDraggingInstructionId(null));
 
+    setDragOverlay(null);
+
     if (e.over == null) return;
     if (!e.active.data.current || !e.over.data.current) return;
     // prevent drop if hovering over instruction palette
     if (e.over.id === 'instructionPalette') return;
 
-    // // handle rung in routine
-    // if ("rungNumber" in e.active.data.current)
-    //   actions.moveRung(
-    //     e.active.data.current.rungNumber,
-    //     e.over.data.current.rungIndex,
-    //   );
-    // // handle rung from instruction palette
-    // else if (e.active.data.current.instruction.abbreviated === "Rung")
-    //   actions.insertRung(e.over.data.current);
-    // // handle branch
-    // else if (e.active.data.current.instruction.abbreviated === "Branch")
-    //   actions.insertBranch(e.over.data.current);
-    // // handle branch level
-    // else if (e.active.data.current.instruction.abbreviated === "Branch Level")
-    //   actions.insertBranchLevel(e.over.data.current);
-    // // handle instructions
-    // else if ("instruction" in e.active.data.current)
-    //   processInstruction(e.over.data.current, e.active.data.current);
+    if ('rungNumber' in e.active.data.current) {
+      // handle rung in routine
+      dispatch(
+        moveRung({
+          rungNumber: e.active.data.current.rungNumber,
+          dropIndex: e.over.data.current.rungIndex,
+        }),
+      );
+    } else if (e.active.data.current.instruction.abbreviated === 'Rung') {
+      // handle rung from instruction palette
+      dispatch(insertRung(e.over.data.current.rungIndex));
+    } else if (e.active.data.current.instruction.abbreviated === 'Branch') {
+      // handle branch
+      // actions.insertBranch(e.over.data.current);
+    } else if (e.active.data.current.instruction.abbreviated === 'Branch Level') {
+      // handle branch level
+      // actions.insertBranchLevel(e.over.data.current);
+    } else if ('instruction' in e.active.data.current) {
+      // handle instructions
+      // processInstruction(e.over.data.current, e.active.data.current);
+    }
   }
 
   return (

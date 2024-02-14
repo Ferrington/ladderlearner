@@ -1,5 +1,6 @@
 import { Branch, RoutineSlice } from '@/store/routine/slice';
 import { Instruction, ValidDropLocations } from '@/types';
+import { nanoid } from 'nanoid';
 
 export function deleteChildren(
   state: RoutineSlice,
@@ -167,4 +168,23 @@ export function getBranchLevelLocations(routine: RoutineSlice) {
   }
 
   return locs;
+}
+
+export function generateEmptyRung() {
+  const rungId = 'rung' + nanoid();
+  const branchId = 'branch' + nanoid();
+
+  return {
+    newRung: {
+      id: rungId,
+      type: 'Rung' as const,
+      child: branchId,
+    },
+    newBranch: {
+      id: branchId,
+      type: 'AND' as const,
+      parent: rungId,
+      children: [],
+    },
+  };
 }
