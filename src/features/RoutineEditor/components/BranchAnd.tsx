@@ -21,6 +21,8 @@ export default function BranchAnd({
   extraLandingPadLoc,
   children: componentChildren,
 }: Props) {
+  // const childrenIds = useSelector(selectBranchChildren(branchId));
+
   const selectBranchChildren = useMemo(makeSelectBranchChildren, []);
   const children = useSelector((state: RootState) => selectBranchChildren(state, branchId));
 

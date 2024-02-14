@@ -1,5 +1,5 @@
 import { AppDispatch, RootState } from '@/store';
-import { updateTagAction } from '@/store/combined-actions/updateTagAction';
+import { updateTagAction } from '@/store/thunks/updateTagAction';
 import { Counter, Timer } from '@/types';
 
 export function setBoxTagNameAction(name: string, instructionId: string, key: string) {

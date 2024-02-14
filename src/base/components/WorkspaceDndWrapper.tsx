@@ -1,7 +1,14 @@
 import { useAppDispatch } from '@/store';
 import { setDraggingInstructionId, setDraggingRungIndex } from '@/store/base/slice';
-import { setDropLocationsAction } from '@/store/combined-actions/setDropLocationsAction';
-import { insertRung, moveRung } from '@/store/routine/slice';
+import {
+  deleteInstruction,
+  insertBranch,
+  insertBranchLevel,
+  insertInstruction,
+  insertRung,
+  moveRung,
+} from '@/store/routine/slice';
+import { setDropLocationsAction } from '@/store/thunks/setDropLocationsAction';
 import {
   CollisionDetection,
   DndContext,
@@ -31,21 +38,6 @@ const customCollisionDetection: CollisionDetection = ({ droppableContainers, ...
     droppableContainers: droppableContainers.filter(({ id }) => id !== 'instructionPalette'),
   });
 };
-
-// const processInstruction = (
-//   { newParent, index }: any,
-//   { instruction }: any,
-// ): void => {
-//   // source is a primitive
-//   if (instruction.parent === "") {
-//     instruction.parent = newParent;
-
-//     // actions.insertInstruction(instruction, index);
-//   // source is in routine
-//   } else {
-//     // actions.moveInstruction(instruction, { newParent, index });
-//   }
-// };
 
 export default function WorkspaceDndWrapper({ children }: { children?: ReactNode }) {
   const dispatch = useAppDispatch();
@@ -97,13 +89,24 @@ export default function WorkspaceDndWrapper({ children }: { children?: ReactNode
       dispatch(insertRung(e.over.data.current.rungIndex));
     } else if (e.active.data.current.instruction.abbreviated === 'Branch') {
       // handle branch
-      // actions.insertBranch(e.over.data.current);
+      const { newParent, index } = e.over.data.current;
+      dispatch(insertBranch({ newParent, index }));
     } else if (e.active.data.current.instruction.abbreviated === 'Branch Level') {
       // handle branch level
-      // actions.insertBranchLevel(e.over.data.current);
+      const { newParent } = e.over.data.current;
+      dispatch(insertBranchLevel(newParent));
     } else if ('instruction' in e.active.data.current) {
       // handle instructions
-      // processInstruction(e.over.data.current, e.active.data.current);
+      const { newParent, index } = e.over.data.current;
+      const { instruction } = e.active.data.current;
+      if (instruction.parent === '') {
+        instruction.parent = newParent;
+        dispatch(insertInstruction({ instruction, index }));
+      } else {
+        console.log(instruction);
+        dispatch(deleteInstruction(instruction));
+        // dispatch(moveInstructionAction({ instruction, newParent, index }));
+      }
     }
   }
 

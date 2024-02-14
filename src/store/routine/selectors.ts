@@ -25,6 +25,12 @@ export function selectBranchParentById(branchId: string) {
   };
 }
 
+export function selectBranchChildren(branchId: string) {
+  return (store: RootState) => {
+    return store.routine.branches[branchId].children;
+  };
+}
+
 export function selectInstructionById(id: string) {
   return (store: RootState) => store.routine.instructions[id];
 }
@@ -32,9 +38,9 @@ export function selectInstructionById(id: string) {
 export function makeSelectBranchChildren() {
   return createSelector(
     (store: RootState) => store.routine,
-    (_store: RootState, branchId: string) => branchId,
-    (routine, branchId) => {
-      return routine.branches[branchId].children.map((id) => selectElementById(routine, id));
+    (store: RootState, branchId: string) => selectBranchChildren(branchId)(store),
+    (routine, children) => {
+      return children.map((id) => selectElementById(routine, id));
     },
   );
 }
