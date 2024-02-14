@@ -3,7 +3,11 @@ import InstructionDropArea from '@/features/RoutineEditor/components/Instruction
 import RungLine from '@/features/RoutineEditor/components/RungLine';
 import { RootState, store } from '@/store';
 import { selectGlobalEditMode } from '@/store/base/selectors';
-import { makeSelectBranchChildren, selectBranchParentById } from '@/store/routine/selectors';
+import {
+  makeSelectBranchChildren,
+  selectBranchChildrenIds,
+  selectBranchParentById,
+} from '@/store/routine/selectors';
 import clsx from 'clsx';
 import { CSSProperties, ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -29,8 +33,9 @@ export default function BranchOr({ branchId, destructive, children: componentChi
     setHeightAdjust(!heightAdjust);
   });
 
+  const childrenIds = useSelector(selectBranchChildrenIds(branchId));
   const selectBranchChildren = useMemo(makeSelectBranchChildren, []);
-  const children = useSelector((state: RootState) => selectBranchChildren(state, branchId));
+  const children = useSelector((state: RootState) => selectBranchChildren(state, childrenIds));
   const parent = useSelector(selectBranchParentById(branchId));
 
   useLayoutEffect(() => {

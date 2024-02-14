@@ -76,7 +76,11 @@ export default function InstructionBox({
       })}
       onMouseOver={handleMouseOver}
       onMouseLeave={dontLookClickable}
-      style={{ cursor }}
+      style={{
+        cursor,
+        background:
+          beingDragged && draggingInstructionId === instructionId ? 'transparent' : 'white',
+      }}
     >
       {!beingDragged && (
         <div

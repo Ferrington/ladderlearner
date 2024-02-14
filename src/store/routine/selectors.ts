@@ -25,7 +25,7 @@ export function selectBranchParentById(branchId: string) {
   };
 }
 
-export function selectBranchChildren(branchId: string) {
+export function selectBranchChildrenIds(branchId: string) {
   return (store: RootState) => {
     return store.routine.branches[branchId].children;
   };
@@ -38,7 +38,7 @@ export function selectInstructionById(id: string) {
 export function makeSelectBranchChildren() {
   return createSelector(
     (store: RootState) => store.routine,
-    (store: RootState, branchId: string) => selectBranchChildren(branchId)(store),
+    (_store: RootState, children: string[]) => children,
     (routine, children) => {
       return children.map((id) => selectElementById(routine, id));
     },

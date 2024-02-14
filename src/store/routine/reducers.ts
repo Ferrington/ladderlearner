@@ -160,13 +160,10 @@ export const reducers = {
   },
   deleteInstruction(state: RoutineSlice, action: PayloadAction<Instruction>) {
     const instruction = action.payload;
-    console.log(instruction);
 
     const parent = state.branches[instruction.parent];
-    console.log(JSON.parse(JSON.stringify(parent.children)));
     parent.children = parent.children.filter((id: string) => id !== instruction.id);
 
     delete state.instructions[instruction.id];
-    console.log(JSON.parse(JSON.stringify(state)));
   },
 };

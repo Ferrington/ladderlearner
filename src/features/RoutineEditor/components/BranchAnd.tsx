@@ -6,6 +6,7 @@ import { RootState } from '@/store';
 import {
   makeSelectBranchChildren,
   makeSelectDestructiveChildIndex,
+  selectBranchChildrenIds,
 } from '@/store/routine/selectors';
 import { ReactNode, useMemo } from 'react';
 import { useSelector } from 'react-redux';
@@ -21,10 +22,9 @@ export default function BranchAnd({
   extraLandingPadLoc,
   children: componentChildren,
 }: Props) {
-  // const childrenIds = useSelector(selectBranchChildren(branchId));
-
+  const childrenIds = useSelector(selectBranchChildrenIds(branchId));
   const selectBranchChildren = useMemo(makeSelectBranchChildren, []);
-  const children = useSelector((state: RootState) => selectBranchChildren(state, branchId));
+  const children = useSelector((state: RootState) => selectBranchChildren(state, childrenIds));
 
   const selectDestructiveChildIndex = useMemo(makeSelectDestructiveChildIndex, []);
   const destructiveLoc = useSelector((state: RootState) =>

@@ -1,13 +1,13 @@
 import { useAppDispatch } from '@/store';
 import { setDraggingInstructionId, setDraggingRungIndex } from '@/store/base/slice';
 import {
-  deleteInstruction,
   insertBranch,
   insertBranchLevel,
   insertInstruction,
   insertRung,
   moveRung,
 } from '@/store/routine/slice';
+import { moveInstructionAction } from '@/store/thunks/moveInstructionAction';
 import { setDropLocationsAction } from '@/store/thunks/setDropLocationsAction';
 import {
   CollisionDetection,
@@ -103,9 +103,7 @@ export default function WorkspaceDndWrapper({ children }: { children?: ReactNode
         instruction.parent = newParent;
         dispatch(insertInstruction({ instruction, index }));
       } else {
-        console.log(instruction);
-        dispatch(deleteInstruction(instruction));
-        // dispatch(moveInstructionAction({ instruction, newParent, index }));
+        setTimeout(() => dispatch(moveInstructionAction({ instruction, newParent, index })), 0);
       }
     }
   }
