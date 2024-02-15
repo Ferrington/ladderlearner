@@ -30,8 +30,8 @@ export default function InstructionBox({
   const runSimulation = useSelector(selectRunSimulation);
   const draggingInstructionId = useSelector(selectDraggingInstructionId);
   const instruction = useSelector(selectInstructionById(instructionId));
-  const parent = useSelector(selectBranchById(instruction.parent));
-  if (instruction.displayType !== 'Box') return null;
+  const parent = useSelector(selectBranchById(instruction?.parent));
+  if (instruction?.displayType !== 'Box') return null;
 
   function lookClickable(e: MouseEvent) {
     // if (runSimulation) return;

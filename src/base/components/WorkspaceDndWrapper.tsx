@@ -103,7 +103,7 @@ export default function WorkspaceDndWrapper({ children }: { children?: ReactNode
         instruction.parent = newParent;
         dispatch(insertInstruction({ instruction, index }));
       } else {
-        setTimeout(() => dispatch(moveInstructionAction({ instruction, newParent, index })), 0);
+        dispatch(moveInstructionAction({ instruction, newParent, index }));
       }
     }
   }

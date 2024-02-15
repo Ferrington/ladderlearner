@@ -32,13 +32,13 @@ export default function InstructionSpecial({
   const runSimulation = useSelector(selectRunSimulation);
   const draggingInstructionId = useSelector(selectDraggingInstructionId);
   const instruction = useSelector(selectInstructionById(instructionId));
-  const parent = useSelector(selectBranchById(instruction.parent));
+  const parent = useSelector(selectBranchById(instruction?.parent));
 
   const selectTagOptions = useMemo(makeSelectTagOptions, []);
   const tagList = useSelector((state: RootState) =>
-    selectTagOptions(state, instruction.displayType),
+    selectTagOptions(state, instruction?.displayType),
   );
-  if (instruction.displayType !== 'Special') return null;
+  if (instruction?.displayType !== 'Special') return null;
 
   function handleClick(e: MouseEvent) {
     e.preventDefault();
