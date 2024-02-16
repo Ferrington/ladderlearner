@@ -34,7 +34,7 @@ export default function InstructionBox({
   if (instruction?.displayType !== 'Box') return null;
 
   function lookClickable(e: MouseEvent) {
-    // if (runSimulation) return;
+    if (runSimulation) return;
 
     const element = e.target as HTMLElement;
     if (element.classList.contains('instruct-value') || element.tagName === 'INPUT') {
@@ -45,7 +45,7 @@ export default function InstructionBox({
   }
 
   function handleMouseOver() {
-    // if (runSimulation) return;
+    if (runSimulation) return;
 
     setIsDeletable(true);
   }
@@ -56,7 +56,7 @@ export default function InstructionBox({
   }
 
   function handleDelete() {
-    // if (runSimulation) return;
+    if (runSimulation) return;
 
     dispatch(deleteInstruction(instruction));
   }

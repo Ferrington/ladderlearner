@@ -55,6 +55,13 @@ export default function Rung({
     selectExtraLandingPadLocation(state, rung.child),
   );
 
+  let cursor;
+  if (runSimulation) {
+    cursor = 'default';
+  } else {
+    cursor = isNotDragOverlay ? 'grab' : 'grabbing';
+  }
+
   useLayoutEffect(() => {
     if (codeRef.current != null) setMainRungWidth(codeRef.current.offsetWidth - 30);
   }, [windowSize]);
@@ -98,7 +105,7 @@ export default function Rung({
       {isNotDragOverlay && <RungDropArea rungIndex={rungNumber} />}
       <div
         className={styles['rung-number']}
-        style={{ cursor: isNotDragOverlay ? 'grab' : 'grabbing', opacity: beingDragged ? 0.5 : 1 }}
+        style={{ cursor, opacity: beingDragged ? 0.5 : 1 }}
         onMouseOver={handleMouseOver}
         onMouseLeave={dontLookClickable}
         {...dragListeners}

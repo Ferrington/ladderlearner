@@ -1,6 +1,8 @@
+import { selectRunSimulation } from '@/store/base/selectors';
 import { Button, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styles from '../styles/ExampleTab.module.css';
 
 const loadSample = async (sampleName: string) => {
@@ -31,6 +33,7 @@ export default function ExampleTab() {
   const [opened, { open, close }] = useDisclosure(false);
   const [sampleName, setSampleName] = useState<string>('emptyState');
   const [modalMessage, setModalMessage] = useState('');
+  const runSimulation = useSelector(selectRunSimulation);
 
   const openModal = (caller: string) => {
     if (caller === 'emptyState') setModalMessage('Clearing the routine will discard your work.');
@@ -52,7 +55,7 @@ export default function ExampleTab() {
         variant="outline"
         color="dark"
         onClick={() => openModal('motor')}
-        // disabled={runSimulation}
+        disabled={runSimulation}
       >
         Motor
       </Button>
@@ -61,7 +64,7 @@ export default function ExampleTab() {
         variant="outline"
         color="dark"
         onClick={() => openModal('trafficLight')}
-        // disabled={runSimulation}
+        disabled={runSimulation}
       >
         Traffic Light
       </Button>
@@ -70,7 +73,7 @@ export default function ExampleTab() {
         variant="outline"
         color="dark"
         onClick={() => openModal('widgets')}
-        // disabled={runSimulation}
+        disabled={runSimulation}
       >
         Widgets
       </Button>
@@ -78,7 +81,7 @@ export default function ExampleTab() {
         classNames={{ label: styles.label }}
         color="orange.4"
         onClick={() => openModal('emptyState')}
-        // disabled={runSimulation}
+        disabled={runSimulation}
       >
         Clear Routine
       </Button>

@@ -1,5 +1,6 @@
 import InlineAutocomplete from '@/base/components/InlineAutocomplete';
 import { RootState, useAppDispatch } from '@/store';
+import { selectRunSimulation } from '@/store/base/selectors';
 import { setGlobalEditMode } from '@/store/base/slice';
 import { makeSelectTagOptions } from '@/store/tag/selectors';
 import { setBoxTagNameAction } from '@/store/thunks/setBoxTagNameAction';
@@ -40,6 +41,8 @@ export default function InstructionBoxParameter({ instruction, paramKey }: Props
   const param = instruction.parameters[paramKey];
 
   const dispatch = useAppDispatch();
+
+  const runSimulation = useSelector(selectRunSimulation);
   const selectTagOptions = useMemo(makeSelectTagOptions, []);
   const tagList = useSelector((state: RootState) =>
     selectTagOptions(state, instruction.displayType, param.type, paramKey),
@@ -54,15 +57,14 @@ export default function InstructionBoxParameter({ instruction, paramKey }: Props
   }
 
   function lookClickable() {
-    // if (runSimulation) return;
+    if (runSimulation) return;
     if (param.value == '?') return;
 
     setLookinClickable(true);
   }
 
   function handleClick() {
-    // if (runSimulation) return;
-    if (param.value == '?') return;
+    if (runSimulation || param.value == '?') return;
 
     setLookinClickable(false);
     setEditMode(true);
