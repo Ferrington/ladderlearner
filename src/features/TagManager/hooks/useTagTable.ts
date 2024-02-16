@@ -1,3 +1,4 @@
+import { useAppDispatch } from '@/store';
 import { selectTagsAsList } from '@/store/tag/selectors';
 import { setTagOrder } from '@/store/tag/slice';
 import {
@@ -11,10 +12,10 @@ import {
 } from '@dnd-kit/core';
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 export function useTagTable() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const tags = useSelector(selectTagsAsList);

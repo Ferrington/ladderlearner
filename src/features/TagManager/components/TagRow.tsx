@@ -1,5 +1,6 @@
 import TagNestedRow from '@/features/TagManager/components/TagNestedRow';
 import { useTagRow } from '@/features/TagManager/hooks/useTagRow';
+import { useAppDispatch } from '@/store';
 import { deleteTag } from '@/store/tag/slice';
 import { CounterTag, Tag, TimerTag } from '@/types';
 import { formatTagValue } from '@/utils/formatTagValue';
@@ -8,7 +9,6 @@ import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import clsx from 'clsx';
 import { LegacyRef, forwardRef, useState } from 'react';
 import { RiArrowRightSLine, RiDeleteBinLine, RiDraggable } from 'react-icons/ri';
-import { useDispatch } from 'react-redux';
 import styles from '../styles/TagRow.module.css';
 
 type DraggableStyle = {
@@ -29,7 +29,7 @@ function _TagRow(
   { tag, style, listeners, attributes, dragging, dragOverlay }: Props,
   ref: LegacyRef<HTMLDivElement>,
 ) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { editMode, inputValue, inputRef, handleChange, handleClick, handleInputKeypress } =
     useTagRow({ name: tag.name, initialValue: tag.type === 'number' ? tag.value : undefined });

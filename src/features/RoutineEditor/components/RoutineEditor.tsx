@@ -1,13 +1,14 @@
 import RungDragOverlay from '@/features/RoutineEditor/components/RungDragOverlay';
+import { useAppDispatch } from '@/store';
 import { selectRunSimulation } from '@/store/base/selectors';
 import { setRunSimulation } from '@/store/base/slice';
 import { selectRungIds } from '@/store/routine/selectors';
 import { RiPlayLine, RiStopLine } from 'react-icons/ri';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styles from '../styles/RoutineEditor.module.css';
 
 export default function RoutineEditor() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const runSimulation = useSelector(selectRunSimulation);
   const rungIds = useSelector(selectRungIds);
 

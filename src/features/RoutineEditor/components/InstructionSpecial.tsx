@@ -1,6 +1,6 @@
 import InlineAutocomplete from '@/base/components/InlineAutocomplete';
 import InstructionDropArea from '@/features/RoutineEditor/components/InstructionDropArea';
-import { RootState } from '@/store';
+import { RootState, useAppDispatch } from '@/store';
 import { selectDraggingInstructionId, selectRunSimulation } from '@/store/base/selectors';
 import { setGlobalEditMode } from '@/store/base/slice';
 import { selectBranchById, selectInstructionById } from '@/store/routine/selectors';
@@ -9,7 +9,7 @@ import { makeSelectTagOptions } from '@/store/tag/selectors';
 import clsx from 'clsx';
 import { MouseEvent, ReactNode, useMemo, useState } from 'react';
 import { RiDeleteBinLine } from 'react-icons/ri';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styles from '../styles/InstructionSpecial.module.css';
 
 type Props = {
@@ -23,7 +23,7 @@ export default function InstructionSpecial({
   beingDragged,
   children: componentChildren,
 }: Props) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [editMode, setEditMode] = useState(false);
   const [isDeletable, setIsDeletable] = useState(false);

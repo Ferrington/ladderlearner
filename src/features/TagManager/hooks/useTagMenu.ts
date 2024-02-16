@@ -1,13 +1,14 @@
+import { useAppDispatch } from '@/store';
 import { selectTags } from '@/store/tag/selectors';
 import { addTag } from '@/store/tag/slice';
 import { Tag } from '@/types';
 import { isNumeric } from '@/utils/isNumeric';
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 export function useTagMenu() {
   const tags = useSelector(selectTags);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [name, setName] = useState('');
   const [type, setType] = useState<string | null>('bool');

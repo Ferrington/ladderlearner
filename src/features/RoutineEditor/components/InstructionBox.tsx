@@ -1,6 +1,7 @@
 import InstructionBoxParameter from '@/features/RoutineEditor/components/InstructionBoxParameter';
 import InstructionDropArea from '@/features/RoutineEditor/components/InstructionDropArea';
 import TagPreview from '@/features/RoutineEditor/components/TagPreview';
+import { useAppDispatch } from '@/store';
 import { selectDraggingInstructionId, selectRunSimulation } from '@/store/base/selectors';
 import { selectBranchById, selectInstructionById } from '@/store/routine/selectors';
 import { deleteInstruction } from '@/store/routine/slice';
@@ -8,7 +9,7 @@ import { isNumeric } from '@/utils/isNumeric';
 import clsx from 'clsx';
 import { Fragment, MouseEvent, ReactNode, useState } from 'react';
 import { RiDeleteBinLine } from 'react-icons/ri';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styles from '../styles/InstructionBox.module.css';
 
 type Props = {
@@ -25,7 +26,7 @@ export default function InstructionBox({
   const [showInteractOutline, setShowInteractOutline] = useState(false);
   const [isDeletable, setIsDeletable] = useState(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const runSimulation = useSelector(selectRunSimulation);
   const draggingInstructionId = useSelector(selectDraggingInstructionId);

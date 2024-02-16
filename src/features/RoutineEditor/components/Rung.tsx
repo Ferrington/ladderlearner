@@ -2,7 +2,7 @@ import BranchAnd from '@/features/RoutineEditor/components/BranchAnd';
 import InstructionDropArea from '@/features/RoutineEditor/components/InstructionDropArea';
 import RungDropArea from '@/features/RoutineEditor/components/RungDropArea';
 import useWindowSize from '@/hooks/useWindowSize';
-import { RootState } from '@/store';
+import { RootState, useAppDispatch } from '@/store';
 import { selectRunSimulation } from '@/store/base/selectors';
 import {
   makeSelectExtraLandingPadLocation,
@@ -15,7 +15,7 @@ import { useDisclosure } from '@mantine/hooks';
 import clsx from 'clsx';
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { RiDeleteBinLine, RiFileListLine } from 'react-icons/ri';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styles from '../styles/Rung.module.css';
 
 type Props = {
@@ -40,7 +40,7 @@ export default function Rung({
   const [isDeletable, setIsDeletable] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const windowSize = useWindowSize();
 
   const codeRef = useRef<HTMLDivElement>(null);
