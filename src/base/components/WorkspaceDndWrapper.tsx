@@ -100,9 +100,11 @@ export default function WorkspaceDndWrapper({ children }: { children?: ReactNode
       const { newParent, index } = e.over.data.current;
       const { instruction } = e.active.data.current;
       if (instruction.parent === '') {
+        // source is a primitive
         instruction.parent = newParent;
         dispatch(insertInstruction({ instruction, index }));
       } else {
+        // source is in routine
         dispatch(moveInstructionAction({ instruction, newParent, index }));
       }
     }

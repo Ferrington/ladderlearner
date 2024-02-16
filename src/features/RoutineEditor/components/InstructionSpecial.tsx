@@ -42,17 +42,17 @@ export default function InstructionSpecial({
 
   function handleClick(e: MouseEvent) {
     e.preventDefault();
-    // if (runSimulation) {
-    //   if (!instruction.tag) return;
+    if (runSimulation) {
+      if (instruction?.displayType !== 'Special' || !instruction.tag) return;
 
-    //   const tag = getTagByName(instruction.tag);
-    //   const isOutput = checkIfOutput(tag);
-    //   if (!isOutput) {
-    //     tagActions.updateTag(tag.name, !tag.value);
-    //   }
+      // const tag = getTagByName(instruction.tag);
+      // const isOutput = checkIfOutput(tag);
+      // if (!isOutput) {
+      //   tagActions.updateTag(tag.name, !tag.value);
+      // }
 
-    //   return;
-    // }
+      return;
+    }
 
     const tagName = (e.target as HTMLElement).tagName;
 
@@ -68,7 +68,6 @@ export default function InstructionSpecial({
   function handleClickOutsideInput() {
     setEditMode(false);
     dispatch(setGlobalEditMode(false));
-    // setTagLookinClickable(false);
   }
 
   function handleCommit(name: string) {
@@ -86,41 +85,26 @@ export default function InstructionSpecial({
     });
   }
 
-  // const lookClickable = (e: MouseEvent) => {
-  //   // if (runSimulation) return;
-  //   const tagName = (e.target as HTMLElement).tagName;
-
-  //   if (["INPUT", "P"].includes(tagName)) {
-  //     setTagLookinClickable(true);
-  //     setLookinClickable(false);
-  //   } else {
-  //     setLookinClickable(true);
-  //     setTagLookinClickable(false);
-  //   }
-  // };
-
   const handleMouseOver = () => {
-    // if (runSimulation) return;
+    if (runSimulation) return;
 
     setIsDeletable(true);
   };
 
   const dontLookClickable = () => {
-    // setLookinClickable(false);
-    // setTagLookinClickable(false);
     setIsDeletable(false);
     setShowInteractOutline(false);
   };
 
   function handleDelete() {
-    // if (runSimulation) return;
+    if (runSimulation) return;
 
     dispatch(deleteInstruction(instruction));
   }
 
   let cursor;
   if (runSimulation) {
-    cursor = instruction.isDestructive ? 'auto' : 'pointer';
+    cursor = instruction.isDestructive ? 'default' : 'pointer';
   } else {
     cursor = beingDragged ? 'grabbing' : 'grab';
   }
@@ -141,7 +125,7 @@ export default function InstructionSpecial({
       <p
         className={clsx({
           [styles.unassigned]: instruction.tag == null,
-          [styles.clickable]: true,
+          [styles.clickable]: runSimulation && !instruction.isDestructive,
         })}
         style={{ opacity: draggingInstructionId === instructionId ? 0.5 : 1 }}
       >
@@ -164,7 +148,7 @@ export default function InstructionSpecial({
       }}
     >
       <div className={styles['energized-wrapper']}>
-        {!beingDragged && (
+        {!beingDragged && !runSimulation && (
           <div
             className={clsx(styles.delete, {
               [styles.deletable]: isDeletable,

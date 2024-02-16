@@ -65,12 +65,12 @@
   width: 60px;
   height: 40px;
   text-align: right;
-  cursor: pointer;
   z-index: 4;
 }
 
 .delete-icon:hover {
   color: #ffa94d;
+  cursor: pointer;
 }
 
 .delete.deletable {
@@ -80,5 +80,4 @@
 .interact-outline {
   outline: 2px dashed #ffa94d;
   outline-offset: 5px;
-  cursor: pointer;
 }
