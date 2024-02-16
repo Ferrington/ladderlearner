@@ -1,4 +1,3 @@
-import { routineSlice as trafficLightInitialState } from '@/store/premade-states/trafficLight';
 import { reducers } from '@/store/routine/reducers';
 import { Branch, Rung } from '@/store/routine/types';
 import { Instruction } from '@/types';
@@ -13,18 +12,18 @@ export type RoutineSlice = {
   instructions: Record<string, Instruction>;
 };
 
-// const initialState = {
-//   rungs: {
-//     byId: {},
-//     allIds: [],
-//   },
-//   branches: {},
-//   instructions: {},
-// } as RoutineSlice;
+const initialState: RoutineSlice = {
+  rungs: {
+    byId: {},
+    allIds: [],
+  },
+  branches: {},
+  instructions: {},
+};
 
 const routineSlice = createSlice({
   name: 'routine',
-  initialState: trafficLightInitialState,
+  initialState,
   reducers,
 });
 

@@ -128,6 +128,7 @@ export default function InstructionSpecial({
           [styles.clickable]: (runSimulation && !instruction.isDestructive) || !runSimulation,
         })}
         style={{ opacity: draggingInstructionId === instructionId ? 0.5 : 1 }}
+        data-testid="instruction-special-tag"
       >
         {instruction.tag || 'Assign Tag'}
       </p>
@@ -146,6 +147,7 @@ export default function InstructionSpecial({
       style={{
         cursor,
       }}
+      data-testid="instruction-special"
     >
       <div className={styles['energized-wrapper']}>
         {!beingDragged && !runSimulation && (

@@ -112,6 +112,7 @@ export default function InlineAutocomplete({
           onChange={handleChange}
           onKeyDown={handleKeyPress}
           onClick={(e) => e.stopPropagation()}
+          data-testid="inline-autocomplete"
         />
         <span ref={spanRef} className={styles.overlay}>
           {autocomplete}

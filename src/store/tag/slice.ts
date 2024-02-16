@@ -1,4 +1,3 @@
-import { tagSlice as initialTagState } from '@/store/premade-states/trafficLight';
 import { Counter, Tag, Timer } from '@/types';
 import { createNewTag } from '@/utils/createNewTag';
 import { arrayMove } from '@dnd-kit/sortable';
@@ -30,14 +29,14 @@ type ReorderTagPayload = {
   to: string;
 };
 
-// const initialState = {
-//   byId: {},
-//   allIds: [],
-// } as TagSlice;
+const initialState: TagSlice = {
+  byId: {},
+  allIds: [],
+};
 
 const tagSlice = createSlice({
   name: 'tags',
-  initialState: initialTagState,
+  initialState,
   reducers: {
     addTag(state, action: PayloadAction<AddTagPayload>) {
       const newTag = createNewTag(action.payload.name, action.payload.type);
