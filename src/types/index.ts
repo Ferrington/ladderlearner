@@ -1,3 +1,6 @@
+import { RoutineSlice } from '@/store/routine/slice';
+import { TagSlice } from '@/store/tag/slice';
+
 export type InstructionSpecial = {
   id: string;
   type: 'Instruction';
@@ -96,3 +99,8 @@ export type TimerTag = {
 export type Tag = BooleanTag | NumberTag | CounterTag | TimerTag;
 
 export type ValidDropLocations = Record<string, number[]>;
+
+export type ExampleState = {
+  routine: RoutineSlice;
+  tags: TagSlice;
+};

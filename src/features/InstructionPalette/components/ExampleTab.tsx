@@ -1,32 +1,34 @@
+import { AppDispatch, useAppDispatch } from '@/store';
 import { selectRunSimulation } from '@/store/base/selectors';
+import { loadStateAction } from '@/store/thunks/loadStateAction';
 import { Button, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styles from '../styles/ExampleTab.module.css';
 
-const loadSample = async (sampleName: string) => {
+const loadSample = async (dispatch: AppDispatch, sampleName: string) => {
   sampleName;
-  // let importedState;
-  // if (sampleName === "motor") {
-  //   const { state } = await import("store/preMadeStates/motor");
-  //   importedState = state;
-  // } else if (sampleName === "trafficLight") {
-  //   const { state } = await import("store/preMadeStates/trafficLight");
-  //   importedState = state;
-  // } else if (sampleName === "widgets") {
-  //   const { state } = await import("store/preMadeStates/widgets");
-  //   importedState = state;
-  // } else if (sampleName === "emptyState") {
-  //   const { state } = await import("store/preMadeStates/emptyState");
-  //   importedState = state;
-  // } else {
-  //   return;
-  // }
-  // const nextState = cloneDeep(importedState);
-  // store.routine = nextState.routine as RoutineSlice;
-  // store.tags = nextState.tags as TagSlice;
-  // window.dispatchEvent(new Event("resize"));
+  let importedState;
+  if (sampleName === 'emptyState') {
+    const { state } = await import('@/store/premade-states/emptyState');
+    importedState = state;
+  } else if (sampleName === 'motor') {
+    const { state } = await import('@/store/premade-states/motor');
+    importedState = state;
+  } else if (sampleName === 'trafficLight') {
+    const { state } = await import('@/store/premade-states/trafficLight');
+    importedState = state;
+  } else if (sampleName === 'widgets') {
+    const { state } = await import('@/store/premade-states/widgets');
+    importedState = state;
+  } else {
+    return;
+  }
+
+  const nextState = structuredClone(importedState);
+  dispatch(loadStateAction(nextState));
+  window.dispatchEvent(new Event('resize'));
 };
 
 export default function ExampleTab() {
@@ -34,6 +36,7 @@ export default function ExampleTab() {
   const [sampleName, setSampleName] = useState<string>('emptyState');
   const [modalMessage, setModalMessage] = useState('');
   const runSimulation = useSelector(selectRunSimulation);
+  const dispatch = useAppDispatch();
 
   const openModal = (caller: string) => {
     if (caller === 'emptyState') setModalMessage('Clearing the routine will discard your work.');
@@ -44,7 +47,7 @@ export default function ExampleTab() {
   };
 
   const proceed = () => {
-    loadSample(sampleName);
+    loadSample(dispatch, sampleName);
     close();
   };
 
@@ -95,10 +98,15 @@ export default function ExampleTab() {
             marginTop: 20,
           }}
         >
-          <Button color="orange.4" onClick={proceed}>
+          <Button classNames={{ label: styles.label }} color="orange.4" onClick={proceed}>
             Proceed
           </Button>
-          <Button variant="outline" color="dark" onClick={close}>
+          <Button
+            classNames={{ label: styles.label }}
+            variant="outline"
+            color="dark"
+            onClick={close}
+          >
             Cancel
           </Button>
         </div>

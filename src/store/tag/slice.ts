@@ -38,6 +38,9 @@ const tagSlice = createSlice({
   name: 'tags',
   initialState,
   reducers: {
+    setTagState(_state: TagSlice, action: PayloadAction<TagSlice>) {
+      return action.payload;
+    },
     addTag(state, action: PayloadAction<AddTagPayload>) {
       const newTag = createNewTag(action.payload.name, action.payload.type);
       state.byId[newTag.name] = newTag;
@@ -88,6 +91,7 @@ const tagSlice = createSlice({
   },
 });
 
-export const { addTag, setTagValue, toggleTagValue, deleteTag, setTagOrder } = tagSlice.actions;
+export const { setTagState, addTag, setTagValue, toggleTagValue, deleteTag, setTagOrder } =
+  tagSlice.actions;
 
 export const tagReducer = tagSlice.reducer;

@@ -18,6 +18,9 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { nanoid } from 'nanoid';
 
 export const reducers = {
+  setRoutineState(_state: RoutineSlice, action: PayloadAction<RoutineSlice>) {
+    return action.payload;
+  },
   setSpecialTagName(state: RoutineSlice, action: PayloadAction<SetSpecialTagNamePayload>) {
     const { name, instructionId } = action.payload;
     const instruction = state.instructions[instructionId];

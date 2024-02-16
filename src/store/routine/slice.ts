@@ -28,6 +28,7 @@ const routineSlice = createSlice({
 });
 
 export const {
+  setRoutineState,
   setSpecialTagName,
   setBoxTagName,
   editRungComment,
