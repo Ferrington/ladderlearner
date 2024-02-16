@@ -103,6 +103,7 @@ export default function InlineAutocomplete({
         </span>
         <input
           autoFocus
+          name="inline-autocomplete"
           maxLength={30}
           type="text"
           style={{ width }}

@@ -125,7 +125,7 @@ export default function InstructionSpecial({
       <p
         className={clsx({
           [styles.unassigned]: instruction.tag == null,
-          [styles.clickable]: runSimulation && !instruction.isDestructive,
+          [styles.clickable]: (runSimulation && !instruction.isDestructive) || !runSimulation,
         })}
         style={{ opacity: draggingInstructionId === instructionId ? 0.5 : 1 }}
       >

@@ -26,7 +26,7 @@ import { ReactNode, useState } from 'react';
 const customCollisionDetection: CollisionDetection = ({ droppableContainers, ...args }) => {
   const rectIntersectionCollisions = rectIntersection({
     ...args,
-    droppableContainers: droppableContainers.filter(({ id }) => id === 'instructionPalette'),
+    droppableContainers: droppableContainers.filter(({ id }) => id === 'instruction-palette'),
   });
 
   if (rectIntersectionCollisions.length > 0) {
@@ -35,7 +35,7 @@ const customCollisionDetection: CollisionDetection = ({ droppableContainers, ...
 
   return closestCenter({
     ...args,
-    droppableContainers: droppableContainers.filter(({ id }) => id !== 'instructionPalette'),
+    droppableContainers: droppableContainers.filter(({ id }) => id !== 'instruction-palette'),
   });
 };
 
@@ -53,11 +53,15 @@ export default function WorkspaceDndWrapper({ children }: { children?: ReactNode
 
   function handleDragStart(e: DragStartEvent) {
     if (e.active.data.current && 'rungNumber' in e.active.data.current) {
+      // handle rung in routine
       dispatch(setDraggingRungIndex(e.active.data.current.rungNumber));
       setDragOverlay(e.active?.data?.current?.dragOverlay);
     } else if (e.active.id === 'Rung') {
+      // handle rung from instruction palette
       dispatch(setDraggingRungIndex(-1));
+      setDragOverlay(e.active?.data?.current?.dragOverlay);
     } else {
+      // handle everything else
       dispatch(setDraggingInstructionId(e.active.id as string));
       dispatch(setDropLocationsAction(e.active?.data?.current?.instruction?.abbreviated));
 
@@ -73,8 +77,6 @@ export default function WorkspaceDndWrapper({ children }: { children?: ReactNode
 
     if (e.over == null) return;
     if (!e.active.data.current || !e.over.data.current) return;
-    // prevent drop if hovering over instruction palette
-    if (e.over.id === 'instructionPalette') return;
 
     if ('rungNumber' in e.active.data.current) {
       // handle rung in routine

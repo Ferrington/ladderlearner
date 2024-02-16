@@ -5,10 +5,8 @@ import ExampleTab from '@/features/InstructionPalette/components/ExampleTab';
 import InstructionSpecialPrimitive from '@/features/InstructionPalette/components/InstructionSpecialPrimitive';
 import MathTab from '@/features/InstructionPalette/components/MathTab';
 import PrimSpecialDragWrapper from '@/features/InstructionPalette/components/PrimSpecialDragWrapper';
-import { selectDraggingRungIndex } from '@/store/base/selectors';
 import { useDroppable } from '@dnd-kit/core';
 import { Tabs } from '@mantine/core';
-import { useSelector } from 'react-redux';
 import styles from '../styles/InstructionPalette.module.css';
 
 const TABS = ['Bit', 'Compare', 'Math', 'Count/Time', 'Examples'] as const;
@@ -16,16 +14,13 @@ const TABS = ['Bit', 'Compare', 'Math', 'Count/Time', 'Examples'] as const;
 const rungsAndBranches = ['Rung', 'Branch', 'Branch Level'];
 
 export default function InstructionPalette() {
-  const draggingRungIndex = useSelector(selectDraggingRungIndex);
-
   const { setNodeRef } = useDroppable({
-    id: 'instructionPalette',
-    disabled: draggingRungIndex != null,
+    id: 'instruction-palette',
   });
 
   return (
-    <aside className={styles['instruction-palette-container']}>
-      <div ref={setNodeRef}>
+    <aside ref={setNodeRef} className={styles['instruction-palette-container']}>
+      <div>
         <Tabs
           color="orange.4"
           defaultValue="Bit"

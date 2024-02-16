@@ -1,5 +1,9 @@
 import { INSTRUCTION_PROPERTIES } from '@/config/instructionProperties';
-import { selectDraggingInstructionId, selectRunSimulation } from '@/store/base/selectors';
+import {
+  selectDraggingInstructionId,
+  selectDraggingRungIndex,
+  selectRunSimulation,
+} from '@/store/base/selectors';
 import { useSelector } from 'react-redux';
 import styles from '../styles/InstructionSpecial.module.css';
 
@@ -9,6 +13,7 @@ export default function InstructionSpecialPrimitive({
   abbreviation: string;
 }) {
   const draggingInstructionId = useSelector(selectDraggingInstructionId);
+  const draggingRungIndex = useSelector(selectDraggingRungIndex);
   const runSimulation = useSelector(selectRunSimulation);
 
   const instruction = INSTRUCTION_PROPERTIES[abbreviation];
@@ -27,7 +32,11 @@ export default function InstructionSpecialPrimitive({
     <div
       className={styles.instruction}
       style={{
-        opacity: draggingInstructionId === abbreviation ? 0.5 : 1,
+        opacity:
+          draggingInstructionId === abbreviation ||
+          (abbreviation === 'Rung' && draggingRungIndex === -1)
+            ? 0.5
+            : 1,
         cursor,
       }}
     >
