@@ -1,4 +1,5 @@
-import { Branch, RoutineSlice } from '@/store/routine/slice';
+import { RoutineSlice } from '@/store/routine/slice';
+import { Branch } from '@/store/routine/types';
 import { Instruction, ValidDropLocations } from '@/types';
 import { nanoid } from 'nanoid';
 
