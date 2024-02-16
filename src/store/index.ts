@@ -1,5 +1,5 @@
 import { baseReducer } from '@/store/base/slice';
-import { state } from '@/store/premade-states/trafficLight';
+import { state } from '@/store/premade-states/emptyState';
 import { routineReducer } from '@/store/routine/slice';
 import { tagReducer } from '@/store/tag/slice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
@@ -11,11 +11,11 @@ const rootReducer = combineReducers({
   routine: routineReducer,
 });
 
-const trafficLight = state;
+const emptyState = state;
 
 const initialState: RootState = {
-  routine: trafficLight.routine,
-  tags: trafficLight.tags,
+  routine: emptyState.routine,
+  tags: emptyState.tags,
   base: {
     draggingRungIndex: null,
     rungDropLocations: null,

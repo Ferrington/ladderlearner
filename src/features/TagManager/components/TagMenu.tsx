@@ -33,6 +33,7 @@ export default function TagMenu({ hideMenu }: Props) {
           { value: 'timer', label: 'Timer' },
         ]}
         value={type}
+        allowDeselect={false}
         data-testid="tag-type"
       />
       <div className={styles['button-wrapper']}>
