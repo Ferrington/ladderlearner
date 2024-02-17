@@ -88,7 +88,7 @@ function _TagRow(
             data-testid="delete-tag-button"
           />
         )}
-        {dropdownExpanded && createNestedRows(tag)}
+        {dropdownExpanded && !dragOverlay && !dragging && createNestedRows(tag)}
       </>
     );
   else
