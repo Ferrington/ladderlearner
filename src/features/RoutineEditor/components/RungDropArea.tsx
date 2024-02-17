@@ -22,7 +22,7 @@ export default function RungDropArea({ rungIndex }: { rungIndex: number }) {
 
   return (
     (draggingRungIndex != null && isNotRedundant && (
-      <div className={classList} ref={setNodeRef}>
+      <div className={classList} ref={setNodeRef} data-testid="rung-drop-area">
         <div className={styles['landing-beacon']}></div>
       </div>
     )) ||

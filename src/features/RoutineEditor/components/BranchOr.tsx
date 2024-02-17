@@ -64,6 +64,7 @@ export default function BranchOr({ branchId, destructive, children: componentChi
             className={clsx(styles.branch, 'rung--branch', {
               'last-branch': i === children.length - 1,
             })}
+            data-testid="rung-branch"
           >
             {i > 0 && <RungLine branch={ele} />}
             <div className={styles['instruction-wrapper']}>

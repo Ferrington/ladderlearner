@@ -100,7 +100,10 @@ export default function Rung({
   }
 
   return (
-    <div className={clsx(styles.rung, { [styles['interact-outline']]: showInteractOutline })}>
+    <div
+      className={clsx(styles.rung, { [styles['interact-outline']]: showInteractOutline })}
+      data-testid="rung"
+    >
       {rungNumber === 1 && <RungDropArea rungIndex={0} />}
       {isNotDragOverlay && <RungDropArea rungIndex={rungNumber} />}
       <div
@@ -126,6 +129,7 @@ export default function Rung({
                 size="1.25em"
                 style={{ background: 'white' }}
                 title="Delete Rung"
+                data-testid="delete-rung"
               />
             </div>
             <div

@@ -33,7 +33,7 @@ export default function InstructionDropArea({ parent, index, extra }: Props) {
 
   return (
     (draggingInstructionId && isValidDropLocation && (
-      <div className={classList} ref={setNodeRef}>
+      <div className={classList} ref={setNodeRef} data-testid="instruction-drop-area">
         <div className={styles['landing-beacon']}></div>
       </div>
     )) ||
