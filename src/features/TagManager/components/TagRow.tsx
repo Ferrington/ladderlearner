@@ -102,6 +102,7 @@ function _TagRow(
             size="1.25em"
             onClick={handleDelete}
             title="Delete Tag"
+            data-testid="delete-tag-button"
           />
         )}
       </>
@@ -116,12 +117,14 @@ function _TagRow(
         [styles.dragging]: dragging,
       })}
       {...attributes}
+      data-testid="tag-row"
     >
       <RiDraggable
         style={{ cursor: dragOverlay ? 'grabbing' : 'grab' }}
         size="1.25em"
         className={styles['drag-handle']}
         {...listeners}
+        data-testid="drag-handle"
       />
       {row}
     </div>
