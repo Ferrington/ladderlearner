@@ -75,6 +75,7 @@ function _TagRow(
           }}
           size="1.25em"
           onClick={() => setDropdownExpanded(!dropdownExpanded)}
+          data-testid="expand-control"
         />
         <span>{tag.name}</span>
         <span className={styles['col-b']}>{value}</span>
@@ -84,6 +85,7 @@ function _TagRow(
             size="1.25em"
             onClick={handleDelete}
             title="Delete Tag"
+            data-testid="delete-tag-button"
           />
         )}
         {dropdownExpanded && createNestedRows(tag)}
@@ -93,7 +95,11 @@ function _TagRow(
     row = (
       <>
         <span data-testid="tag-row-name">{tag.name}</span>
-        <span className={clsx(styles['col-b'], styles['editable'])} onClick={handleClick}>
+        <span
+          className={clsx(styles['col-b'], styles['editable'])}
+          onClick={handleClick}
+          data-testid="tag-row-value"
+        >
           {value}
         </span>
         {!dragOverlay && (

@@ -43,7 +43,9 @@ export default function TagNestedRow({ name, tag }: Props) {
 
   return (
     <>
-      <span className={styles['nested-name']}>.{name}</span>
+      <span className={styles['nested-name']} data-testid="nested-tag-name">
+        .{name}
+      </span>
       <span className={styles['nested-editable']} onClick={handleClick}>
         {value}
       </span>
