@@ -102,3 +102,7 @@
 .energized {
   outline: 3px solid lime;
 }
+
+.unassigned {
+  color: red;
+}
