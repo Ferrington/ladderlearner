@@ -82,3 +82,7 @@
 .nested-editable {
   text-align: right;
 }
+
+.disabled {
+  color: #afafaf;
+}

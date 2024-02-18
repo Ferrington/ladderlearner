@@ -1,5 +1,6 @@
 import { useTagRow } from '@/features/TagManager/hooks/useTagRow';
 import { Counter, CounterTag, Timer, TimerTag } from '@/types';
+import clsx from 'clsx';
 import styles from '../styles/TagRow.module.css';
 
 type Props = {
@@ -43,10 +44,20 @@ export default function TagNestedRow({ name, tag }: Props) {
 
   return (
     <>
-      <span className={styles['nested-name']} data-testid="nested-tag-name">
+      <span
+        className={clsx(styles['nested-name'], {
+          [styles.disabled]: typeof tagValue === 'boolean',
+        })}
+        data-testid="nested-tag-name"
+      >
         .{name}
       </span>
-      <span className={styles['nested-editable']} onClick={handleClick}>
+      <span
+        className={clsx(styles['nested-editable'], {
+          [styles.disabled]: typeof tagValue === 'boolean',
+        })}
+        onClick={handleClick}
+      >
         {value}
       </span>
     </>

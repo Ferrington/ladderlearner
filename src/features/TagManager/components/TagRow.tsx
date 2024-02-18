@@ -31,14 +31,22 @@ function _TagRow(
 ) {
   const dispatch = useAppDispatch();
 
-  const { editMode, inputValue, inputRef, handleChange, handleClick, handleInputKeypress } =
-    useTagRow({ name: tag.name, initialValue: tag.type === 'number' ? tag.value : undefined });
+  const {
+    editMode,
+    inputValue,
+    inputRef,
+    handleChange,
+    handleClick,
+    handleInputKeypress,
+    runSimulation,
+    isOutput,
+  } = useTagRow({ name: tag.name, initialValue: tag.type === 'number' ? tag.value : undefined });
 
   const [dropdownExpanded, setDropdownExpanded] = useState(false);
-  // const { runSimulation } = useSnapshot(store);
 
   function handleDelete() {
-    // TODO check if simulation running before delete
+    if (runSimulation) return;
+
     dispatch(deleteTag(tag.name));
   }
 
@@ -119,7 +127,7 @@ function _TagRow(
       ref={ref}
       style={{ position: 'relative', ...style }}
       className={clsx(styles['table-row'], {
-        // [styles.disabled]: isOutput,
+        [styles.disabled]: isOutput,
         [styles.dragging]: dragging,
       })}
       {...attributes}

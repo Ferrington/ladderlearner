@@ -1,9 +1,12 @@
-import { useAppDispatch } from '@/store';
+import { RootState, useAppDispatch } from '@/store';
+import { selectRunSimulation } from '@/store/base/selectors';
+import { makeSelectIsOutput } from '@/store/routine/selectors';
 import { toggleTagValue } from '@/store/tag/slice';
 import { updateTagAction } from '@/store/thunks/updateTagAction';
 import { isNumeric } from '@/utils/isNumeric';
 import { useClickOutside } from '@mantine/hooks';
-import { ChangeEvent, KeyboardEvent, MouseEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, MouseEvent, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 type Props = {
   name: string;
@@ -17,6 +20,10 @@ export function useTagRow({ name, key, initialValue }: Props) {
   const [editMode, setEditMode] = useState(false);
   const [inputValue, setInputValue] = useState<string>(String(initialValue));
   const inputRef = useClickOutside(() => cancelInput());
+  const runSimulation = useSelector(selectRunSimulation);
+
+  const selectIsOutput = useMemo(makeSelectIsOutput, []);
+  const isOutput = useSelector((state: RootState) => selectIsOutput(state, name));
 
   function cancelInput() {
     setInputValue(String(initialValue));
@@ -45,6 +52,8 @@ export function useTagRow({ name, key, initialValue }: Props) {
     e.stopPropagation();
 
     if (initialValue == null) {
+      if (isOutput || key != null) return;
+
       dispatch(toggleTagValue({ name, key }));
     } else {
       setEditMode(true);
@@ -58,5 +67,7 @@ export function useTagRow({ name, key, initialValue }: Props) {
     handleChange,
     handleInputKeypress,
     handleClick,
+    runSimulation,
+    isOutput,
   };
 }
