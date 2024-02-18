@@ -31,6 +31,7 @@ export const {
   setRoutineState,
   setSpecialTagName,
   setBoxTagName,
+  setNestedValue,
   setNestedValues,
   editRungComment,
   insertRung,
@@ -40,6 +41,7 @@ export const {
   insertBranchLevel,
   deleteBranch,
   insertInstruction,
+  setInstructionEnergized,
   deleteInstruction,
 } = routineSlice.actions;
 

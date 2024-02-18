@@ -1,6 +1,9 @@
+import { RootState } from '@/store';
 import { RoutineSlice } from '@/store/routine/slice';
 import { Branch } from '@/store/routine/types';
-import { Instruction, ValidDropLocations } from '@/types';
+import { Counter, Instruction, InstructionBox, Tag, Timer, ValidDropLocations } from '@/types';
+import { isNumeric } from '@/utils/isNumeric';
+import { parseTagName } from '@/utils/parseTagName';
 import { nanoid } from 'nanoid';
 
 export function deleteChildren(
@@ -188,4 +191,31 @@ export function generateEmptyRung() {
       children: [],
     },
   };
+}
+
+export function getParamValue(
+  state: RootState,
+  value: InstructionBox['parameters'][string]['value'],
+) {
+  return isNumeric(value) ? Number(value) : Number(getTagValue(state, value as string));
+}
+
+export function getTagValue(state: RootState, name: string) {
+  const { name: tagName, key } = parseTagName(name);
+
+  if (key !== undefined) {
+    if (state.tags.byId[tagName].type === 'counter') {
+      const counter = state.tags.byId[tagName].value as Record<keyof Counter, number | boolean>;
+      return counter[key as keyof Counter];
+    } else if (state.tags.byId[tagName].type === 'timer') {
+      const timer = state.tags.byId[tagName].value as Record<keyof Timer, number | boolean>;
+      return timer[key as keyof Timer];
+    }
+  }
+
+  return state.tags.byId[tagName].value;
+}
+
+export function getTagByName(state: RootState, name: string): Tag {
+  return state.tags.byId[name];
 }

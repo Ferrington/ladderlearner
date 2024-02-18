@@ -1,4 +1,5 @@
 import RungDragOverlay from '@/features/RoutineEditor/components/RungDragOverlay';
+import Simulation from '@/features/RoutineEditor/components/Simulation';
 import { useAppDispatch } from '@/store';
 import { selectRunSimulation, selectTagsAreUnassigned } from '@/store/base/selectors';
 import { setRunSimulation } from '@/store/base/slice';
@@ -27,11 +28,14 @@ export default function RoutineEditor() {
           style={{ background: runSimulation ? '#FF3F3F' : 'lime' }}
         >
           {runSimulation ? (
-            <RiStopLine
-              size="1.4em"
-              className={styles['stop-simulation']}
-              title="Stop Simulation"
-            />
+            <>
+              <RiStopLine
+                size="1.4em"
+                className={styles['stop-simulation']}
+                title="Stop Simulation"
+              />
+              <Simulation />
+            </>
           ) : (
             <RiPlayLine
               size="1.4em"

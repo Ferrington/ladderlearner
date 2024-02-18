@@ -1,3 +1,4 @@
+import { AppDispatch, RootState } from '@/store';
 import { RoutineSlice } from '@/store/routine/slice';
 import { TagSlice } from '@/store/tag/slice';
 
@@ -46,6 +47,7 @@ type InstructionSpecialProperties = {
   tag: string | null;
   displayType: 'special';
   energized: boolean;
+  evaluate: (args: EvaluateArgs) => boolean;
 };
 
 type InstructionBoxProperties = {
@@ -56,6 +58,7 @@ type InstructionBoxProperties = {
   displayType: 'box';
   energized: boolean;
   prevEnergized?: boolean;
+  evaluate: (args: EvaluateArgs) => boolean;
 };
 
 export type Counter = {
@@ -103,4 +106,11 @@ export type ValidDropLocations = Record<string, number[]>;
 export type ExampleState = {
   routine: RoutineSlice;
   tags: TagSlice;
+};
+
+export type EvaluateArgs = {
+  dispatch: AppDispatch;
+  state: RootState;
+  instruction: Instruction;
+  parentEnergized: boolean;
 };

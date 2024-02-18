@@ -1,4 +1,6 @@
 import { RootState } from '@/store';
+import { setNestedValue } from '@/store/routine/slice';
+import { setTagValue } from '@/store/tag/slice';
 import { Dispatch } from '@reduxjs/toolkit';
 
 type Params = {
@@ -9,14 +11,7 @@ type Params = {
 
 export function updateTagAction({ name, key, value }: Params) {
   return (dispatch: Dispatch, getState: () => RootState) => {
-    dispatch({
-      type: 'tags/setTagValue',
-      payload: {
-        name,
-        key,
-        value,
-      },
-    });
+    dispatch(setTagValue({ name, key, value }));
     if (key == null) return;
 
     const state = getState();
@@ -30,14 +25,7 @@ export function updateTagAction({ name, key, value }: Params) {
         (['TON', 'TOF'].includes(instruction.abbreviated) &&
           instruction.parameters.Timer.value === name)
       ) {
-        dispatch({
-          type: 'routine/setNestedValue',
-          payload: {
-            instructionId: instruction.id,
-            key,
-            value,
-          },
-        });
+        dispatch(setNestedValue({ instructionId: instruction.id, key, value }));
       }
     }
   };

@@ -29,6 +29,11 @@ export type InsertInstructionPayload = {
   index: number;
 };
 
+export type SetInstructionEnergizedPayload = {
+  instructionId: string;
+  energized: boolean;
+};
+
 export type MoveInstructionPayload = {
   instruction: Instruction;
   newParent: string;

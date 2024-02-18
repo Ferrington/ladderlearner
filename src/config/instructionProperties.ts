@@ -1,4 +1,8 @@
-import type { InstructionProperties } from '@/types';
+import { setInstructionEnergized } from '@/store/routine/slice';
+import { getParamValue, getTagByName, getTagValue } from '@/store/routine/utils';
+import { updateTagAction } from '@/store/thunks/updateTagAction';
+import type { Counter, EvaluateArgs, InstructionProperties, Timer } from '@/types';
+import { parseTagName } from '@/utils/parseTagName';
 
 export const INSTRUCTION_PROPERTIES: InstructionProperties = {
   EQU: {
@@ -19,24 +23,17 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     },
     displayType: 'box',
     energized: false,
-    // evaluate({ instruction }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Box") return false;
+    evaluate({ dispatch, state, instruction }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Box') return false;
 
-    //   const a = isNumeric(instruction.parameters["A"].value)
-    //     ? Number(instruction.parameters["A"].value)
-    //     : Number(getTagValue(instruction.parameters["A"].value as string));
-    //   const b = isNumeric(instruction.parameters["B"].value)
-    //     ? Number(instruction.parameters["B"].value)
-    //     : Number(getTagValue(instruction.parameters["B"].value as string));
+      const a = getParamValue(state, instruction.parameters['A'].value);
+      const b = getParamValue(state, instruction.parameters['B'].value);
 
-    //   const evaluated = a === b;
+      const evaluated = a === b;
 
-    //   instruction.energized = evaluated;
-    //   return evaluated;
-    // },
-    // setParameter({ instruction, tags, input, key }: SetParameterArgs) {
-    //   instruction.parameters[key].value = input;
-    // },
+      dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: evaluated }));
+      return evaluated;
+    },
   },
   NEQ: {
     name: 'A != B',
@@ -56,24 +53,17 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     },
     displayType: 'box',
     energized: false,
-    // evaluate({ instruction }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Box") return false;
+    evaluate({ dispatch, state, instruction }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Box') return false;
 
-    //   const a = isNumeric(instruction.parameters["A"].value)
-    //     ? Number(instruction.parameters["A"].value)
-    //     : Number(getTagValue(instruction.parameters["A"].value as string));
-    //   const b = isNumeric(instruction.parameters["B"].value)
-    //     ? Number(instruction.parameters["B"].value)
-    //     : Number(getTagValue(instruction.parameters["B"].value as string));
+      const a = getParamValue(state, instruction.parameters['A'].value);
+      const b = getParamValue(state, instruction.parameters['B'].value);
 
-    //   const evaluated = a !== b;
+      const evaluated = a !== b;
 
-    //   instruction.energized = evaluated;
-    //   return evaluated;
-    // },
-    // setParameter({ instruction, tags, input, key }: SetParameterArgs) {
-    //   instruction.parameters[key].value = input;
-    // },
+      dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: evaluated }));
+      return evaluated;
+    },
   },
   GRT: {
     name: 'A > B',
@@ -93,24 +83,17 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     },
     displayType: 'box',
     energized: false,
-    // evaluate({ instruction }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Box") return false;
+    evaluate({ dispatch, state, instruction }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Box') return false;
 
-    //   const a = isNumeric(instruction.parameters["A"].value)
-    //     ? Number(instruction.parameters["A"].value)
-    //     : Number(getTagValue(instruction.parameters["A"].value as string));
-    //   const b = isNumeric(instruction.parameters["B"].value)
-    //     ? Number(instruction.parameters["B"].value)
-    //     : Number(getTagValue(instruction.parameters["B"].value as string));
+      const a = getParamValue(state, instruction.parameters['A'].value);
+      const b = getParamValue(state, instruction.parameters['B'].value);
 
-    //   const evaluated = a > b;
+      const evaluated = a > b;
 
-    //   instruction.energized = evaluated;
-    //   return evaluated;
-    // },
-    // setParameter({ instruction, tags, input, key }: SetParameterArgs) {
-    //   instruction.parameters[key].value = input;
-    // },
+      dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: evaluated }));
+      return evaluated;
+    },
   },
   GEQ: {
     name: 'A >= B',
@@ -130,24 +113,17 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     },
     displayType: 'box',
     energized: false,
-    // evaluate({ instruction }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Box") return false;
+    evaluate({ dispatch, state, instruction }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Box') return false;
 
-    //   const a = isNumeric(instruction.parameters["A"].value)
-    //     ? Number(instruction.parameters["A"].value)
-    //     : Number(getTagValue(instruction.parameters["A"].value as string));
-    //   const b = isNumeric(instruction.parameters["B"].value)
-    //     ? Number(instruction.parameters["B"].value)
-    //     : Number(getTagValue(instruction.parameters["B"].value as string));
+      const a = getParamValue(state, instruction.parameters['A'].value);
+      const b = getParamValue(state, instruction.parameters['B'].value);
 
-    //   const evaluated = a >= b;
+      const evaluated = a >= b;
 
-    //   instruction.energized = evaluated;
-    //   return evaluated;
-    // },
-    // setParameter({ instruction, tags, input, key }: SetParameterArgs) {
-    //   instruction.parameters[key].value = input;
-    // },
+      dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: evaluated }));
+      return evaluated;
+    },
   },
   LES: {
     name: 'A < B',
@@ -167,24 +143,17 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     },
     displayType: 'box',
     energized: false,
-    // evaluate({ instruction }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== 'Box') return false;
+    evaluate({ dispatch, state, instruction }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Box') return false;
 
-    //   const a = isNumeric(instruction.parameters['A'].value)
-    //     ? Number(instruction.parameters['A'].value)
-    //     : Number(getTagValue(instruction.parameters['A'].value as string));
-    //   const b = isNumeric(instruction.parameters['B'].value)
-    //     ? Number(instruction.parameters['B'].value)
-    //     : Number(getTagValue(instruction.parameters['B'].value as string));
+      const a = getParamValue(state, instruction.parameters['A'].value);
+      const b = getParamValue(state, instruction.parameters['B'].value);
 
-    //   const evaluated = a < b;
+      const evaluated = a < b;
 
-    //   instruction.energized = evaluated;
-    //   return evaluated;
-    // },
-    // setParameter({ instruction, tags, input, key }: SetParameterArgs) {
-    //   instruction.parameters[key].value = input;
-    // },
+      dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: evaluated }));
+      return evaluated;
+    },
   },
   LEQ: {
     name: 'A <= B',
@@ -204,24 +173,17 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     },
     displayType: 'box',
     energized: false,
-    // evaluate({ instruction }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Box") return false;
+    evaluate({ dispatch, state, instruction }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Box') return false;
 
-    //   const a = isNumeric(instruction.parameters["A"].value)
-    //     ? Number(instruction.parameters["A"].value)
-    //     : Number(getTagValue(instruction.parameters["A"].value as string));
-    //   const b = isNumeric(instruction.parameters["B"].value)
-    //     ? Number(instruction.parameters["B"].value)
-    //     : Number(getTagValue(instruction.parameters["B"].value as string));
+      const a = getParamValue(state, instruction.parameters['A'].value);
+      const b = getParamValue(state, instruction.parameters['B'].value);
 
-    //   const evaluated = a <= b;
+      const evaluated = a <= b;
 
-    //   instruction.energized = evaluated;
-    //   return evaluated;
-    // },
-    // setParameter({ instruction, tags, input, key }: SetParameterArgs) {
-    //   instruction.parameters[key].value = input;
-    // },
+      dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: evaluated }));
+      return evaluated;
+    },
   },
   ADD: {
     name: 'Add',
@@ -246,25 +208,20 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     },
     displayType: 'box',
     energized: false,
-    // evaluate({ parentEnergized, instruction, tags }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Box" || !parentEnergized) return true;
+    evaluate({ dispatch, state, instruction, parentEnergized }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Box' || !parentEnergized) return true;
 
-    //   const a = isNumeric(instruction.parameters["A"].value)
-    //     ? Number(instruction.parameters["A"].value)
-    //     : Number(getTagValue(instruction.parameters["A"].value as string));
-    //   const b = isNumeric(instruction.parameters["B"].value)
-    //     ? Number(instruction.parameters["B"].value)
-    //     : Number(getTagValue(instruction.parameters["B"].value as string));
+      const a = getParamValue(state, instruction.parameters['A'].value);
+      const b = getParamValue(state, instruction.parameters['B'].value);
 
-    //   const cTagName = instruction.parameters["C"].value as string;
-    //   const evaluated = a + b;
-    //   actions.updateTag(cTagName, evaluated);
+      const { name: cTagName, key: cTagKey } = parseTagName(
+        instruction.parameters['C'].value as string,
+      );
+      const evaluated = a + b;
+      dispatch(updateTagAction({ name: cTagName, key: cTagKey, value: evaluated }));
 
-    //   return true;
-    // },
-    // setParameter({ instruction, tags, input, key }: SetParameterArgs) {
-    //   instruction.parameters[key].value = input;
-    // },
+      return true;
+    },
   },
   SUB: {
     name: 'Subtract',
@@ -289,25 +246,20 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     },
     displayType: 'box',
     energized: false,
-    // evaluate({ parentEnergized, instruction, tags }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Box" || !parentEnergized) return true;
+    evaluate({ dispatch, state, instruction, parentEnergized }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Box' || !parentEnergized) return true;
 
-    //   const a = isNumeric(instruction.parameters["A"].value)
-    //     ? Number(instruction.parameters["A"].value)
-    //     : Number(getTagValue(instruction.parameters["A"].value as string));
-    //   const b = isNumeric(instruction.parameters["B"].value)
-    //     ? Number(instruction.parameters["B"].value)
-    //     : Number(getTagValue(instruction.parameters["B"].value as string));
+      const a = getParamValue(state, instruction.parameters['A'].value);
+      const b = getParamValue(state, instruction.parameters['B'].value);
 
-    //   const cTagName = instruction.parameters["C"].value as string;
-    //   const evaluated = a - b;
-    //   actions.updateTag(cTagName, evaluated);
+      const { name: cTagName, key: cTagKey } = parseTagName(
+        instruction.parameters['C'].value as string,
+      );
+      const evaluated = a - b;
+      dispatch(updateTagAction({ name: cTagName, key: cTagKey, value: evaluated }));
 
-    //   return true;
-    // },
-    // setParameter({ instruction, tags, input, key }: SetParameterArgs) {
-    //   instruction.parameters[key].value = input;
-    // },
+      return true;
+    },
   },
   MUL: {
     name: 'Multiply',
@@ -332,25 +284,20 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     },
     displayType: 'box',
     energized: false,
-    // evaluate({ parentEnergized, instruction, tags }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Box" || !parentEnergized) return true;
+    evaluate({ dispatch, state, instruction, parentEnergized }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Box' || !parentEnergized) return true;
 
-    //   const a = isNumeric(instruction.parameters["A"].value)
-    //     ? Number(instruction.parameters["A"].value)
-    //     : Number(getTagValue(instruction.parameters["A"].value as string));
-    //   const b = isNumeric(instruction.parameters["B"].value)
-    //     ? Number(instruction.parameters["B"].value)
-    //     : Number(getTagValue(instruction.parameters["B"].value as string));
+      const a = getParamValue(state, instruction.parameters['A'].value);
+      const b = getParamValue(state, instruction.parameters['B'].value);
 
-    //   const cTagName = instruction.parameters["C"].value as string;
-    //   const evaluated = a * b;
-    //   actions.updateTag(cTagName, evaluated);
+      const { name: cTagName, key: cTagKey } = parseTagName(
+        instruction.parameters['C'].value as string,
+      );
+      const evaluated = a * b;
+      dispatch(updateTagAction({ name: cTagName, key: cTagKey, value: evaluated }));
 
-    //   return true;
-    // },
-    // setParameter({ instruction, tags, input, key }: SetParameterArgs) {
-    //   instruction.parameters[key].value = input;
-    // },
+      return true;
+    },
   },
   DIV: {
     name: 'Divide',
@@ -375,27 +322,21 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     },
     displayType: 'box',
     energized: false,
-    // evaluate({ parentEnergized, instruction, tags }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Box" || !parentEnergized) return true;
+    evaluate({ dispatch, state, instruction, parentEnergized }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Box' || !parentEnergized) return true;
 
-    //   const a = isNumeric(instruction.parameters["A"].value)
-    //     ? Number(instruction.parameters["A"].value)
-    //     : Number(getTagValue(instruction.parameters["A"].value as string));
-    //   const b = isNumeric(instruction.parameters["B"].value)
-    //     ? Number(instruction.parameters["B"].value)
-    //     : Number(getTagValue(instruction.parameters["B"].value as string));
+      const a = getParamValue(state, instruction.parameters['A'].value);
+      const b = getParamValue(state, instruction.parameters['B'].value);
+      if (b === 0) return true;
 
-    //   const cTagName = instruction.parameters["C"].value as string;
+      const { name: cTagName, key: cTagKey } = parseTagName(
+        instruction.parameters['C'].value as string,
+      );
+      const evaluated = a / b;
+      dispatch(updateTagAction({ name: cTagName, key: cTagKey, value: evaluated }));
 
-    //   if (b === 0) return true;
-    //   const evaluated = a / b;
-    //   actions.updateTag(cTagName, evaluated);
-
-    //   return true;
-    // },
-    // setParameter({ instruction, tags, input, key }: SetParameterArgs) {
-    //   instruction.parameters[key].value = input;
-    // },
+      return true;
+    },
   },
   MOV: {
     name: 'Move',
@@ -415,21 +356,18 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     },
     displayType: 'box',
     energized: false,
-    // evaluate({ parentEnergized, instruction, tags }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Box" || !parentEnergized) return true;
+    evaluate({ dispatch, state, instruction, parentEnergized }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Box' || !parentEnergized) return true;
 
-    //   const a = isNumeric(instruction.parameters["A"].value)
-    //     ? Number(instruction.parameters["A"].value)
-    //     : Number(getTagValue(instruction.parameters["A"].value as string));
+      const a = getParamValue(state, instruction.parameters['A'].value);
 
-    //   const bTagName = instruction.parameters["B"].value as string;
-    //   actions.updateTag(bTagName, a);
+      const { name: bTagName, key: bTagKey } = parseTagName(
+        instruction.parameters['C'].value as string,
+      );
+      dispatch(updateTagAction({ name: bTagName, key: bTagKey, value: a }));
 
-    //   return true;
-    // },
-    // setParameter({ instruction, tags, input, key }: SetParameterArgs) {
-    //   instruction.parameters[key].value = input;
-    // },
+      return true;
+    },
   },
   CTU: {
     name: 'Count Up',
@@ -461,49 +399,41 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     displayType: 'box',
     energized: false,
     prevEnergized: false,
-    // evaluate({ parentEnergized, tags, instruction }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Box") return false;
+    evaluate({ dispatch, state, instruction, parentEnergized }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Box') return false;
 
-    //   const counterTagName = instruction.parameters["Counter"].value;
-    //   if (typeof counterTagName !== "string") return true;
+      const counterTagName = instruction.parameters['Counter'].value;
+      if (typeof counterTagName !== 'string') return true;
 
-    //   const counterTag = getTagByName(counterTagName);
-    //   const counterTagProperties = counterTag.value as Counter;
+      const counterTag = getTagByName(state, counterTagName);
+      const counterTagProperties = counterTag.value as Counter;
 
-    //   if (!instruction.energized && parentEnergized) {
-    //     instruction.energized = true;
+      if (!instruction.energized && parentEnergized) {
+        dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: true }));
 
-    //     actions.updateTag(
-    //       `${counterTagName}.acc`,
-    //       Number(counterTagProperties.acc) + 1
-    //     );
-    //   } else if (instruction.energized && parentEnergized) {
-    //     // nothing
-    //   } else if (!parentEnergized) {
-    //     instruction.energized = false;
-    //   }
+        dispatch(
+          updateTagAction({
+            name: counterTagName,
+            key: 'acc',
+            value: Number(counterTagProperties.acc) + 1,
+          }),
+        );
+      } else if (instruction.energized && parentEnergized) {
+        // nothing
+      } else if (!parentEnergized) {
+        dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: false }));
+      }
 
-    //   if (counterTagProperties.acc >= counterTagProperties.pre)
-    //     actions.updateTag(`${counterTagName}.dn`, true);
-    //   else actions.updateTag(`${counterTagName}.dn`, false);
+      dispatch(
+        updateTagAction({
+          name: counterTagName,
+          key: 'dn',
+          value: counterTagProperties.acc >= counterTagProperties.pre,
+        }),
+      );
 
-    //   return true;
-    // },
-    // setParameter({ instruction, tags, input, key }: SetParameterArgs) {
-    //   if (key === "Counter") {
-    //     instruction.parameters[key].value = input;
-    //     const counterName = instruction.parameters.Counter.value as string;
-    //     const counter = getTagByName(counterName).value as any;
-
-    //     instruction.parameters.pre.value = counter.pre;
-    //     instruction.parameters.acc.value = counter.acc;
-    //     instruction.parameters.dn.value = counter.dn;
-    //   } else {
-    //     const counterName = instruction.parameters.Counter.value as string;
-    //     if (counterName == null) return;
-    //     actions.updateTag(`${counterName}.${key}`, Number(input));
-    //   }
-    // },
+      return true;
+    },
   },
   CTD: {
     name: 'Count Down',
@@ -535,48 +465,41 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     displayType: 'box',
     energized: false,
     prevEnergized: false,
-    // evaluate({ parentEnergized, tags, instruction }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Box") return false;
+    evaluate({ dispatch, state, instruction, parentEnergized }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Box') return false;
 
-    //   const counterTagName = instruction.parameters["Counter"].value;
-    //   if (typeof counterTagName !== "string") return true;
+      const counterTagName = instruction.parameters['Counter'].value;
+      if (typeof counterTagName !== 'string') return true;
 
-    //   const counterTag = getTagByName(counterTagName);
-    //   const counterTagProperties = counterTag.value as Counter;
+      const counterTag = getTagByName(state, counterTagName);
+      const counterTagProperties = counterTag.value as Counter;
 
-    //   if (!instruction.energized && parentEnergized) {
-    //     instruction.energized = true;
-    //     actions.updateTag(
-    //       `${counterTagName}.acc`,
-    //       Number(counterTagProperties.acc) - 1
-    //     );
-    //   } else if (instruction.energized && parentEnergized) {
-    //     // nothing
-    //   } else if (!parentEnergized) {
-    //     instruction.energized = false;
-    //   }
+      if (!instruction.energized && parentEnergized) {
+        dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: true }));
 
-    //   if (counterTagProperties.acc >= counterTagProperties.pre)
-    //     actions.updateTag(`${counterTagName}.dn`, true);
-    //   else actions.updateTag(`${counterTagName}.dn`, false);
+        dispatch(
+          updateTagAction({
+            name: counterTagName,
+            key: 'acc',
+            value: Number(counterTagProperties.acc) - 1,
+          }),
+        );
+      } else if (instruction.energized && parentEnergized) {
+        // nothing
+      } else if (!parentEnergized) {
+        dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: false }));
+      }
 
-    //   return true;
-    // },
-    // setParameter({ instruction, tags, input, key }: SetParameterArgs) {
-    //   if (key === "Counter") {
-    //     instruction.parameters[key].value = input;
-    //     const counterName = instruction.parameters.Counter.value as string;
-    //     const counter = getTagByName(counterName).value as any;
+      dispatch(
+        updateTagAction({
+          name: counterTagName,
+          key: 'dn',
+          value: counterTagProperties.acc >= counterTagProperties.pre,
+        }),
+      );
 
-    //     instruction.parameters.pre.value = counter.pre;
-    //     instruction.parameters.acc.value = counter.acc;
-    //     instruction.parameters.dn.value = counter.dn;
-    //   } else {
-    //     const counterName = instruction.parameters.Counter.value as string;
-    //     if (counterName == null) return;
-    //     actions.updateTag(`${counterName}.${key}`, Number(input));
-    //   }
-    // },
+      return true;
+    },
   },
   TON: {
     name: 'Timer On Delay',
@@ -620,54 +543,36 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     displayType: 'box',
     energized: false,
     prevEnergized: false,
-    // evaluate({ parentEnergized, tags, instruction }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Box") return false;
+    evaluate({ dispatch, state, instruction, parentEnergized }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Box') return false;
 
-    //   const timerTagName = instruction.parameters["Timer"].value;
-    //   if (typeof timerTagName !== "string") return true;
+      const timerTagName = instruction.parameters['Timer'].value;
+      if (typeof timerTagName !== 'string') return true;
 
-    //   const timerTag = getTagByName(timerTagName);
-    //   const timerTagProperties = timerTag.value as Timer;
+      const timerTag = getTagByName(state, timerTagName);
+      const timerTagProperties = timerTag.value as Timer;
 
-    //   if (!instruction.energized && parentEnergized) {
-    //     instruction.energized = true;
-    //     actions.updateTag(`${timerTagName}.startTime`, Date.now());
-    //     actions.updateTag(`${timerTagName}.tt`, true);
-    //   } else if (instruction.energized && parentEnergized) {
-    //     const acc = Math.floor(
-    //       (Date.now() - timerTagProperties.startTime) / 1000
-    //     );
-    //     if (acc < timerTagProperties.pre) {
-    //       actions.updateTag(`${timerTagName}.acc`, acc);
-    //     } else {
-    //       actions.updateTag(`${timerTagName}.tt`, false);
-    //       actions.updateTag(`${timerTagName}.dn`, true);
-    //     }
-    //   } else if (!parentEnergized) {
-    //     instruction.energized = false;
-    //     actions.updateTag(`${timerTagName}.acc`, 0);
-    //     actions.updateTag(`${timerTagName}.tt`, false);
-    //     actions.updateTag(`${timerTagName}.dn`, false);
-    //   }
+      if (!instruction.energized && parentEnergized) {
+        dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: true }));
+        dispatch(updateTagAction({ name: timerTagName, key: 'startTime', value: Date.now() }));
+        dispatch(updateTagAction({ name: timerTagName, key: 'tt', value: true }));
+      } else if (instruction.energized && parentEnergized) {
+        const acc = Math.floor((Date.now() - timerTagProperties.startTime) / 1000);
+        if (acc < timerTagProperties.pre) {
+          dispatch(updateTagAction({ name: timerTagName, key: 'acc', value: acc }));
+        } else {
+          dispatch(updateTagAction({ name: timerTagName, key: 'tt', value: false }));
+          dispatch(updateTagAction({ name: timerTagName, key: 'dn', value: true }));
+        }
+      } else if (!parentEnergized) {
+        dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: false }));
+        dispatch(updateTagAction({ name: timerTagName, key: 'acc', value: 0 }));
+        dispatch(updateTagAction({ name: timerTagName, key: 'tt', value: false }));
+        dispatch(updateTagAction({ name: timerTagName, key: 'dn', value: false }));
+      }
 
-    //   return true;
-    // },
-    // setParameter({ instruction, tags, input, key }: SetParameterArgs) {
-    //   if (key === "Timer") {
-    //     instruction.parameters[key].value = input;
-    //     const timerName = instruction.parameters.Timer.value as string;
-    //     const timer = getTagByName(timerName).value as any;
-
-    //     instruction.parameters.pre.value = timer.pre;
-    //     instruction.parameters.acc.value = timer.acc;
-    //     instruction.parameters.dn.value = timer.dn;
-    //     instruction.parameters.tt.value = timer.tt;
-    //   } else {
-    //     const timerName = instruction.parameters.Timer.value as string;
-    //     if (timerName == null) return;
-    //     actions.updateTag(`${timerName}.${key}`, Number(input));
-    //   }
-    // },
+      return true;
+    },
   },
   TOF: {
     name: 'Timer Off Delay',
@@ -711,55 +616,37 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     displayType: 'box',
     energized: false,
     prevEnergized: false,
-    // evaluate({ parentEnergized, tags, instruction }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Box") return false;
+    evaluate({ dispatch, state, instruction, parentEnergized }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Box') return false;
 
-    //   const timerTagName = instruction.parameters["Timer"].value;
-    //   if (typeof timerTagName !== "string") return true;
+      const timerTagName = instruction.parameters['Timer'].value;
+      if (typeof timerTagName !== 'string') return true;
 
-    //   const timerTag = getTagByName(timerTagName);
-    //   const timerTagProperties = timerTag.value as Timer;
+      const timerTag = getTagByName(state, timerTagName);
+      const timerTagProperties = timerTag.value as Timer;
 
-    //   if (!instruction.energized && parentEnergized) {
-    //     instruction.energized = true;
-    //     actions.updateTag(`${timerTagName}.acc`, 0);
-    //     actions.updateTag(`${timerTagName}.dn`, true);
-    //   } else if (instruction.energized && parentEnergized) {
-    //     // nothing
-    //   } else if (timerTagProperties.tt) {
-    //     const acc = Math.floor(
-    //       (Date.now() - timerTagProperties.startTime) / 1000
-    //     );
-    //     if (acc < timerTagProperties.pre) {
-    //       actions.updateTag(`${timerTagName}.acc`, acc);
-    //     } else {
-    //       actions.updateTag(`${timerTagName}.tt`, false);
-    //       actions.updateTag(`${timerTagName}.dn`, false);
-    //     }
-    //   } else if (!parentEnergized && timerTagProperties.dn) {
-    //     actions.updateTag(`${timerTagName}.startTime`, Date.now());
-    //     actions.updateTag(`${timerTagName}.tt`, true);
-    //     instruction.energized = false;
-    //   }
+      if (!instruction.energized && parentEnergized) {
+        dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: true }));
+        dispatch(updateTagAction({ name: timerTagName, key: 'acc', value: 0 }));
+        dispatch(updateTagAction({ name: timerTagName, key: 'dn', value: true }));
+      } else if (instruction.energized && parentEnergized) {
+        // nothing
+      } else if (timerTagProperties.tt) {
+        const acc = Math.floor((Date.now() - timerTagProperties.startTime) / 1000);
+        if (acc < timerTagProperties.pre) {
+          dispatch(updateTagAction({ name: timerTagName, key: 'acc', value: acc }));
+        } else {
+          dispatch(updateTagAction({ name: timerTagName, key: 'tt', value: false }));
+          dispatch(updateTagAction({ name: timerTagName, key: 'dn', value: false }));
+        }
+      } else if (!parentEnergized && timerTagProperties.dn) {
+        dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: false }));
+        dispatch(updateTagAction({ name: timerTagName, key: 'startTime', value: Date.now() }));
+        dispatch(updateTagAction({ name: timerTagName, key: 'tt', value: true }));
+      }
 
-    //   return true;
-    // },
-    // setParameter({ instruction, tags, input, key }: SetParameterArgs) {
-    //   if (key === "Timer") {
-    //     instruction.parameters[key].value = input;
-    //     const timerName = instruction.parameters.Timer.value as string;
-    //     const timer = getTagByName(timerName).value as any;
-
-    //     instruction.parameters.pre.value = timer.pre;
-    //     instruction.parameters.acc.value = timer.acc;
-    //     instruction.parameters.dn.value = timer.dn;
-    //     instruction.parameters.tt.value = timer.tt;
-    //   } else {
-    //     const timerName = instruction.parameters.Timer.value as string;
-    //     if (timerName == null) return;
-    //     actions.updateTag(`${timerName}.${key}`, Number(input));
-    //   }
-    // },
+      return true;
+    },
   },
   XIC: {
     name: 'Normally Open',
@@ -767,15 +654,14 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     tag: null,
     displayType: 'special',
     energized: false,
-    // evaluate({ instruction, tags }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Special") return false;
+    evaluate({ dispatch, state, instruction }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Special') return false;
 
-    //   const tagValue = getTagValue(instruction.tag!);
+      const tagValue = getTagValue(state, instruction.tag!) as boolean;
+      dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: tagValue }));
 
-    //   instruction.energized = tagValue;
-
-    //   return tagValue;
-    // },
+      return tagValue;
+    },
   },
   XIO: {
     name: 'Normally Closed',
@@ -783,15 +669,14 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     tag: null,
     displayType: 'special',
     energized: false,
-    // evaluate({ instruction, tags }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Special") return false;
+    evaluate({ dispatch, state, instruction }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Special') return false;
 
-    //   const tagValue = getTagValue(instruction.tag!);
+      const tagValue = !getTagValue(state, instruction.tag!) as boolean;
+      dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: tagValue }));
 
-    //   instruction.energized = !tagValue;
-
-    //   return !tagValue;
-    // },
+      return tagValue;
+    },
   },
   OTE: {
     name: 'Energize Coil',
@@ -799,16 +684,16 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     tag: null,
     displayType: 'special',
     energized: false,
-    // evaluate({ parentEnergized, instruction, tags }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Special") return true;
+    evaluate({ dispatch, state, instruction, parentEnergized }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Special') return true;
 
-    //   const tag = getTagByName(instruction.tag!);
+      dispatch(
+        setInstructionEnergized({ instructionId: instruction.id, energized: parentEnergized }),
+      );
+      dispatch(updateTagAction({ name: instruction.tag!, value: parentEnergized }));
 
-    //   instruction.energized = parentEnergized;
-    //   tag.value = parentEnergized;
-
-    //   return true;
-    // },
+      return true;
+    },
   },
   OTL: {
     name: 'Latch Coil',
@@ -816,33 +701,30 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     tag: null,
     displayType: 'special',
     energized: false,
-    // evaluate({
-    //   parentEnergized,
-    //   instruction,
-    //   routine,
-    //   tags,
-    // }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Special" || instruction.energized)
-    //     return true;
+    evaluate({ dispatch, state, instruction, parentEnergized }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Special' || instruction.energized) return true;
 
-    //   const tag = getTagByName(instruction.tag!);
+      dispatch(
+        setInstructionEnergized({ instructionId: instruction.id, energized: parentEnergized }),
+      );
+      dispatch(updateTagAction({ name: instruction.tag!, value: parentEnergized }));
 
-    //   instruction.energized = parentEnergized;
-    //   tag.value = parentEnergized;
+      for (const otherInstruction of Object.values(state.routine.instructions)) {
+        if (
+          otherInstruction.displayType === 'Special' &&
+          otherInstruction.tag === instruction.tag
+        ) {
+          dispatch(
+            setInstructionEnergized({
+              instructionId: otherInstruction.id,
+              energized: parentEnergized,
+            }),
+          );
+        }
+      }
 
-    //   const instructions = routine.instructions;
-    //   for (const id in instructions) {
-    //     const otherInstruction = instructions[id];
-
-    //     if (
-    //       otherInstruction.displayType === "Special" &&
-    //       otherInstruction.tag === instruction.tag
-    //     )
-    //       otherInstruction.energized = parentEnergized;
-    //   }
-
-    //   return true;
-    // },
+      return true;
+    },
   },
   OTU: {
     name: 'Unlatch Coil',
@@ -850,36 +732,29 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     tag: null,
     displayType: 'special',
     energized: false,
-    // evaluate({
-    //   parentEnergized,
-    //   instruction,
-    //   routine,
-    //   tags,
-    // }: EvaluateArgs): boolean {
-    //   if (
-    //     instruction.displayType !== "Special" ||
-    //     !instruction.energized ||
-    //     !parentEnergized
-    //   )
-    //     return true;
+    evaluate({ dispatch, state, instruction, parentEnergized }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Special' || !instruction.energized || !parentEnergized)
+        return true;
 
-    //   const tag = getTagByName(instruction.tag!);
+      dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: false }));
+      dispatch(updateTagAction({ name: instruction.tag!, value: false }));
 
-    //   instruction.energized = false;
-    //   tag.value = false;
+      for (const otherInstruction of Object.values(state.routine.instructions)) {
+        if (
+          otherInstruction.displayType === 'Special' &&
+          otherInstruction.tag === instruction.tag
+        ) {
+          dispatch(
+            setInstructionEnergized({
+              instructionId: otherInstruction.id,
+              energized: false,
+            }),
+          );
+        }
+      }
 
-    //   const instructions = routine.instructions;
-    //   for (const id in instructions) {
-    //     const otherInstruction = instructions[id];
-    //     if (
-    //       otherInstruction.displayType === "Special" &&
-    //       otherInstruction.tag === instruction.tag
-    //     )
-    //       otherInstruction.energized = false;
-    //   }
-
-    //   return true;
-    // },
+      return true;
+    },
   },
   ONS: {
     name: 'One Shot',
@@ -887,21 +762,21 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     tag: null,
     displayType: 'special',
     energized: false,
-    // evaluate({ parentEnergized, instruction }: EvaluateArgs): boolean {
-    //   if (instruction.displayType !== "Special") return false;
+    evaluate({ dispatch, instruction, parentEnergized }: EvaluateArgs): boolean {
+      if (instruction.displayType !== 'Special') return false;
 
-    //   if (!instruction.energized && parentEnergized) {
-    //     instruction.energized = true;
-    //     return true;
-    //   } else if (instruction.energized && parentEnergized) {
-    //     return false;
-    //   } else if (!parentEnergized) {
-    //     instruction.energized = false;
-    //     return false;
-    //   }
+      if (!instruction.energized && parentEnergized) {
+        dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: true }));
+        return true;
+      } else if (instruction.energized && parentEnergized) {
+        return false;
+      } else if (!parentEnergized) {
+        dispatch(setInstructionEnergized({ instructionId: instruction.id, energized: false }));
+        return false;
+      }
 
-    //   return false;
-    // },
+      return false;
+    },
   },
   Rung: {
     name: 'Rung',
@@ -909,7 +784,9 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     tag: null,
     displayType: 'special',
     energized: false,
-    // evaluate() {},
+    evaluate() {
+      return false;
+    },
   },
   Branch: {
     name: 'Branch',
@@ -917,7 +794,9 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     tag: null,
     displayType: 'special',
     energized: false,
-    // evaluate() {},
+    evaluate() {
+      return false;
+    },
   },
   'Branch Level': {
     name: 'Branch Level',
@@ -925,6 +804,8 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     tag: null,
     displayType: 'special',
     energized: false,
-    // evaluate() {},
+    evaluate() {
+      return false;
+    },
   },
 };

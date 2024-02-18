@@ -7,6 +7,7 @@ import {
   MoveRungPayload,
   Rung,
   SetBoxTagNamePayload,
+  SetInstructionEnergizedPayload,
   SetNestedValuePayload,
   SetNestedValuesPayload,
   SetSpecialTagNamePayload,
@@ -162,6 +163,13 @@ export const reducers = {
 
     parent.children.splice(index, 0, instruction.id);
     state.instructions[instruction.id] = instruction;
+  },
+  setInstructionEnergized(
+    state: RoutineSlice,
+    action: PayloadAction<SetInstructionEnergizedPayload>,
+  ) {
+    const { instructionId, energized } = action.payload;
+    state.instructions[instructionId].energized = energized;
   },
   deleteInstruction(state: RoutineSlice, action: PayloadAction<Instruction>) {
     const instruction = action.payload;

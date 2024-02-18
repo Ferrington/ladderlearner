@@ -138,7 +138,7 @@ export default function InstructionSpecial({
   return (
     <div
       className={clsx(styles.instruction, {
-        [styles.energized]: instruction.energized && false,
+        [styles.energized]: instruction.energized && runSimulation,
         [styles['interact-outline']]: showInteractOutline,
       })}
       onClick={handleClick}

@@ -6,6 +6,13 @@ export function selectRungIds(store: RootState) {
   return store.routine.rungs.allIds;
 }
 
+export const selectMainBranches = createSelector(
+  (store: RootState) => store.routine.rungs.byId,
+  (rungs) => {
+    return Object.values(rungs).map((rung) => rung.child);
+  },
+);
+
 export function selectRungById(rungId: string) {
   return (store: RootState) => store.routine.rungs.byId[rungId];
 }
