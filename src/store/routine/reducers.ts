@@ -80,11 +80,13 @@ export const reducers = {
     state.rungs.allIds = arrayMove(state.rungs.allIds, prevIndex, newIndex);
   },
   deleteRung(state: RoutineSlice, action: PayloadAction<Rung>) {
-    //runggFjQebHaajuoV1wGP-TPw
     const rung = action.payload;
     deleteChildren(state, state.branches[rung.child]);
 
-    if (state.rungs.allIds.length === 1) return;
+    if (state.rungs.allIds.length === 1) {
+      state.rungs.byId[rung.id].comment = '';
+      return;
+    }
 
     state.rungs.allIds = state.rungs.allIds.filter((id) => id !== rung.id);
     delete state.branches[rung.child];

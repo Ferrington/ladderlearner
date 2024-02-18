@@ -23,7 +23,6 @@ const initialState: RootState = {
     dropLocations: 'none',
     globalEditMode: false,
     runSimulation: false,
-    tagsAreUnassigned: false,
   },
 };
 

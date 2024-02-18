@@ -1,5 +1,6 @@
 import { AppDispatch, useAppDispatch } from '@/store';
 import { selectRunSimulation } from '@/store/base/selectors';
+import { state as emptyState } from '@/store/premade-states/emptyState';
 import { loadStateAction } from '@/store/thunks/loadStateAction';
 import { Button, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -11,8 +12,7 @@ const loadSample = async (dispatch: AppDispatch, sampleName: string) => {
   sampleName;
   let importedState;
   if (sampleName === 'emptyState') {
-    const { state } = await import('@/store/premade-states/emptyState');
-    importedState = state;
+    importedState = emptyState;
   } else if (sampleName === 'motor') {
     const { state } = await import('@/store/premade-states/motor');
     importedState = state;
