@@ -42,6 +42,20 @@ export function selectInstructionById(id: string) {
   return (store: RootState) => store.routine.instructions[id];
 }
 
+export function makeSelectIsOutput() {
+  return createSelector(
+    (store: RootState) => store.routine.instructions,
+    (_store: RootState, tagName: string) => tagName,
+    (instructions, tagName) => {
+      for (const instruction of Object.values(instructions)) {
+        const hasTag = instruction.displayType === 'Special' && instruction.tag === tagName;
+        if (hasTag && instruction.isDestructive) return true;
+      }
+      return false;
+    },
+  );
+}
+
 export function makeSelectBranchChildren() {
   return createSelector(
     (store: RootState) => store.routine,

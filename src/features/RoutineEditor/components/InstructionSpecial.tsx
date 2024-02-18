@@ -3,11 +3,17 @@ import InstructionDropArea from '@/features/RoutineEditor/components/Instruction
 import { RootState, useAppDispatch } from '@/store';
 import { selectDraggingInstructionId, selectRunSimulation } from '@/store/base/selectors';
 import { setGlobalEditMode } from '@/store/base/slice';
-import { selectBranchById, selectInstructionById } from '@/store/routine/selectors';
+import {
+  makeSelectIsOutput,
+  selectBranchById,
+  selectInstructionById,
+} from '@/store/routine/selectors';
 import { deleteInstruction, setSpecialTagName } from '@/store/routine/slice';
 import { makeSelectTagOptions } from '@/store/tag/selectors';
+import { updateTagAction } from '@/store/thunks/updateTagAction';
+import { type InstructionSpecial } from '@/types';
 import clsx from 'clsx';
-import { MouseEvent, ReactNode, useMemo, useState } from 'react';
+import { MouseEvent, ReactNode, memo, useMemo, useState } from 'react';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { useSelector } from 'react-redux';
 import styles from '../styles/InstructionSpecial.module.css';
@@ -18,7 +24,7 @@ type Props = {
   children?: ReactNode;
 };
 
-export default function InstructionSpecial({
+const InstructionSpecial = memo(function InstructionSpecial({
   instructionId,
   beingDragged,
   children: componentChildren,
@@ -34,6 +40,11 @@ export default function InstructionSpecial({
   const instruction = useSelector(selectInstructionById(instructionId));
   const parent = useSelector(selectBranchById(instruction?.parent));
 
+  const selectIsOutput = useMemo(makeSelectIsOutput, []);
+  const isOutput = useSelector((state: RootState) =>
+    selectIsOutput(state, (instruction as InstructionSpecial)?.tag || ''),
+  );
+
   const selectTagOptions = useMemo(makeSelectTagOptions, []);
   const tagList = useSelector((state: RootState) =>
     selectTagOptions(state, instruction?.displayType),
@@ -42,15 +53,11 @@ export default function InstructionSpecial({
 
   function handleClick(e: MouseEvent) {
     e.preventDefault();
+
     if (runSimulation) {
-      if (instruction?.displayType !== 'Special' || !instruction.tag) return;
+      if (instruction?.displayType !== 'Special' || !instruction.tag || isOutput) return;
 
-      // const tag = getTagByName(instruction.tag);
-      // const isOutput = checkIfOutput(tag);
-      // if (!isOutput) {
-      //   tagActions.updateTag(tag.name, !tag.value);
-      // }
-
+      dispatch(updateTagAction({ name: instruction.tag, value: !instruction.energized }));
       return;
     }
 
@@ -74,6 +81,7 @@ export default function InstructionSpecial({
     if (!tagList.includes(name)) return;
 
     dispatch(setSpecialTagName({ name, instructionId }));
+    dispatch(setGlobalEditMode(false));
     setEditMode(false);
   }
 
@@ -182,4 +190,6 @@ export default function InstructionSpecial({
       {!beingDragged && componentChildren}
     </div>
   );
-}
+});
+
+export default InstructionSpecial;

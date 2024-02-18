@@ -362,7 +362,7 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
       const a = getParamValue(state, instruction.parameters['A'].value);
 
       const { name: bTagName, key: bTagKey } = parseTagName(
-        instruction.parameters['C'].value as string,
+        instruction.parameters['B'].value as string,
       );
       dispatch(updateTagAction({ name: bTagName, key: bTagKey, value: a }));
 
@@ -684,7 +684,7 @@ export const INSTRUCTION_PROPERTIES: InstructionProperties = {
     tag: null,
     displayType: 'special',
     energized: false,
-    evaluate({ dispatch, state, instruction, parentEnergized }: EvaluateArgs): boolean {
+    evaluate({ dispatch, instruction, parentEnergized }: EvaluateArgs): boolean {
       if (instruction.displayType !== 'Special') return true;
 
       dispatch(

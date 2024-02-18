@@ -13,7 +13,7 @@ import { deleteRung, editRungComment } from '@/store/routine/slice';
 import { Button, Modal, Textarea } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import clsx from 'clsx';
-import { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { memo, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { RiDeleteBinLine, RiFileListLine } from 'react-icons/ri';
 import { useSelector } from 'react-redux';
 import styles from '../styles/Rung.module.css';
@@ -26,7 +26,7 @@ type Props = {
   dragListeners?: object;
 };
 
-export default function Rung({
+const Rung = memo(function Rung({
   rungId,
   rungNumber,
   beingDragged,
@@ -205,4 +205,6 @@ export default function Rung({
       </div>
     </div>
   );
-}
+});
+
+export default Rung;

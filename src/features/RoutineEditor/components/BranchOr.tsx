@@ -9,7 +9,7 @@ import {
   selectBranchParentById,
 } from '@/store/routine/selectors';
 import clsx from 'clsx';
-import { CSSProperties, ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { CSSProperties, ReactNode, memo, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styles from '../styles/BranchOr.module.css';
 
@@ -23,7 +23,11 @@ type Props = {
   children?: ReactNode;
 };
 
-export default function BranchOr({ branchId, destructive, children: componentChildren }: Props) {
+const BranchOr = memo(function BranchOr({
+  branchId,
+  destructive,
+  children: componentChildren,
+}: Props) {
   const [orHeight, setOrHeight] = useState(0);
   const orRef = useRef<HTMLDivElement>(null);
   const [heightAdjust, setHeightAdjust] = useState(false);
@@ -77,4 +81,6 @@ export default function BranchOr({ branchId, destructive, children: componentChi
       {componentChildren}
     </div>
   );
-}
+});
+
+export default BranchOr;

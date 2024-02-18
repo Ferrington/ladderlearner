@@ -7,7 +7,7 @@ import { selectBranchById, selectInstructionById } from '@/store/routine/selecto
 import { deleteInstruction } from '@/store/routine/slice';
 import { isNumeric } from '@/utils/isNumeric';
 import clsx from 'clsx';
-import { Fragment, MouseEvent, ReactNode, useState } from 'react';
+import { Fragment, MouseEvent, ReactNode, memo, useState } from 'react';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { useSelector } from 'react-redux';
 import styles from '../styles/InstructionBox.module.css';
@@ -18,7 +18,7 @@ type Props = {
   children?: ReactNode;
 };
 
-export default function InstructionBox({
+const InstructionBox = memo(function InstructionBox({
   instructionId,
   beingDragged,
   children: componentChildren,
@@ -73,7 +73,7 @@ export default function InstructionBox({
     <div
       className={clsx(styles.instruction, {
         [styles['interact-outline']]: showInteractOutline,
-        [styles.energized]: instruction.energized && false,
+        [styles.energized]: instruction.energized && runSimulation,
       })}
       onMouseOver={handleMouseOver}
       onMouseLeave={dontLookClickable}
@@ -148,4 +148,6 @@ export default function InstructionBox({
       {!beingDragged && componentChildren}
     </div>
   );
-}
+});
+
+export default InstructionBox;

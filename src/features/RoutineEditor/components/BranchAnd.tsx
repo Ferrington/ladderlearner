@@ -8,7 +8,7 @@ import {
   makeSelectDestructiveChildIndex,
   selectBranchChildrenIds,
 } from '@/store/routine/selectors';
-import { ReactNode, useMemo } from 'react';
+import { ReactNode, memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 type Props = {
@@ -17,7 +17,7 @@ type Props = {
   children?: ReactNode;
 };
 
-export default function BranchAnd({
+const BranchAnd = memo(function BranchAnd({
   branchId,
   extraLandingPadLoc,
   children: componentChildren,
@@ -88,4 +88,6 @@ export default function BranchAnd({
       {componentChildren}
     </>
   );
-}
+});
+
+export default BranchAnd;
