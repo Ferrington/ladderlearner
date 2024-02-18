@@ -1,4 +1,5 @@
 import { RootState } from '@/store';
+import { Instruction } from '@/types';
 
 export function selectDraggingRungIndex(state: RootState) {
   return state.base.draggingRungIndex;
@@ -25,5 +26,13 @@ export function selectRunSimulation(state: RootState) {
 }
 
 export function selectTagsAreUnassigned(state: RootState) {
-  return state.base.tagsAreUnassigned;
+  return Object.values(state.routine.instructions).some(tagsAreUnassigned);
+}
+
+function tagsAreUnassigned(instruction: Instruction) {
+  if (instruction.displayType === 'Special') {
+    return instruction.tag === null && instruction.abbreviated !== 'ONS';
+  } else {
+    return Object.values(instruction.parameters).some((param) => param.value == null);
+  }
 }

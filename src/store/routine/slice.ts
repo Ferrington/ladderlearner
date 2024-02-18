@@ -31,6 +31,7 @@ export const {
   setRoutineState,
   setSpecialTagName,
   setBoxTagName,
+  setNestedValues,
   editRungComment,
   insertRung,
   moveRung,

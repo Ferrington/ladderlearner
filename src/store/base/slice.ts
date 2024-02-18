@@ -8,7 +8,6 @@ export type BaseSlice = {
   dropLocations: ValidDropLocations | 'none' | 'all';
   globalEditMode: boolean;
   runSimulation: boolean;
-  tagsAreUnassigned: boolean;
 };
 
 const initialState: BaseSlice = {
@@ -18,7 +17,6 @@ const initialState: BaseSlice = {
   dropLocations: 'none',
   globalEditMode: false,
   runSimulation: false,
-  tagsAreUnassigned: false,
 };
 
 const baseSlice = createSlice({
@@ -40,9 +38,6 @@ const baseSlice = createSlice({
     setRunSimulation(state, action: PayloadAction<boolean>) {
       state.runSimulation = action.payload;
     },
-    setTagsAreUnassigned(state, action: PayloadAction<boolean>) {
-      state.tagsAreUnassigned = action.payload;
-    },
   },
 });
 
@@ -52,7 +47,6 @@ export const {
   setDraggingInstructionId,
   setGlobalEditMode,
   setRunSimulation,
-  setTagsAreUnassigned,
 } = baseSlice.actions;
 
 export const baseReducer = baseSlice.reducer;

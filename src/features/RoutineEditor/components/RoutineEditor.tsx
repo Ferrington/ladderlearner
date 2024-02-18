@@ -1,6 +1,6 @@
 import RungDragOverlay from '@/features/RoutineEditor/components/RungDragOverlay';
 import { useAppDispatch } from '@/store';
-import { selectRunSimulation } from '@/store/base/selectors';
+import { selectRunSimulation, selectTagsAreUnassigned } from '@/store/base/selectors';
 import { setRunSimulation } from '@/store/base/slice';
 import { selectRungIds } from '@/store/routine/selectors';
 import { RiPlayLine, RiStopLine } from 'react-icons/ri';
@@ -11,9 +11,11 @@ export default function RoutineEditor() {
   const dispatch = useAppDispatch();
   const runSimulation = useSelector(selectRunSimulation);
   const rungIds = useSelector(selectRungIds);
+  const tagsAreUnassigned = useSelector(selectTagsAreUnassigned);
 
   function toggleSimulation() {
-    dispatch(setRunSimulation(!runSimulation));
+    const setSimulation = !runSimulation && !tagsAreUnassigned;
+    dispatch(setRunSimulation(setSimulation));
   }
 
   return (

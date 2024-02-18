@@ -1,4 +1,5 @@
 import { AppDispatch, RootState } from '@/store';
+import { setBoxTagName, setNestedValues } from '@/store/routine/slice';
 import { updateTagAction } from '@/store/thunks/updateTagAction';
 import { Counter, Timer } from '@/types';
 
@@ -11,37 +12,16 @@ export function setBoxTagNameAction(name: string, instructionId: string, key: st
 
     // normal update if not a timer or counter
     if (!['TON', 'TOF', 'CTU', 'CTD'].includes(instruction.abbreviated)) {
-      dispatch({
-        type: 'routine/setBoxTagName',
-        payload: {
-          name,
-          instructionId,
-          key,
-        },
-      });
+      dispatch(setBoxTagName({ name, instructionId, key }));
       return;
     }
 
     // deal with nested values
     if (['Timer', 'Counter'].includes(key)) {
-      dispatch({
-        type: 'routine/setBoxTagName',
-        payload: {
-          name,
-          instructionId,
-          key,
-        },
-      });
+      dispatch(setBoxTagName({ name, instructionId, key }));
 
       const obj = state.tags.byId[name].value as Timer | Counter;
-
-      dispatch({
-        type: 'routine/setNestedValues',
-        payload: {
-          instructionId,
-          obj,
-        },
-      });
+      dispatch(setNestedValues({ instructionId, obj }));
     } else {
       let tagName = '';
       if (['TON', 'TOF'].includes(instruction.abbreviated)) {
