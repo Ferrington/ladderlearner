@@ -19,7 +19,11 @@ export default function InstructionPalette() {
   });
 
   return (
-    <aside ref={setNodeRef} className={styles['instruction-palette-container']}>
+    <aside
+      id="instruction-palette"
+      ref={setNodeRef}
+      className={styles['instruction-palette-container']}
+    >
       <div>
         <Tabs
           color="orange.4"

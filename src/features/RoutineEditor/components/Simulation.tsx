@@ -13,13 +13,10 @@ export default function Simulation() {
     const intervalId = setInterval(simulateRungs, MILLISECONDS_PER_CYCLE);
 
     function simulateRungs() {
-      console.log('simulating');
       mainBranchIds.forEach((branchId) => dispatch(simulateRungAction(branchId)));
     }
 
     return () => {
-      console.log('clean');
-      console.log(intervalId);
       clearInterval(intervalId);
     };
   }, [dispatch, mainBranchIds]);
