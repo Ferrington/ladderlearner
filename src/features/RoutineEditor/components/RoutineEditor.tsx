@@ -20,9 +20,10 @@ export default function RoutineEditor() {
   }
 
   return (
-    <main className={styles['routine-editor']}>
+    <main className={styles['routine-editor']} id="routine-editor">
       <div className={styles['simulation-control-wrapper']}>
         <div
+          id="simulation-control"
           className={styles['simulation-control-background']}
           onClick={toggleSimulation}
           style={{ background: runSimulation ? '#FF3F3F' : 'lime' }}

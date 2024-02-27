@@ -24,7 +24,7 @@ export default function TagManager() {
   }
 
   return (
-    <aside className={styles['tag-manager']}>
+    <aside className={styles['tag-manager']} id="tag-manager">
       <TagTable />
       {menu}
     </aside>

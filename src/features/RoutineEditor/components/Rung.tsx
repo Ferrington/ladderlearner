@@ -102,6 +102,7 @@ const Rung = memo(function Rung({
   return (
     <div
       className={clsx(styles.rung, { [styles['interact-outline']]: showInteractOutline })}
+      data-onboardingid="rung"
       data-testid="rung"
     >
       {rungNumber === 1 && <RungDropArea rungIndex={0} />}

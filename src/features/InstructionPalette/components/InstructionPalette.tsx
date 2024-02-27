@@ -32,7 +32,7 @@ export default function InstructionPalette() {
         >
           <Tabs.List justify="center">
             {TABS.map((tab) => (
-              <Tabs.Tab key={tab} value={tab}>
+              <Tabs.Tab key={tab} value={tab} data-onboardingid="instruction-palette-tab">
                 {tab}
               </Tabs.Tab>
             ))}
