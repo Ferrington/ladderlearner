@@ -1,55 +1,9 @@
-import { AppDispatch, useAppDispatch } from '@/store';
-import { selectRunSimulation } from '@/store/base/selectors';
-import { state as emptyState } from '@/store/premade-states/emptyState';
-import { loadStateAction } from '@/store/thunks/loadStateAction';
+import { useExampleTab } from '@/features/InstructionPalette/hooks/useExampleTab';
 import { Button, Modal } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import styles from '../styles/ExampleTab.module.css';
 
-const loadSample = async (dispatch: AppDispatch, sampleName: string) => {
-  sampleName;
-  let importedState;
-  if (sampleName === 'emptyState') {
-    importedState = emptyState;
-  } else if (sampleName === 'motor') {
-    const { state } = await import('@/store/premade-states/motor');
-    importedState = state;
-  } else if (sampleName === 'trafficLight') {
-    const { state } = await import('@/store/premade-states/trafficLight');
-    importedState = state;
-  } else if (sampleName === 'widgets') {
-    const { state } = await import('@/store/premade-states/widgets');
-    importedState = state;
-  } else {
-    return;
-  }
-
-  const nextState = structuredClone(importedState);
-  dispatch(loadStateAction(nextState));
-  window.dispatchEvent(new Event('resize'));
-};
-
 export default function ExampleTab() {
-  const [opened, { open, close }] = useDisclosure(false);
-  const [sampleName, setSampleName] = useState<string>('emptyState');
-  const [modalMessage, setModalMessage] = useState('');
-  const runSimulation = useSelector(selectRunSimulation);
-  const dispatch = useAppDispatch();
-
-  const openModal = (caller: string) => {
-    if (caller === 'emptyState') setModalMessage('Clearing the routine will discard your work.');
-    else setModalMessage('Loading this sample routine will discard your work.');
-
-    setSampleName(caller);
-    open();
-  };
-
-  const proceed = () => {
-    loadSample(dispatch, sampleName);
-    close();
-  };
+  const { runSimulation, opened, openModal, close, proceed, modalMessage } = useExampleTab();
 
   return (
     <>

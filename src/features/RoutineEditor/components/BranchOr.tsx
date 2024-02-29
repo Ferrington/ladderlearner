@@ -1,16 +1,9 @@
 import BranchAnd from '@/features/RoutineEditor/components/BranchAnd';
 import InstructionDropArea from '@/features/RoutineEditor/components/InstructionDropArea';
 import RungLine from '@/features/RoutineEditor/components/RungLine';
-import { RootState, store } from '@/store';
-import { selectGlobalEditMode } from '@/store/base/selectors';
-import {
-  makeSelectBranchChildren,
-  selectBranchChildrenIds,
-  selectBranchParentById,
-} from '@/store/routine/selectors';
+import { useBranchOr } from '@/features/RoutineEditor/hooks/useBranchOr';
 import clsx from 'clsx';
-import { CSSProperties, ReactNode, memo, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { CSSProperties, ReactNode, memo } from 'react';
 import styles from '../styles/BranchOr.module.css';
 
 interface CSSPropertiesWithVars extends CSSProperties {
@@ -28,29 +21,7 @@ const BranchOr = memo(function BranchOr({
   destructive,
   children: componentChildren,
 }: Props) {
-  const [orHeight, setOrHeight] = useState(0);
-  const orRef = useRef<HTMLDivElement>(null);
-  const [heightAdjust, setHeightAdjust] = useState(false);
-  const globalEditMode = useSelector(selectGlobalEditMode);
-
-  store.subscribe(() => {
-    setHeightAdjust(!heightAdjust);
-  });
-
-  const childrenIds = useSelector(selectBranchChildrenIds(branchId));
-  const selectBranchChildren = useMemo(makeSelectBranchChildren, []);
-  const children = useSelector((state: RootState) => selectBranchChildren(state, childrenIds));
-  const parent = useSelector(selectBranchParentById(branchId));
-
-  useLayoutEffect(() => {
-    if (!orRef.current) return;
-
-    const children = orRef.current.querySelectorAll<HTMLDivElement>(
-      `:scope > .rung--branch:not(.last-branch)`,
-    );
-    const height = [...children].reduce((sum, child) => sum + child.offsetHeight, 0);
-    setOrHeight(height);
-  }, [heightAdjust, globalEditMode]);
+  const { orRef, children, parent, orHeight } = useBranchOr(branchId);
 
   return (
     <div

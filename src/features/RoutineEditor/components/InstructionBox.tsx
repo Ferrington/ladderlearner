@@ -1,15 +1,11 @@
 import InstructionBoxParameter from '@/features/RoutineEditor/components/InstructionBoxParameter';
 import InstructionDropArea from '@/features/RoutineEditor/components/InstructionDropArea';
 import TagPreview from '@/features/RoutineEditor/components/TagPreview';
-import { useAppDispatch } from '@/store';
-import { selectDraggingInstructionId, selectRunSimulation } from '@/store/base/selectors';
-import { selectBranchById, selectInstructionById } from '@/store/routine/selectors';
-import { deleteInstruction } from '@/store/routine/slice';
+import { useInstructionBox } from '@/features/RoutineEditor/hooks/useInstructionBox';
 import { isNumeric } from '@/utils/isNumeric';
 import clsx from 'clsx';
-import { Fragment, MouseEvent, ReactNode, memo, useState } from 'react';
+import { Fragment, ReactNode, memo } from 'react';
 import { RiDeleteBinLine } from 'react-icons/ri';
-import { useSelector } from 'react-redux';
 import styles from '../styles/InstructionBox.module.css';
 
 type Props = {
@@ -23,51 +19,21 @@ const InstructionBox = memo(function InstructionBox({
   beingDragged,
   children: componentChildren,
 }: Props) {
-  const [showInteractOutline, setShowInteractOutline] = useState(false);
-  const [isDeletable, setIsDeletable] = useState(false);
+  const {
+    instruction,
+    parent,
+    cursor,
+    showInteractOutline,
+    runSimulation,
+    handleMouseOver,
+    handleDelete,
+    lookClickable,
+    dontLookClickable,
+    draggingInstructionId,
+    isDeletable,
+  } = useInstructionBox(instructionId, beingDragged);
 
-  const dispatch = useAppDispatch();
-
-  const runSimulation = useSelector(selectRunSimulation);
-  const draggingInstructionId = useSelector(selectDraggingInstructionId);
-  const instruction = useSelector(selectInstructionById(instructionId));
-  const parent = useSelector(selectBranchById(instruction?.parent));
   if (instruction?.displayType !== 'Box') return null;
-
-  function lookClickable(e: MouseEvent) {
-    if (runSimulation) return;
-
-    const element = e.target as HTMLElement;
-    if (element.classList.contains('instruct-value') || element.tagName === 'INPUT') {
-      setShowInteractOutline(false);
-    } else {
-      setShowInteractOutline(true);
-    }
-  }
-
-  function handleMouseOver() {
-    if (runSimulation) return;
-
-    setIsDeletable(true);
-  }
-
-  function dontLookClickable() {
-    setShowInteractOutline(false);
-    setIsDeletable(false);
-  }
-
-  function handleDelete() {
-    if (runSimulation) return;
-
-    dispatch(deleteInstruction(instruction));
-  }
-
-  let cursor;
-  if (runSimulation) {
-    cursor = 'auto';
-  } else {
-    cursor = beingDragged ? 'grabbing' : 'grab';
-  }
 
   return (
     <div

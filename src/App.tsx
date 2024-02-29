@@ -34,7 +34,7 @@ export default function App() {
         </WorkspaceDndWrapper>
       </MantineProvider>
       <Joyride
-        // run={true}
+        run={false}
         steps={steps}
         continuous={true}
         disableCloseOnEsc={true}

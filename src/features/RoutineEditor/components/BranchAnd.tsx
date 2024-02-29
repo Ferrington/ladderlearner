@@ -2,14 +2,8 @@ import BoxDragOverlay from '@/features/RoutineEditor/components/BoxDragOverlay';
 import BranchOr from '@/features/RoutineEditor/components/BranchOr';
 import InstructionDropArea from '@/features/RoutineEditor/components/InstructionDropArea';
 import SpecialDragOverlay from '@/features/RoutineEditor/components/SpecialDragOverlay';
-import { RootState } from '@/store';
-import {
-  makeSelectBranchChildren,
-  makeSelectDestructiveChildIndex,
-  selectBranchChildrenIds,
-} from '@/store/routine/selectors';
-import { ReactNode, memo, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useBranchAnd } from '@/features/RoutineEditor/hooks/useBranchAnd';
+import { ReactNode, memo } from 'react';
 
 type Props = {
   branchId: string;
@@ -22,14 +16,7 @@ const BranchAnd = memo(function BranchAnd({
   extraLandingPadLoc,
   children: componentChildren,
 }: Props) {
-  const childrenIds = useSelector(selectBranchChildrenIds(branchId));
-  const selectBranchChildren = useMemo(makeSelectBranchChildren, []);
-  const children = useSelector((state: RootState) => selectBranchChildren(state, childrenIds));
-
-  const selectDestructiveChildIndex = useMemo(makeSelectDestructiveChildIndex, []);
-  const destructiveLoc = useSelector((state: RootState) =>
-    selectDestructiveChildIndex(state, branchId),
-  );
+  const { children, destructiveLoc } = useBranchAnd(branchId);
 
   return (
     <>

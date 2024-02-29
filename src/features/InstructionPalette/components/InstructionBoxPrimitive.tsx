@@ -1,29 +1,14 @@
-import { INSTRUCTION_PROPERTIES } from '@/config/instructionProperties';
-import { selectDraggingInstructionId, selectRunSimulation } from '@/store/base/selectors';
-import { useSelector } from 'react-redux';
+import { useInstructionBoxPrimitive } from '@/features/InstructionPalette/hooks/useInstructionBoxPrimitive';
 import styles from '../styles/InstructionBox.module.css';
 
 export default function InstructionBoxPrimitive({ abbreviation }: { abbreviation: string }) {
-  const draggingInstructionId = useSelector(selectDraggingInstructionId);
-  const runSimulation = useSelector(selectRunSimulation);
-
-  const instruction = INSTRUCTION_PROPERTIES[abbreviation];
-  if (instruction.displayType === 'special') {
-    throw new Error('Tried to create Box Instruction with type: InstructionSpecialProperties');
-  }
-
-  let cursor;
-  if (runSimulation) {
-    cursor = 'default';
-  } else {
-    cursor = draggingInstructionId === abbreviation ? 'grabbing' : 'grab';
-  }
+  const { opacity, cursor, instruction } = useInstructionBoxPrimitive(abbreviation);
 
   return (
     <div
       className={styles.instruction}
       style={{
-        opacity: draggingInstructionId === abbreviation ? 0.5 : 1,
+        opacity,
         cursor,
       }}
     >

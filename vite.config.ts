@@ -1,6 +1,6 @@
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
-import { defineConfig } from 'vitest/config';
+import { configDefaults, defineConfig } from 'vitest/config';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,6 +14,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
+    exclude: [...configDefaults.exclude, '**/tests/**'],
   },
   build: {
     rollupOptions: {
