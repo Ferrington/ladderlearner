@@ -15,6 +15,7 @@ import {
 import { deleteChildren, generateEmptyRung } from '@/store/routine/utils';
 import { Instruction } from '@/types';
 import { arrayMove } from '@/utils/arrayMove';
+import { isNumeric } from '@/utils/isNumeric';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { nanoid } from 'nanoid';
 
@@ -37,7 +38,9 @@ export const reducers = {
     const instruction = state.instructions[instructionId];
     if (instruction.displayType !== 'Box') return;
 
-    instruction.parameters[key].value = name;
+    const value = isNumeric(name) ? Number(name) : name;
+
+    instruction.parameters[key].value = value;
     instruction.energized = false;
   },
   setNestedValue(state: RoutineSlice, action: PayloadAction<SetNestedValuePayload>) {
