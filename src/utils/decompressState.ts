@@ -80,6 +80,11 @@ function decompressRoutine(compressedRungs: CompressedRung[], tagNameMap: Record
     } else if (completelyEnclosed(str)) {
       // OR branch
       console.log('OR branch', str);
+
+      const branchId = nanoid();
+
+      const tokens = branchOrTokens(str.slice(1, -1));
+      tokens.forEach((token) => decompress(branchId, token));
     } else {
       // AND branch
       console.log('AND branch', str);
@@ -129,15 +134,14 @@ function completelyEnclosed(str: string) {
   return false;
 }
 
-function branchOrTokens(str: string) {}
-
-function branchAndTokens(str: string) {
+function branchOrTokens(str: string) {
   const openBracketIndexes = [];
   const tokens = [];
   for (let i = 0; i < str.length; i++) {
     if (openBracketIndexes.length === 0) {
-      while (str[i] !== '[') i++;
-      tokens.push(str.slice(0, i));
+      const j = i;
+      while (!['[', '|'].includes(str[i]) && i < str.length) i++;
+      tokens.push(str.slice(j, i));
     }
 
     if (str[i] == '[') openBracketIndexes.push(i);
@@ -149,5 +153,30 @@ function branchAndTokens(str: string) {
       openBracketIndexes.pop();
     }
   }
+
+  return tokens;
+}
+
+function branchAndTokens(str: string) {
+  const openBracketIndexes = [];
+  const tokens = [];
+  for (let i = 0; i < str.length; i++) {
+    if (openBracketIndexes.length === 0) {
+      const j = i;
+      while (!['[', ')'].includes(str[i]) && i < str.length) i++;
+      if (str[i] == ')') i++;
+      tokens.push(str.slice(j, i));
+    }
+
+    if (str[i] == '[') openBracketIndexes.push(i);
+    if (str[i] == ']') {
+      if (openBracketIndexes.length === 1) {
+        const orBranch = str.slice(openBracketIndexes[0], i + 1);
+        tokens.push(orBranch);
+      }
+      openBracketIndexes.pop();
+    }
+  }
+
   return tokens;
 }
