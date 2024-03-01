@@ -1,7 +1,8 @@
 import { baseReducer } from '@/store/base/slice';
-import { state } from '@/store/premade-states/emptyState';
+import { stateStr } from '@/store/premade-states/emptyState';
 import { routineReducer } from '@/store/routine/slice';
 import { tagReducer } from '@/store/tag/slice';
+import { decompressState } from '@/utils/decompressState';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 
@@ -11,7 +12,7 @@ const rootReducer = combineReducers({
   routine: routineReducer,
 });
 
-const emptyState = state;
+const emptyState = decompressState(stateStr);
 
 const initialState: RootState = {
   routine: emptyState.routine,

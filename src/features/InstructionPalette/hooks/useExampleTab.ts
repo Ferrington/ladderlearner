@@ -1,7 +1,8 @@
 import { useAppDispatch } from '@/store';
 import { selectRunSimulation } from '@/store/base/selectors';
-import { state as emptyState } from '@/store/premade-states/emptyState';
+import { stateStr as emptyState } from '@/store/premade-states/emptyState';
 import { loadStateAction } from '@/store/thunks/loadStateAction';
+import { decompressState } from '@/utils/decompressState';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -29,16 +30,16 @@ export function useExampleTab() {
   async function loadSample(sampleName: string) {
     let importedState;
     if (sampleName === 'emptyState') {
-      importedState = emptyState;
+      importedState = decompressState(emptyState);
     } else if (sampleName === 'motor') {
-      const { state } = await import('@/store/premade-states/motor');
-      importedState = state;
+      const { stateStr } = await import('@/store/premade-states/motor');
+      importedState = decompressState(stateStr);
     } else if (sampleName === 'trafficLight') {
-      const { state } = await import('@/store/premade-states/trafficLight');
-      importedState = state;
+      const { stateStr } = await import('@/store/premade-states/trafficLight');
+      importedState = decompressState(stateStr);
     } else if (sampleName === 'widgets') {
-      const { state } = await import('@/store/premade-states/widgets');
-      importedState = state;
+      const { stateStr } = await import('@/store/premade-states/widgets');
+      importedState = decompressState(stateStr);
     } else {
       return;
     }

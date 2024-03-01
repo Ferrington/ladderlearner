@@ -7,7 +7,7 @@ export function moveInstructionAction({ instruction, newParent, index }: MoveIns
   return (dispatch: AppDispatch) => {
     const newInstruction = {
       ...instruction,
-      id: nanoid(),
+      id: 'i' + nanoid(),
       parent: newParent,
     };
 

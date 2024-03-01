@@ -8,8 +8,9 @@ import {
 } from '@/store/routine/selectors';
 import { deleteInstruction, setSpecialTagName } from '@/store/routine/slice';
 import { makeSelectTagOptions } from '@/store/tag/selectors';
-import { updateTagAction } from '@/store/thunks/updateTagAction';
+import { toggleTagValue } from '@/store/tag/slice';
 import { InstructionSpecial } from '@/types';
+import { parseTagName } from '@/utils/parseTagName';
 import { useMemo, useState, type MouseEvent } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -40,7 +41,9 @@ export function useInstructionSpecial(instructionId: string, beingDragged: boole
     if (runSimulation) {
       if (instruction?.displayType !== 'Special' || !instruction.tag || isOutput) return;
 
-      dispatch(updateTagAction({ name: instruction.tag, value: !instruction.energized }));
+      const tag = parseTagName(instruction.tag);
+
+      dispatch(toggleTagValue({ name: tag.name, key: tag.key }));
       return;
     }
 

@@ -190,6 +190,7 @@ function decompressRoutine(compressedRungs: CompressedRung[], tagNameMap: Record
 
       const childIds: string[] = [];
       const tokens = extractBranchTokens(str.slice(1, -1), 'AND');
+      console.log(tokens);
       tokens.forEach((token) => {
         const prefix = token.includes('[') ? 'b' : 'i';
         const childId = prefix + nanoid();
@@ -256,6 +257,7 @@ function extractBranchTokens(str: string, branch: 'OR' | 'AND') {
         if (openBracketIndexes.length === 1) {
           const orBranch = str.slice(openBracketIndexes[0], i + 1);
           tokens.push(orBranch);
+          i++;
         }
         openBracketIndexes.pop();
       }
