@@ -127,7 +127,8 @@ function zipParameters(
 
 function decompressRoutine(compressedRungs: CompressedRung[], tagNameMap: Record<string, string>) {
   function decompress(parentId: string, eleId: string, str: string) {
-    if ([...str.matchAll(/[a-zA-Z\d_]+\(.*?\)/g)].length == 1) {
+    // if ([...str.matchAll(/[a-zA-Z\d_]+\(.*?\)/g)].length == 1) {
+    if (!['[', '<'].includes(str[0])) {
       // single instruction
       console.log('single instruction', str);
 
@@ -165,14 +166,14 @@ function decompressRoutine(compressedRungs: CompressedRung[], tagNameMap: Record
           energized: false,
         };
       }
-    } else if (completelyEnclosed(str)) {
+    } else if (completelyEnclosedOr(str)) {
       // OR branch
       console.log('OR branch', str);
 
       const childIds: string[] = [];
       const tokens = extractBranchTokens(str.slice(1, -1), 'OR');
       tokens.forEach((token) => {
-        const childId = nanoid();
+        const childId = 'b' + nanoid();
         childIds.push(childId);
         decompress(eleId, childId, token);
       });
@@ -187,11 +188,11 @@ function decompressRoutine(compressedRungs: CompressedRung[], tagNameMap: Record
       // AND branch
       console.log('AND branch', str);
 
-      //tokenize OR branches
       const childIds: string[] = [];
-      const tokens = extractBranchTokens(str, 'AND');
+      const tokens = extractBranchTokens(str.slice(1, -1), 'AND');
       tokens.forEach((token) => {
-        const childId = nanoid();
+        const prefix = token.includes('[') ? 'b' : 'i';
+        const childId = prefix + nanoid();
         childIds.push(childId);
         decompress(eleId, childId, token);
       });
@@ -212,8 +213,8 @@ function decompressRoutine(compressedRungs: CompressedRung[], tagNameMap: Record
   };
 
   for (const rung of compressedRungs) {
-    const rungId = nanoid();
-    const childId = nanoid();
+    const rungId = 'r' + nanoid();
+    const childId = 'b' + nanoid();
     routine.rungs.allIds.push(rungId);
     routine.rungs.byId[rungId] = {
       id: rungId,
@@ -222,13 +223,14 @@ function decompressRoutine(compressedRungs: CompressedRung[], tagNameMap: Record
       comment: rung.c,
     };
 
+    console.log('new rung');
     decompress(rungId, childId, rung.r);
   }
 
   return routine;
 }
 
-function completelyEnclosed(str: string) {
+function completelyEnclosedOr(str: string) {
   if (str[0] != '[' || str.slice(-1) != ']') return false;
 
   const openBracketIndexes = [];
@@ -262,18 +264,9 @@ function extractBranchTokens(str: string, branch: 'OR' | 'AND') {
 
   function extractInstructionToken() {
     const start = i;
-    if (branch === 'OR') {
-      while (!['[', '|'].includes(str[i]) && i < str.length) {
-        i++;
-      }
-      tokens.push(str.slice(start, i));
-    } else if (branch === 'AND') {
-      while (str[i] !== ')') {
-        if (i === str.length) throw new Error('Unmatched parenthesis');
-        i++;
-      }
-      tokens.push(str.slice(start, i + 1));
-    }
+    const markers = branch === 'OR' ? ['[', '|'] : ['<', '!'];
+    while (!markers.includes(str[i]) && i < str.length) i++;
+    tokens.push(str.slice(start, i));
   }
 
   let i = 0;
@@ -287,24 +280,4 @@ function extractBranchTokens(str: string, branch: 'OR' | 'AND') {
   }
 
   return tokens;
-}
-
-function generateBoxInstruction(abbreviation: string) {
-  const instruction = INSTRUCTION_PROPERTIES[abbreviation];
-
-  if (instruction.displayType === 'special')
-    throw new Error('Attempted to generate InstructionSpecial in PrimBoxDragWrapper.');
-
-  return {
-    id: 'instruction' + nanoid(),
-    type: 'Instruction',
-    name: instruction.name,
-    description: instruction.description,
-    displayType: 'Box',
-    abbreviated: abbreviation,
-    parameters: structuredClone(instruction.parameters),
-    parent: '',
-    isDestructive: instruction.isDestructive,
-    energized: false,
-  };
 }

@@ -99,8 +99,8 @@ export const reducers = {
   insertBranch(state: RoutineSlice, action: PayloadAction<InsertBranchPayload>) {
     const { newParent, index } = action.payload;
 
-    const newId = 'branch' + nanoid();
-    const childIds = ['branch' + nanoid(), 'branch' + nanoid()];
+    const newId = 'b' + nanoid();
+    const childIds = ['b' + nanoid(), 'b' + nanoid()];
 
     const parent = state.branches[newParent];
     parent.children.splice(index, 0, newId);
@@ -122,7 +122,7 @@ export const reducers = {
   },
   insertBranchLevel(state: RoutineSlice, action: PayloadAction<string>) {
     const newParent = action.payload;
-    const newId = 'branch' + nanoid();
+    const newId = 'b' + nanoid();
 
     const parent = state.branches[newParent];
     const grandparent = state.branches[parent.parent];

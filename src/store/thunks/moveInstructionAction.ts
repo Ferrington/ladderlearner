@@ -7,9 +7,11 @@ export function moveInstructionAction({ instruction, newParent, index }: MoveIns
   return (dispatch: AppDispatch) => {
     const newInstruction = {
       ...instruction,
-      id: 'instruction' + nanoid(),
+      id: nanoid(),
       parent: newParent,
     };
+
+    console.log(newInstruction.id);
 
     dispatch(insertInstruction({ instruction: newInstruction, index }));
     dispatch(deleteInstruction(instruction));

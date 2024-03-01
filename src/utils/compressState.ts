@@ -101,7 +101,8 @@ export function compressState(state: ExampleState) {
       const children = ele.children.map(compress).join('|');
       return `[${children}]`;
     } else if (ele.type === 'AND') {
-      return ele.children.map(compress).join('');
+      const children = ele.children.map(compress).join('!');
+      return `<${children}>`;
     } else {
       throw new Error('Compression Error: Unknown type');
     }

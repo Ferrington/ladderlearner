@@ -34,7 +34,7 @@ function generateInstruction(abbreviation: string) {
   const instruction = INSTRUCTION_PROPERTIES[abbreviation];
 
   return {
-    id: 'instruction' + nanoid(),
+    id: 'i' + nanoid(),
     type: 'Instruction',
     displayType: 'Special',
     abbreviated: abbreviation,

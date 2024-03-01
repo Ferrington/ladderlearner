@@ -84,7 +84,7 @@ export function getAvailableDropLocations(routine: RoutineSlice, branch: Branch)
   };
 
   branch.children.forEach((childId) => {
-    if (childId.indexOf('branch') === 0)
+    if (childId.indexOf('b') === 0)
       locs = {
         ...locs,
         ...getAvailableDropLocations(routine, routine.branches[childId]),
@@ -96,7 +96,7 @@ export function getAvailableDropLocations(routine: RoutineSlice, branch: Branch)
 
 export function getDestructiveDropLocations(routine: RoutineSlice) {
   function findDestructiveDropLocations(branchId: string, goodLocation: string | null = null) {
-    if (branchId.indexOf('instruction') === 0) return {};
+    if (branchId.indexOf('i') === 0) return {};
 
     const branch = routine.branches[branchId];
     const destructiveIndex = findDestructiveChild(routine, branch.id);
@@ -116,7 +116,7 @@ export function getDestructiveDropLocations(routine: RoutineSlice) {
           //  don't even worry about it
         } else if (i === destructiveIndex - 1) {
           locs = { ...locs, ...findDestructiveDropLocations(childId, 'last') };
-        } else if (i === destructiveIndex && childId.indexOf('branch') === 0) {
+        } else if (i === destructiveIndex && childId.indexOf('b') === 0) {
           locs = { ...locs, ...findDestructiveDropLocations(childId, 'last') };
         } else if (i >= destructiveIndex) {
           locs[branch.id] = branch.id in locs ? [...locs[branch.id], i] : [i];
@@ -175,8 +175,8 @@ export function getBranchLevelLocations(routine: RoutineSlice) {
 }
 
 export function generateEmptyRung() {
-  const rungId = 'rung' + nanoid();
-  const branchId = 'branch' + nanoid();
+  const rungId = 'r' + nanoid();
+  const branchId = 'b' + nanoid();
 
   return {
     newRung: {

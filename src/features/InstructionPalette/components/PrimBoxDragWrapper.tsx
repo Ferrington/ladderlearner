@@ -37,7 +37,7 @@ function generateInstruction(abbreviation: string) {
     throw new Error('Attempted to generate InstructionSpecial in PrimBoxDragWrapper.');
 
   return {
-    id: 'instruction' + nanoid(),
+    id: 'i' + nanoid(),
     type: 'Instruction',
     name: instruction.name,
     description: instruction.description,
