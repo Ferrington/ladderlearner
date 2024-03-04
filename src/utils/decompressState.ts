@@ -130,7 +130,6 @@ function decompressRoutine(compressedRungs: CompressedRung[], tagNameMap: Record
     // if ([...str.matchAll(/[a-zA-Z\d_]+\(.*?\)/g)].length == 1) {
     if (!['[', '<'].includes(str[0])) {
       // single instruction
-      console.log('single instruction', str);
 
       const abbreviation = str.substring(0, str.indexOf('('));
       const contentsRaw = str.substring(str.indexOf('(') + 1, str.indexOf(')'));
@@ -168,7 +167,6 @@ function decompressRoutine(compressedRungs: CompressedRung[], tagNameMap: Record
       }
     } else if (completelyEnclosedOr(str)) {
       // OR branch
-      console.log('OR branch', str);
 
       const childIds: string[] = [];
       const tokens = extractBranchTokens(str.slice(1, -1), 'OR');
@@ -186,11 +184,9 @@ function decompressRoutine(compressedRungs: CompressedRung[], tagNameMap: Record
       };
     } else {
       // AND branch
-      console.log('AND branch', str);
 
       const childIds: string[] = [];
       const tokens = extractBranchTokens(str.slice(1, -1), 'AND');
-      console.log(tokens);
       tokens.forEach((token) => {
         const prefix = token.includes('[') ? 'b' : 'i';
         const childId = prefix + nanoid();
@@ -224,7 +220,6 @@ function decompressRoutine(compressedRungs: CompressedRung[], tagNameMap: Record
       comment: rung.c,
     };
 
-    console.log('new rung');
     decompress(rungId, childId, rung.r);
   }
 

@@ -21,8 +21,8 @@ export const stateStr = JSON.stringify({
   t: [
     { n: 'Conveyor', t: 'b', v: true },
     { n: 'Widget', t: 't', v: { p: 2, a: 0, d: false, t: true, s: 0 } },
-    { n: 'Widgets Produced', t: 'c', v: { p: 5, a: 0, d: false } },
-    { n: 'Robotic Arm', t: 't', v: { p: 3, a: 0, d: false, t: false, s: 0 } },
-    { n: 'Boxes of Widgets', t: 'n', v: 0 },
+    { n: 'Widgets_Produced', t: 'c', v: { p: 5, a: 0, d: false } },
+    { n: 'Robotic_Arm', t: 't', v: { p: 3, a: 0, d: false, t: false, s: 0 } },
+    { n: 'Boxes_of_Widgets', t: 'n', v: 0 },
   ],
 });

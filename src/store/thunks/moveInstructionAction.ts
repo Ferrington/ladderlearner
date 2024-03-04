@@ -11,8 +11,6 @@ export function moveInstructionAction({ instruction, newParent, index }: MoveIns
       parent: newParent,
     };
 
-    console.log(newInstruction.id);
-
     dispatch(insertInstruction({ instruction: newInstruction, index }));
     dispatch(deleteInstruction(instruction));
   };

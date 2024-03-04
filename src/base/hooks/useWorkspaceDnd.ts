@@ -60,7 +60,6 @@ export function useWorkspaceDnd() {
     } else {
       // handle everything else
       dispatch(setDraggingInstructionId(e.active.id as string));
-      console.log(e.active.id);
       dispatch(setDropLocationsAction(e.active?.data?.current?.instruction?.abbreviated));
 
       setDragOverlay(e.active?.data?.current?.dragOverlay);
@@ -101,12 +100,10 @@ export function useWorkspaceDnd() {
       const { instruction } = e.active.data.current;
       if (instruction.parent === '') {
         // source is a primitive
-        console.log(instruction.id);
         instruction.parent = newParent;
         dispatch(insertInstruction({ instruction, index }));
       } else {
         // source is in routine
-        console.log(instruction.id);
         dispatch(moveInstructionAction({ instruction, newParent, index }));
       }
     }
