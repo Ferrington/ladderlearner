@@ -1,10 +1,18 @@
 import { baseReducer } from '@/store/base/slice';
-import { stateStr } from '@/store/premade-states/emptyState';
+import { stateStr as emptyStateStr } from '@/store/premade-states/emptyState';
 import { routineReducer } from '@/store/routine/slice';
 import { tagReducer } from '@/store/tag/slice';
+import { compressState } from '@/utils/compressState';
 import { decompressState } from '@/utils/decompressState';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
+
+if (localStorage.getItem('version') !== APP_VERSION) {
+  localStorage.clear();
+  localStorage.setItem('version', APP_VERSION);
+}
+
+const savedStateStr = localStorage.getItem('state');
 
 const rootReducer = combineReducers({
   base: baseReducer,
@@ -12,11 +20,12 @@ const rootReducer = combineReducers({
   routine: routineReducer,
 });
 
-const emptyState = decompressState(stateStr);
-
+const initialStatePartial = savedStateStr
+  ? decompressState(savedStateStr)
+  : decompressState(emptyStateStr);
 const initialState: RootState = {
-  routine: emptyState.routine,
-  tags: emptyState.tags,
+  routine: initialStatePartial.routine,
+  tags: initialStatePartial.tags,
   base: {
     draggingRungIndex: null,
     rungDropLocations: null,
@@ -41,3 +50,12 @@ export type AppDispatch = typeof store.dispatch;
 export type AppStore = ReturnType<typeof setupStore>;
 
 export const useAppDispatch: () => AppDispatch = useDispatch;
+
+store.subscribe(() => {
+  const state = store.getState();
+  const partialState = {
+    routine: state.routine,
+    tags: state.tags,
+  };
+  localStorage.setItem('state', compressState(partialState));
+});
