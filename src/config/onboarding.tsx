@@ -1,10 +1,12 @@
-import { Step } from 'react-joyride';
+import { CallBackProps, Step } from 'react-joyride';
 
 export type JoyrideState = {
   run: boolean;
   stepIndex: number;
   steps: Step[];
 };
+
+export const onboardingComplete = localStorage.getItem('onboarding-complete') === 'true';
 
 export const steps: Step[] = [
   {
@@ -69,3 +71,9 @@ export const joyrideStyles = {
     primaryColor: '#ffa94d',
   },
 };
+
+export function joyrideCallback(data: CallBackProps) {
+  if (data.action === 'reset') {
+    localStorage.setItem('onboarding-complete', 'true');
+  }
+}
