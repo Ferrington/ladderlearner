@@ -109,6 +109,7 @@ const Rung = memo(function Rung({
           <Textarea
             value={comment}
             onChange={(e) => setComment(e.currentTarget.value)}
+            maxLength={300}
             data-autofocus
             autosize
           ></Textarea>

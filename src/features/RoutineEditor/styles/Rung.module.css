@@ -25,6 +25,7 @@
   grid-column: 2 / 3;
   place-self: center;
   text-align: center;
+  word-break: break-all;
 }
 
 .delete,
