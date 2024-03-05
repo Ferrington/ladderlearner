@@ -19,7 +19,7 @@
 }
 
 .nav-list {
-  height: 39px;
+  height: 38.5px;
   display: flex;
   list-style: none;
   margin: 0;
@@ -51,10 +51,10 @@
 
 .nav-list a:global(.active)::before {
   content: '';
-  height: 2px;
+  height: 1.5px;
   background: var(--color-primary);
   position: absolute;
-  top: -2px;
+  top: -1.5px;
   left: 0;
   right: 0;
 }
