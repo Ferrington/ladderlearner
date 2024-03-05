@@ -1,21 +1,64 @@
-.mantine-root {
+.route-wrapper {
   height: 100%;
   overflow: hidden;
-}
-
-.mantine-tabslist {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  background-color: #f1f1f1;
-}
-
-.mantine-tabspanel {
-  height: calc(100% - 40px);
 }
 
 .routine-editor-wrapper {
   display: grid;
   grid-template-rows: auto 1fr;
+  height: calc(100% - 40px);
+}
+
+.nav {
+  border-top: var(--section-border);
+  background: #f1f1f1;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.nav-list {
+  height: 39px;
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav-list li {
   height: 100%;
+}
+
+.nav-list a {
+  position: relative;
+  height: 100%;
+  text-decoration: none;
+  color: var(--color-text);
+  padding: 0 20px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-list a:hover {
+  background: #f8f9fa;
+  cursor: pointer;
+}
+
+.nav-list a:global(.active)::before {
+  content: '';
+  height: 2px;
+  background: var(--color-primary);
+  position: absolute;
+  top: -2px;
+  left: 0;
+  right: 0;
+}
+
+.push-right {
+  margin-left: auto;
 }

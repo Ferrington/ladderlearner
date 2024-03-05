@@ -7,14 +7,14 @@ export default function AboutPage() {
       <div className={styles.instructions}>
         <ul>
           <li>
-            <h4>Routine Tab</h4>
+            <h4>Sandbox</h4>
             <p>
               Drag and drop rungs, branches, and instructions to create your ladder logic routine.
               Assign tags to store data.
             </p>
           </li>
           <li>
-            <h4>**Coming soon** Exercises Tab</h4>
+            <h4>**Coming soon** Exercises</h4>
             <p>
               A guided learning feature which will introduce a complete beginner to ladder logic.
             </p>
