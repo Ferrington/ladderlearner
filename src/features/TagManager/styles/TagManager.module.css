@@ -1,9 +1,3 @@
-.tag-manager {
-  border-right: var(--section-border);
-  overflow-y: auto;
-  padding-bottom: 40px;
-}
-
 .add-task {
   padding-left: 26px;
   padding-top: 20px;

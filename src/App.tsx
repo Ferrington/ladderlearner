@@ -9,8 +9,9 @@ import {
   onboardingComplete,
   steps,
 } from '@/config/onboarding';
+import RoutineManager from '@/features/RoutineManager/components/RoutineManager';
 import TagManager from '@/features/TagManager/components/TagManager';
-import { MantineProvider } from '@mantine/core';
+import { MantineProvider, Tabs } from '@mantine/core';
 import '@mantine/core/styles.css';
 import Joyride from 'react-joyride';
 
@@ -30,7 +31,28 @@ export default function App() {
           <div className={styles['workspace']}>
             <Workspace />
           </div>
-          <TagManager />
+          <div className={styles['left-panel']}>
+            <Tabs
+              classNames={{
+                list: styles['mantine-tabslist'],
+              }}
+              color="orange.4"
+              defaultValue="TagManager"
+              inverted
+            >
+              <Tabs.Panel value="TagManager">
+                <TagManager />
+              </Tabs.Panel>
+              <Tabs.Panel value="RoutineManager">
+                <RoutineManager />
+              </Tabs.Panel>
+
+              <Tabs.List grow>
+                <Tabs.Tab value="TagManager">Tags</Tabs.Tab>
+                <Tabs.Tab value="RoutineManager">Routines</Tabs.Tab>
+              </Tabs.List>
+            </Tabs>
+          </div>
         </WorkspaceDndWrapper>
       </MantineProvider>
       <Joyride

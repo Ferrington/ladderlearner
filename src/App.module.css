@@ -32,3 +32,16 @@
   position: relative;
   height: 100%;
 }
+
+.left-panel {
+  border-right: var(--section-border);
+  overflow-y: auto;
+  padding-bottom: 40px;
+  position: relative;
+}
+
+.mantine-tabslist {
+  position: absolute !important;
+  bottom: 0;
+  width: 100%;
+}
