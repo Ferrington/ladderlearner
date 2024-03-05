@@ -1,0 +1,24 @@
+.about-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-block: 50px;
+  padding-inline: 50px;
+  gap: 50px;
+}
+
+.about-container > div {
+  max-width: 50rem;
+}
+
+.instructions h4 {
+  margin-bottom: 10px;
+}
+
+.instrunctions li {
+  list-style-type: none;
+}
+
+.instructions li + li {
+  margin-top: 20px;
+}

@@ -1,7 +1,8 @@
+import AboutPage from '@/features/AboutPage/AboutPage';
 import InstructionPalette from '@/features/InstructionPalette/components/InstructionPalette';
 import RoutineEditor from '@/features/RoutineEditor/components/RoutineEditor';
 import { Tabs } from '@mantine/core';
-import { RiBookOpenLine, RiInformationLine } from 'react-icons/ri';
+import { RiInformationLine } from 'react-icons/ri';
 import styles from '../styles/Workspace.module.css';
 
 export default function Workspace() {
@@ -31,8 +32,7 @@ export default function Workspace() {
           </div>
         </Tabs.Panel>
         <Tabs.Panel value="About">
-          About
-          {/* <About /> */}
+          <AboutPage />
         </Tabs.Panel>
 
         <Tabs.List defaultValue="RoutineEditor">
@@ -42,9 +42,9 @@ export default function Workspace() {
           >
             Routine
           </Tabs.Tab>
-          <Tabs.Tab value="Exercises" leftSection={<RiBookOpenLine size="1.25em" />}>
+          {/* <Tabs.Tab value="Exercises" leftSection={<RiBookOpenLine size="1.25em" />}>
             Exercises
-          </Tabs.Tab>
+          </Tabs.Tab> */}
           <Tabs.Tab value="About" leftSection={<RiInformationLine size="1.25em" />} ml="auto">
             About
           </Tabs.Tab>
