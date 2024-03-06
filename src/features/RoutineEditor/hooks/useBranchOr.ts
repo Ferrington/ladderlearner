@@ -1,5 +1,5 @@
-import { RootState, store } from '@/store';
-import { selectGlobalEditMode } from '@/store/base/selectors';
+import { RootState } from '@/store';
+import { selectGlobalEditMode, selectHeightAdjust } from '@/store/base/selectors';
 import {
   makeSelectBranchChildren,
   selectBranchChildrenIds,
@@ -11,17 +11,13 @@ import { useSelector } from 'react-redux';
 export function useBranchOr(branchId: string) {
   const orRef = useRef<HTMLDivElement>(null);
   const [orHeight, setOrHeight] = useState(0);
-  const [heightAdjust, setHeightAdjust] = useState(false);
 
+  const heightAdjust = useSelector(selectHeightAdjust);
   const globalEditMode = useSelector(selectGlobalEditMode);
   const childrenIds = useSelector(selectBranchChildrenIds(branchId));
   const selectBranchChildren = useMemo(makeSelectBranchChildren, []);
   const children = useSelector((state: RootState) => selectBranchChildren(state, childrenIds));
   const parent = useSelector(selectBranchParentById(branchId));
-
-  store.subscribe(() => {
-    setHeightAdjust(!heightAdjust);
-  });
 
   useLayoutEffect(() => {
     if (!orRef.current) return;

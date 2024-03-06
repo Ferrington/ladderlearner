@@ -1,5 +1,12 @@
+import {
+  deleteBranch,
+  deleteInstruction,
+  insertBranch,
+  insertBranchLevel,
+  insertInstruction,
+} from '@/store/routine/slice';
 import { ValidDropLocations } from '@/types';
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 
 export type BaseSlice = {
   draggingRungIndex: number | null;
@@ -8,6 +15,7 @@ export type BaseSlice = {
   dropLocations: ValidDropLocations | 'none' | 'all';
   globalEditMode: boolean;
   runSimulation: boolean;
+  heightAdjust: boolean;
 };
 
 const initialState: BaseSlice = {
@@ -17,6 +25,7 @@ const initialState: BaseSlice = {
   dropLocations: 'none',
   globalEditMode: false,
   runSimulation: false,
+  heightAdjust: false,
 };
 
 const baseSlice = createSlice({
@@ -38,6 +47,15 @@ const baseSlice = createSlice({
     setRunSimulation(state, action: PayloadAction<boolean>) {
       state.runSimulation = action.payload;
     },
+    toggleHeightAdjust(state) {
+      state.heightAdjust = !state.heightAdjust;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      isAnyOf(insertInstruction, deleteInstruction, insertBranch, insertBranchLevel, deleteBranch),
+      (state) => void (state.heightAdjust = !state.heightAdjust),
+    );
   },
 });
 

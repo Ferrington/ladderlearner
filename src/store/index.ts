@@ -1,3 +1,4 @@
+import { apiSlice } from '@/store/api/slice';
 import { baseReducer } from '@/store/base/slice';
 import { stateStr as emptyStateStr } from '@/store/premade-states/emptyState';
 import { routineReducer } from '@/store/routine/slice';
@@ -18,12 +19,13 @@ const rootReducer = combineReducers({
   base: baseReducer,
   tags: tagReducer,
   routine: routineReducer,
+  [apiSlice.reducerPath]: apiSlice.reducer,
 });
 
 const initialStatePartial = savedStateStr
   ? decompressState(savedStateStr)
   : decompressState(emptyStateStr);
-const initialState: RootState = {
+const initialState: Partial<RootState> = {
   routine: initialStatePartial.routine,
   tags: initialStatePartial.tags,
   base: {
@@ -33,12 +35,14 @@ const initialState: RootState = {
     dropLocations: 'none',
     globalEditMode: false,
     runSimulation: false,
+    heightAdjust: false,
   },
 };
 
 export function setupStore(preloadedState?: Partial<RootState>) {
   return configureStore({
     reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
     preloadedState,
   });
 }

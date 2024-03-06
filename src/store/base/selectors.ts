@@ -29,6 +29,10 @@ export function selectTagsAreUnassigned(state: RootState) {
   return Object.values(state.routine.instructions).some(tagsAreUnassigned);
 }
 
+export function selectHeightAdjust(state: RootState) {
+  return state.base.heightAdjust;
+}
+
 function tagsAreUnassigned(instruction: Instruction) {
   if (instruction.displayType === 'Special') {
     return instruction.tag === null && instruction.abbreviated !== 'ONS';
