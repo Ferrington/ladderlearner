@@ -47,9 +47,6 @@ const baseSlice = createSlice({
     setRunSimulation(state, action: PayloadAction<boolean>) {
       state.runSimulation = action.payload;
     },
-    toggleHeightAdjust(state) {
-      state.heightAdjust = !state.heightAdjust;
-    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(

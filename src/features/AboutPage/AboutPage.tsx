@@ -10,7 +10,7 @@ export default function AboutPage() {
             <h4>Sandbox</h4>
             <p>
               Drag and drop rungs, branches, and instructions to create your ladder logic routine.
-              Assign tags to store data.
+              Assign tags to store data. Use the simulation button to test your routine.
             </p>
           </li>
           <li>

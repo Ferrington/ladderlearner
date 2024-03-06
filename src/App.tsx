@@ -34,6 +34,8 @@ export default function App() {
           <div className={styles['left-panel']}>
             <Tabs
               classNames={{
+                root: styles['mantine-root'],
+                panel: styles['mantine-tabspanel'],
                 list: styles['mantine-tabslist'],
               }}
               color="orange.4"

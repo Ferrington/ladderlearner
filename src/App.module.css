@@ -34,10 +34,21 @@
 }
 
 .left-panel {
-  border-right: var(--section-border);
+  height: 100%;
   overflow-y: auto;
-  padding-bottom: 40px;
+  border-right: var(--section-border);
   position: relative;
+}
+
+.mantine-root {
+  height: 100%;
+}
+
+.mantine-tabspanel {
+  height: calc(100% - 40px);
+  overflow-y: auto;
+  padding-inline: 5px;
+  padding-block: 20px;
 }
 
 .mantine-tabslist {

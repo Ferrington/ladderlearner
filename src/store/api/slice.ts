@@ -5,7 +5,8 @@ export const apiSlice = createApi({
   baseQuery: fakeBaseQuery(),
   endpoints: (builder) => ({
     getRoutines: builder.query<FakeRoutines, void>({
-      queryFn() {
+      async queryFn() {
+        await new Promise((resolve) => setTimeout(resolve, 5000));
         return { data: routines };
       },
     }),
