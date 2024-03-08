@@ -1,3 +1,8 @@
 .routine-manager {
   padding-inline: 15px;
 }
+
+.list {
+  list-style: none;
+  padding-inline: 0;
+}

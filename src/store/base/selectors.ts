@@ -33,6 +33,10 @@ export function selectHeightAdjust(state: RootState) {
   return state.base.heightAdjust;
 }
 
+export function selectActiveRoutine(state: RootState) {
+  return state.base.activeRoutine;
+}
+
 function tagsAreUnassigned(instruction: Instruction) {
   if (instruction.displayType === 'Special') {
     return instruction.tag === null && instruction.abbreviated !== 'ONS';

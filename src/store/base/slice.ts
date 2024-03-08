@@ -16,6 +16,7 @@ export type BaseSlice = {
   globalEditMode: boolean;
   runSimulation: boolean;
   heightAdjust: boolean;
+  activeRoutine: number | null;
 };
 
 const initialState: BaseSlice = {
@@ -26,6 +27,7 @@ const initialState: BaseSlice = {
   globalEditMode: false,
   runSimulation: false,
   heightAdjust: false,
+  activeRoutine: null,
 };
 
 const baseSlice = createSlice({
@@ -47,6 +49,9 @@ const baseSlice = createSlice({
     setRunSimulation(state, action: PayloadAction<boolean>) {
       state.runSimulation = action.payload;
     },
+    setActiveRoutine(state, action: PayloadAction<number | null>) {
+      state.activeRoutine = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
@@ -62,6 +67,7 @@ export const {
   setDraggingInstructionId,
   setGlobalEditMode,
   setRunSimulation,
+  setActiveRoutine,
 } = baseSlice.actions;
 
 export const baseReducer = baseSlice.reducer;

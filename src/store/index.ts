@@ -14,17 +14,11 @@ if (localStorage.getItem('version') !== APP_VERSION) {
 }
 
 const savedStateStr = localStorage.getItem('state');
-
-const rootReducer = combineReducers({
-  base: baseReducer,
-  tags: tagReducer,
-  routine: routineReducer,
-  [apiSlice.reducerPath]: apiSlice.reducer,
-});
-
 const initialStatePartial = savedStateStr
   ? decompressState(savedStateStr)
   : decompressState(emptyStateStr);
+const savedActiveRoutineStr = localStorage.getItem('active-routine');
+const activeRoutine = savedActiveRoutineStr === 'null' ? null : Number(savedActiveRoutineStr);
 const initialState: Partial<RootState> = {
   routine: initialStatePartial.routine,
   tags: initialStatePartial.tags,
@@ -36,8 +30,16 @@ const initialState: Partial<RootState> = {
     globalEditMode: false,
     runSimulation: false,
     heightAdjust: false,
+    activeRoutine,
   },
 };
+
+const rootReducer = combineReducers({
+  base: baseReducer,
+  tags: tagReducer,
+  routine: routineReducer,
+  [apiSlice.reducerPath]: apiSlice.reducer,
+});
 
 export function setupStore(preloadedState?: Partial<RootState>) {
   return configureStore({
@@ -57,9 +59,13 @@ export const useAppDispatch: () => AppDispatch = useDispatch;
 
 store.subscribe(() => {
   const state = store.getState();
+
+  if (state.base.runSimulation) return;
+
   const partialState = {
     routine: state.routine,
     tags: state.tags,
   };
   localStorage.setItem('state', compressState(partialState));
+  localStorage.setItem('active-routine', String(state.base.activeRoutine));
 });

@@ -6,7 +6,7 @@ export const apiSlice = createApi({
   endpoints: (builder) => ({
     getRoutines: builder.query<FakeRoutines, void>({
       async queryFn() {
-        await new Promise((resolve) => setTimeout(resolve, 5000));
+        // await new Promise((resolve) => setTimeout(resolve, 5000));
         return { data: routines };
       },
     }),
