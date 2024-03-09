@@ -1,5 +1,6 @@
 import styles from '@/App.module.css';
 import '@/assets/base.css';
+import LoginModal from '@/base/components/LoginModal';
 import Workspace from '@/base/components/Workspace';
 import WorkspaceDndWrapper from '@/base/components/WorkspaceDndWrapper';
 import {
@@ -55,6 +56,7 @@ export default function App() {
               </Tabs.List>
             </Tabs>
           </div>
+          <LoginModal />
         </WorkspaceDndWrapper>
       </MantineProvider>
       <Joyride

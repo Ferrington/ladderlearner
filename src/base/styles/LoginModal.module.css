@@ -1,0 +1,47 @@
+.title {
+  padding-top: 20px !important;
+  padding-inline: 20px !important;
+  font-weight: bold !important;
+  font-size: 1.5rem !important;
+}
+
+.close {
+  margin-left: 0;
+}
+
+.wrapper {
+  padding: 20px;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.button-wrapper {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+
+.button-label {
+  color: black;
+  font-weight: normal;
+}
+
+.or {
+  text-align: center;
+}
+
+.error {
+  padding: 10px 15px;
+  background: rgb(255, 225, 225);
+  color: rgb(255, 0, 0);
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

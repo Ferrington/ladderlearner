@@ -20,7 +20,7 @@ export default function TagMenu({ hideMenu }: Props) {
         value={name}
         onChange={handleNameChange}
         onKeyDown={handleNameKeyPress}
-        placeholder={'Tag Name'}
+        placeholder="Tag Name"
         data-testid="tag-name"
       />
       <Select

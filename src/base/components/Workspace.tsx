@@ -1,13 +1,26 @@
+import { supabase } from '@/config/supabase';
 import AboutPage from '@/features/AboutPage/AboutPage';
-// import InstructionPalette from '@/features/InstructionPalette/components/InstructionPalette';
-import RoutineEditor from '@/features/RoutineEditor/components/RoutineEditor';
-import styles from '../styles/Workspace.module.css';
-// import { Tabs } from '@mantine/core';
-// import { RiInformationLine } from 'react-icons/ri';
 import InstructionPalette from '@/features/InstructionPalette/components/InstructionPalette';
+import RoutineEditor from '@/features/RoutineEditor/components/RoutineEditor';
+import { useAuth } from '@/hooks/useAuth';
+import { useAppDispatch } from '@/store';
+import { setShowLogin } from '@/store/auth/slice';
+import { RiBookOpenLine, RiInformationLine } from 'react-icons/ri';
 import { NavLink, Route, Routes } from 'react-router-dom';
+import styles from '../styles/Workspace.module.css';
 
 export default function Workspace() {
+  const dispatch = useAppDispatch();
+  const { user } = useAuth();
+
+  async function handleClick() {
+    if (user != null) {
+      await supabase.auth.signOut();
+    } else {
+      dispatch(setShowLogin(true));
+    }
+  }
+
   return (
     <div className={styles['route-wrapper']}>
       <Routes>
@@ -31,11 +44,20 @@ export default function Workspace() {
               Sandbox
             </NavLink>
           </li>
-          {/* <li>
-            <NavLink to="/exercises">Exercises</NavLink>
-          </li> */}
+          <li>
+            <NavLink to="/exercises">
+              <RiBookOpenLine size="1.25em" />
+              Exercises
+            </NavLink>
+          </li>
           <li className={styles['push-right']}>
-            <NavLink to="/about">About</NavLink>
+            <NavLink to="/about">
+              <RiInformationLine size="1.25em" />
+              About
+            </NavLink>
+          </li>
+          <li onClick={handleClick}>
+            <span>{user != null ? 'Log Out' : 'Log In'}</span>
           </li>
         </ul>
       </nav>

@@ -1,4 +1,5 @@
 import { apiSlice } from '@/store/api/slice';
+import { authReducer } from '@/store/auth/slice';
 import { baseReducer } from '@/store/base/slice';
 import { stateStr as emptyStateStr } from '@/store/premade-states/emptyState';
 import { routineReducer } from '@/store/routine/slice';
@@ -35,6 +36,7 @@ const initialState: Partial<RootState> = {
 };
 
 const rootReducer = combineReducers({
+  auth: authReducer,
   base: baseReducer,
   tags: tagReducer,
   routine: routineReducer,
