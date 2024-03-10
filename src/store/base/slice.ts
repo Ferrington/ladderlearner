@@ -15,7 +15,7 @@ export type BaseSlice = {
   dropLocations: ValidDropLocations | 'none' | 'all';
   globalEditMode: boolean;
   runSimulation: boolean;
-  heightAdjust: boolean;
+  heightAdjust: number;
   activeRoutine: number | null;
 };
 
@@ -26,7 +26,7 @@ const initialState: BaseSlice = {
   dropLocations: 'none',
   globalEditMode: false,
   runSimulation: false,
-  heightAdjust: false,
+  heightAdjust: 0,
   activeRoutine: null,
 };
 
@@ -56,7 +56,10 @@ const baseSlice = createSlice({
   extraReducers: (builder) => {
     builder.addMatcher(
       isAnyOf(insertInstruction, deleteInstruction, insertBranch, insertBranchLevel, deleteBranch),
-      (state) => void (state.heightAdjust = !state.heightAdjust),
+      (state) => {
+        void (state.heightAdjust = (state.heightAdjust + 1) % 4);
+        console.log('heightAdjust', state.heightAdjust);
+      },
     );
   },
 });

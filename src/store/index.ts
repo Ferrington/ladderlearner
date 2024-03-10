@@ -30,7 +30,7 @@ const initialState: Partial<RootState> = {
     dropLocations: 'none',
     globalEditMode: false,
     runSimulation: false,
-    heightAdjust: false,
+    heightAdjust: 0,
     activeRoutine,
   },
 };

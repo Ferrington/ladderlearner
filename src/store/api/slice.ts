@@ -1,6 +1,5 @@
 import { supabase } from '@/config/supabase';
-import { FakeRoutines, routines } from '@/store/api/testRoutines';
-import { serializeError } from '@/utils/serializeError';
+import { serializeAuthError, serializePostgrestError } from '@/store/api/utils';
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Session, User } from '@supabase/supabase-js';
 
@@ -25,6 +24,12 @@ export type AuthError = {
   message: string;
 };
 
+export type SavedRoutine = {
+  id: number;
+  name: string;
+  state_str: string;
+};
+
 export const apiSlice = createApi({
   baseQuery: fakeBaseQuery(),
   endpoints: (builder) => ({
@@ -36,7 +41,7 @@ export const apiSlice = createApi({
 
         if (error != null) {
           return {
-            error: serializeError(error),
+            error: serializeAuthError(error),
           };
         }
         return { data };
@@ -48,16 +53,22 @@ export const apiSlice = createApi({
 
         if (error != null) {
           return {
-            error: serializeError(error),
+            error: serializeAuthError(error),
           };
         }
         return { data };
       },
     }),
-    getRoutines: builder.query<FakeRoutines, void>({
+    getRoutines: builder.query<SavedRoutine[], void>({
       async queryFn() {
-        // await new Promise((resolve) => setTimeout(resolve, 5000));
-        return { data: routines };
+        const { data, error } = await supabase.from('routines').select();
+
+        if (error != null) {
+          return {
+            error: serializePostgrestError(error),
+          };
+        }
+        return { data };
       },
     }),
   }),

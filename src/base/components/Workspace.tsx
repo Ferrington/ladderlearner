@@ -5,7 +5,12 @@ import RoutineEditor from '@/features/RoutineEditor/components/RoutineEditor';
 import { useAuth } from '@/hooks/useAuth';
 import { useAppDispatch } from '@/store';
 import { setShowLogin } from '@/store/auth/slice';
-import { RiBookOpenLine, RiInformationLine } from 'react-icons/ri';
+import {
+  RiAccountBoxLine,
+  RiBookOpenLine,
+  RiInformationLine,
+  RiLogoutBoxRLine,
+} from 'react-icons/ri';
 import { NavLink, Route, Routes } from 'react-router-dom';
 import styles from '../styles/Workspace.module.css';
 
@@ -57,7 +62,17 @@ export default function Workspace() {
             </NavLink>
           </li>
           <li onClick={handleClick}>
-            <span>{user != null ? 'Log Out' : 'Log In'}</span>
+            {user != null ? (
+              <span>
+                <RiLogoutBoxRLine size="1.25em" />
+                <span className={styles['auth-action-text']}>Log Out</span>
+              </span>
+            ) : (
+              <span>
+                <RiAccountBoxLine size="1.25em" />
+                <span className={styles['auth-action-text']}>Log In</span>
+              </span>
+            )}
           </li>
         </ul>
       </nav>

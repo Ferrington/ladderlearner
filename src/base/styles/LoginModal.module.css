@@ -36,12 +36,31 @@
   text-align: center;
 }
 
+.success,
 .error {
   padding: 10px 15px;
-  background: rgb(255, 225, 225);
-  color: rgb(255, 0, 0);
   margin-top: 10px;
   display: flex;
   align-items: center;
   gap: 10px;
+  border-radius: 0.25rem;
+}
+
+:is(.success, .error) span:first-child {
+  display: flex;
+  align-items: center;
+  position: relative;
+  top: -1px;
+}
+
+.error {
+  background: rgb(255, 225, 225);
+  color: rgb(255, 0, 0);
+  border: 1px solid rgb(255, 0, 0);
+}
+
+.success {
+  background: rgb(225, 255, 225);
+  color: rgb(0, 194, 0);
+  border: 1px solid rgb(0, 194, 0);
 }

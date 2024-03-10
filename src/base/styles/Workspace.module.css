@@ -31,7 +31,7 @@
   height: 100%;
 }
 
-.nav-list :is(a, span) {
+.nav-list li > :is(a, span) {
   position: relative;
   height: 100%;
   text-decoration: none;
@@ -44,12 +44,12 @@
   gap: 8px;
 }
 
-.nav-list :is(a, span):hover {
+.nav-list li > :is(a, span):hover {
   background: #f8f9fa;
   cursor: pointer;
 }
 
-.nav-list a:global(.active)::before {
+.nav-list li > a:global(.active)::before {
   content: '';
   height: 1.5px;
   background: var(--color-primary);
@@ -61,4 +61,8 @@
 
 .push-right {
   margin-left: auto;
+}
+
+.auth-action-text {
+  width: 50px;
 }
