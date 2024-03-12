@@ -18,6 +18,10 @@ export type LoginResponse = {
   user: User;
 };
 
+export type EmailChangeResponse = {
+  user: User | null;
+};
+
 export type AuthError = {
   status: number;
   name: string;
@@ -59,9 +63,24 @@ export const apiSlice = createApi({
         return { data };
       },
     }),
+    changeEmail: builder.mutation<EmailChangeResponse, string>({
+      async queryFn(email) {
+        const { data, error } = await supabase.auth.updateUser({
+          email: email,
+        });
+
+        if (error != null) {
+          return {
+            error: serializeAuthError(error),
+          };
+        }
+        return { data };
+      },
+    }),
     getRoutines: builder.query<SavedRoutine[], void>({
       async queryFn() {
         const { data, error } = await supabase.from('routines').select();
+        console.log('getRoutines', data, error);
 
         if (error != null) {
           return {
@@ -74,4 +93,9 @@ export const apiSlice = createApi({
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation, useGetRoutinesQuery } = apiSlice;
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useChangeEmailMutation,
+  useGetRoutinesQuery,
+} = apiSlice;

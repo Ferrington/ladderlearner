@@ -1,16 +1,13 @@
-import { supabase } from '@/config/supabase';
+import NoMatch from '@/base/components/NoMatch';
+import RequireAuth from '@/base/components/RequireAuth';
 import AboutPage from '@/features/AboutPage/AboutPage';
+import AccountManager from '@/features/AccountManager/components/AccountManager';
 import InstructionPalette from '@/features/InstructionPalette/components/InstructionPalette';
 import RoutineEditor from '@/features/RoutineEditor/components/RoutineEditor';
 import { useAuth } from '@/hooks/useAuth';
 import { useAppDispatch } from '@/store';
 import { setShowLogin } from '@/store/auth/slice';
-import {
-  RiAccountBoxLine,
-  RiBookOpenLine,
-  RiInformationLine,
-  RiLogoutBoxRLine,
-} from 'react-icons/ri';
+import { RiAccountBoxLine, RiBookOpenLine, RiInformationLine } from 'react-icons/ri';
 import { NavLink, Route, Routes } from 'react-router-dom';
 import styles from '../styles/Workspace.module.css';
 
@@ -18,17 +15,10 @@ export default function Workspace() {
   const dispatch = useAppDispatch();
   const { user } = useAuth();
 
-  async function handleClick() {
-    if (user != null) {
-      await supabase.auth.signOut();
-    } else {
-      dispatch(setShowLogin(true));
-    }
-  }
-
   return (
     <div className={styles['route-wrapper']}>
       <Routes>
+        <Route path="*" element={<NoMatch />} />
         <Route
           path="/"
           element={
@@ -40,6 +30,14 @@ export default function Workspace() {
         />
         <Route path="/exercises" element={<div>Exercises</div>} />
         <Route path="/about" element={<AboutPage />} />
+        <Route
+          path="/account"
+          element={
+            <RequireAuth>
+              <AccountManager />
+            </RequireAuth>
+          }
+        />
       </Routes>
       <nav className={styles.nav}>
         <ul className={styles['nav-list']}>
@@ -61,14 +59,14 @@ export default function Workspace() {
               About
             </NavLink>
           </li>
-          <li onClick={handleClick}>
+          <li>
             {user != null ? (
-              <span>
-                <RiLogoutBoxRLine size="1.25em" />
-                <span className={styles['auth-action-text']}>Log Out</span>
-              </span>
+              <NavLink to="/account">
+                <RiAccountBoxLine size="1.25em" />
+                Account
+              </NavLink>
             ) : (
-              <span>
+              <span onClick={() => dispatch(setShowLogin(true))}>
                 <RiAccountBoxLine size="1.25em" />
                 <span className={styles['auth-action-text']}>Log In</span>
               </span>
