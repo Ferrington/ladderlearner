@@ -10,13 +10,29 @@ import {
   onboardingComplete,
   steps,
 } from '@/config/onboarding';
+import { supabase } from '@/config/supabase';
 import RoutineManager from '@/features/RoutineManager/components/RoutineManager';
 import TagManager from '@/features/TagManager/components/TagManager';
+import { useAppDispatch } from '@/store';
+import { setUser } from '@/store/auth/slice';
 import { MantineProvider, Tabs } from '@mantine/core';
 import '@mantine/core/styles.css';
+import { useEffect } from 'react';
 import Joyride from 'react-joyride';
 
 export default function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      dispatch(setUser(session?.user ?? null));
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      dispatch(setUser(session?.user ?? null));
+    });
+  }, [dispatch]);
+
   return (
     <div className={styles['app-container']} id="app">
       <MantineProvider theme={{ fontFamily: 'Roboto, sans-serif' }}>

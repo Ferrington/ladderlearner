@@ -56,10 +56,7 @@ const baseSlice = createSlice({
   extraReducers: (builder) => {
     builder.addMatcher(
       isAnyOf(insertInstruction, deleteInstruction, insertBranch, insertBranchLevel, deleteBranch),
-      (state) => {
-        void (state.heightAdjust = (state.heightAdjust + 1) % 4);
-        console.log('heightAdjust', state.heightAdjust);
-      },
+      (state) => void (state.heightAdjust = (state.heightAdjust + 1) % 4),
     );
   },
 });

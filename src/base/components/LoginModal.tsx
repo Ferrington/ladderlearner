@@ -1,3 +1,5 @@
+import FeedbackMessage from '@/base/components/FeedbackMessage';
+import { authError } from '@/base/utils/authError';
 import { useAuth } from '@/hooks/useAuth';
 import { useAppDispatch } from '@/store';
 import { AuthError, AuthRequest, useLoginMutation, useRegisterMutation } from '@/store/api/slice';
@@ -6,14 +8,7 @@ import { setShowLogin, setUser } from '@/store/auth/slice';
 import { Button, Modal, PasswordInput, TextInput } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import {
-  RiCheckboxCircleLine,
-  RiErrorWarningLine,
-  RiEyeLine,
-  RiEyeOffLine,
-  RiKeyLine,
-  RiMailLine,
-} from 'react-icons/ri';
+import { RiEyeLine, RiEyeOffLine, RiKeyLine, RiMailLine } from 'react-icons/ri';
 import { useSelector } from 'react-redux';
 import styles from '../styles/LoginModal.module.css';
 
@@ -26,8 +21,8 @@ export default function LoginModal() {
   useDisclosure(false);
 
   const [authRequest, setAuthRequest] = useState<AuthRequest>({ email: '', password: '' });
-  const [errorMessage, setErrorMessage] = useState<string | null>();
-  const [successMessage, setSuccessMessage] = useState<string | null>();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   function closeModal() {
     dispatch(setShowLogin(false));
@@ -55,23 +50,14 @@ export default function LoginModal() {
 
   async function handleRegister() {
     try {
-      const { user } = await register(authRequest).unwrap();
-      console.log(user);
+      await register(authRequest).unwrap();
       setSuccessMessage(
         'An email confirmation link has been sent to you. Please check your messages and confirm your email before logging in.',
       );
     } catch (error) {
       const registerError = error as AuthError;
 
-      if (registerError.message === 'Unable to validate email address: invalid format') {
-        setErrorMessage('Invalid email format.');
-      } else if (registerError.message === 'User already registered') {
-        setErrorMessage('An account with this email already exists.');
-      } else if (registerError.message === 'Password should be at least 6 characters.') {
-        setErrorMessage('Password must be at least 6 characters.');
-      } else {
-        setErrorMessage('Something went wrong. Please try again.');
-      }
+      setErrorMessage(authError(registerError.message));
     }
   }
 
@@ -82,6 +68,7 @@ export default function LoginModal() {
 
   function handleSubmit(e: FormEvent) {
     setSuccessMessage(null);
+    setErrorMessage(null);
     e.preventDefault();
     const submitEvent = e.nativeEvent as SubmitEvent;
     const submitter = submitEvent.submitter as HTMLButtonElement;
@@ -130,22 +117,8 @@ export default function LoginModal() {
               onChange={handleChange}
             />
           </div>
-          {errorMessage && (
-            <div className={styles.error}>
-              <span>
-                <RiErrorWarningLine size="1.5rem" />
-              </span>
-              <span>{errorMessage}</span>
-            </div>
-          )}
-          {successMessage && (
-            <div className={styles.success}>
-              <span>
-                <RiCheckboxCircleLine size="1.5rem" />
-              </span>
-              <span>{successMessage}</span>
-            </div>
-          )}
+          <FeedbackMessage type="error" message={errorMessage} />
+          <FeedbackMessage type="success" message={successMessage} />
           <div className={styles['button-wrapper']}>
             <Button
               type="submit"

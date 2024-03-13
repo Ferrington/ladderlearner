@@ -18,6 +18,10 @@ export type LoginResponse = {
   user: User;
 };
 
+export type UserUpdateResponse = {
+  user: User | null;
+};
+
 export type AuthError = {
   status: number;
   name: string;
@@ -59,6 +63,42 @@ export const apiSlice = createApi({
         return { data };
       },
     }),
+    changeEmail: builder.mutation<UserUpdateResponse, string>({
+      async queryFn(email) {
+        const { data, error } = await supabase.auth.updateUser({ email });
+
+        if (error != null) {
+          return {
+            error: serializeAuthError(error),
+          };
+        }
+        return { data };
+      },
+    }),
+    changePassword: builder.mutation<UserUpdateResponse, string>({
+      async queryFn(password) {
+        const { data, error } = await supabase.auth.updateUser({ password });
+
+        if (error != null) {
+          return {
+            error: serializeAuthError(error),
+          };
+        }
+        return { data };
+      },
+    }),
+    deleteAccount: builder.mutation<string, void>({
+      async queryFn() {
+        const { data, error } = await supabase.functions.invoke('user-self-deletion');
+
+        if (error != null) {
+          return {
+            error: serializeAuthError(error),
+          };
+        }
+        return { data };
+      },
+    }),
     getRoutines: builder.query<SavedRoutine[], void>({
       async queryFn() {
         const { data, error } = await supabase.from('routines').select();
@@ -74,4 +114,11 @@ export const apiSlice = createApi({
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation, useGetRoutinesQuery } = apiSlice;
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useChangeEmailMutation,
+  useChangePasswordMutation,
+  useDeleteAccountMutation,
+  useGetRoutinesQuery,
+} = apiSlice;
