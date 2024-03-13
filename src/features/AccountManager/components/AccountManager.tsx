@@ -1,9 +1,12 @@
 import { supabase } from '@/config/supabase';
 import ChangeEmailForm from '@/features/AccountManager/components/ChangeEmailForm';
+import ChangePasswordForm from '@/features/AccountManager/components/ChangePasswordForm';
+import DeleteAccount from '@/features/AccountManager/components/DeleteAccount';
 import { useAuth } from '@/hooks/useAuth';
 import { Button, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
+import { RiLogoutBoxRLine } from 'react-icons/ri';
 import styles from '../styles/AccountManager.module.css';
 
 export default function AccountManager() {
@@ -19,25 +22,43 @@ export default function AccountManager() {
       <h1>Account Manager</h1>
       <div className={styles['section-wrapper']}>
         <section className={styles.section}>
-          <h2>Profile</h2>
-          <ChangeEmailForm
+          <h2>Account Information</h2>
+          <div className={styles['form-wrapper']}>
+            <ChangeEmailForm
+              user={user}
+              setModalTitle={setModalTitle}
+              setModalContent={setModalContent}
+              open={open}
+              close={close}
+            />
+            <ChangePasswordForm
+              setModalTitle={setModalTitle}
+              setModalContent={setModalContent}
+              open={open}
+              close={close}
+            />
+          </div>
+        </section>
+        <section className={styles.section}>
+          <h2>Log Out</h2>
+          <Button
+            classNames={{ label: styles['button-label'] }}
+            color="orange.4"
+            onClick={() => supabase.auth.signOut()}
+            leftSection={<RiLogoutBoxRLine color="black" size="1.5rem" />}
+          >
+            Log Out
+          </Button>
+        </section>
+        <section className={styles.section}>
+          <h2 className={styles.warning}>Delete Account</h2>
+          <DeleteAccount
             user={user}
             setModalTitle={setModalTitle}
             setModalContent={setModalContent}
             open={open}
             close={close}
           />
-        </section>
-        <section className={styles.section}>
-          <h2>Log Out</h2>
-          <Button onClick={() => supabase.auth.signOut()}>Log Out</Button>
-        </section>
-        <section className={styles.section}>
-          <h2 className={styles.warning}>Delete Account</h2>
-          <p className={styles.warning}>
-            Warning! This will delete your account and all saved data. Your routines and exercise
-            progress will be lost.
-          </p>
         </section>
       </div>
       <Modal opened={opened} onClose={close} title={modalTitle}>

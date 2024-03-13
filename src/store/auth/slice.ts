@@ -2,12 +2,12 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { User } from '@supabase/supabase-js';
 
 export type AuthSlice = {
-  user: User | null;
+  user: User | null | undefined;
   showLogin: boolean;
 };
 
 const initialState: AuthSlice = {
-  user: null,
+  user: undefined,
   showLogin: false,
 };
 

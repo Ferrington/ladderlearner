@@ -5,9 +5,13 @@ import { Navigate } from 'react-router-dom';
 export default function RequireAuth({ children }: { children: ReactNode }) {
   const { user } = useAuth();
 
-  if (!user) {
-    return <Navigate to="/" replace />;
+  if (typeof user === 'undefined') {
+    return null;
   }
 
-  return children;
+  if (user) {
+    return children;
+  } else {
+    return <Navigate to="/" replace />;
+  }
 }

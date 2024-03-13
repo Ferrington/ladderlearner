@@ -1,5 +1,5 @@
 import FeedbackMessage from '@/base/components/FeedbackMessage';
-import { emailError } from '@/base/utils/emailError';
+import { authError } from '@/base/utils/authError';
 import { useAuth } from '@/hooks/useAuth';
 import { useAppDispatch } from '@/store';
 import { AuthError, AuthRequest, useLoginMutation, useRegisterMutation } from '@/store/api/slice';
@@ -50,15 +50,14 @@ export default function LoginModal() {
 
   async function handleRegister() {
     try {
-      const { user } = await register(authRequest).unwrap();
-      console.log(user);
+      await register(authRequest).unwrap();
       setSuccessMessage(
         'An email confirmation link has been sent to you. Please check your messages and confirm your email before logging in.',
       );
     } catch (error) {
       const registerError = error as AuthError;
 
-      setErrorMessage(emailError(registerError.message));
+      setErrorMessage(authError(registerError.message));
     }
   }
 

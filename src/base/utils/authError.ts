@@ -1,4 +1,4 @@
-export function emailError(message: string) {
+export function authError(message: string) {
   if (message === 'Unable to validate email address: invalid format') {
     return 'Invalid email format.';
   } else if (

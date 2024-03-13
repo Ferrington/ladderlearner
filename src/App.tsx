@@ -29,7 +29,6 @@ export default function App() {
     });
 
     supabase.auth.onAuthStateChange((_event, session) => {
-      console.log(_event, session);
       dispatch(setUser(session?.user ?? null));
     });
   }, [dispatch]);
